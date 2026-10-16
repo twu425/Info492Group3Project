@@ -1,0 +1,485 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), 'Geist Mono', ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--foreground);
+  --color-accent: var(--surface);
+  --color-accent-foreground: var(--foreground);
+  --color-destructive: var(--primary);
+  --color-muted: var(--surface);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+  --color-up: var(--up);
+  --color-down: var(--down);
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+}
+
+:root {
+  color-scheme: dark;
+  --background: #0b0b0c;
+  --surface: #141416;
+  --border: #26262a;
+  --foreground: #ededed;
+  --subtle-foreground: #a1a1aa;
+  --muted-foreground: #71717a;
+  --primary: #ff6b1a;
+  --primary-foreground: #0b0b0c;
+  --up: #f5a524;
+  --down: #60a5fa;
+  --radius: 8px;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background font-sans text-foreground;
+    font-feature-settings: 'tnum' 1;
+  }
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--primary) 70%, transparent);
+    outline-offset: 2px;
+  }
+
+  /*
+   * Every <select> gets one consistent look: no native arrow, a custom 16px chevron
+   * 12px from the right edge (muted gray, pointer-events none since it's a background),
+   * 36px of right padding so text never runs under it, and ellipsis for long values.
+   * The single focus outline comes from :focus-visible above — no extra border/ring.
+   */
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 36px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px 16px;
+  }
+  select:hover,
+  select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff6b1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+}
+
+/*
+ * App z-index scale (use these layers everywhere):
+ *   map 0 · map overlays/legend 10 · filter sidebar 20 · build drawer 30 ·
+ *   header 40 · dropdowns/popovers/tooltips 50 · modal backdrop 60 · modal 70 · toasts 80
+ * The detail modal and command palette use a native <dialog> (browser top layer),
+ * which sits above the z-indexed layers; Base UI popups portal to <body> at z-50.
+ */
+
+@layer components {
+  .eyebrow {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .segmented {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--background);
+  }
+  .segmented > button {
+    flex: 1;
+    min-width: 0;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--subtle-foreground);
+    white-space: nowrap;
+    transition: background-color 120ms, color 120ms;
+  }
+  .segmented > button:hover {
+    color: var(--foreground);
+  }
+  .segmented > button[aria-pressed='true'] {
+    background: var(--surface);
+    color: var(--foreground);
+    box-shadow: inset 0 0 0 1px var(--border);
+  }
+  /*
+   * Content-sized options that all share the same min-width and padding, with the text
+   * (and so the selected highlight) centered. The control's overall width is fixed by the
+   * options, so selecting a different one never resizes it.
+   */
+  .segmented-fit > button {
+    flex: 0 0 auto;
+    min-width: 52px;
+    padding: 0 12px;
+    text-align: center;
+  }
+
+  .bidgrid-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--foreground) 20%, transparent) transparent;
+  }
+  .bidgrid-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .bidgrid-scroll::-webkit-scrollbar-track,
+  .bidgrid-scroll::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  .bidgrid-scroll::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--foreground) 18%, transparent);
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+  }
+  .bidgrid-scroll::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--foreground) 32%, transparent);
+    background-clip: padding-box;
+  }
+
+  .map-marker {
+    display: block;
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border-radius: 9999px;
+    background: var(--c);
+    border: 1.5px solid var(--background);
+    cursor: pointer;
+    transition: width 120ms, height 120ms, box-shadow 120ms;
+  }
+  .map-marker:hover {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--foreground) 35%, transparent);
+  }
+  .map-marker[data-sized='true'] {
+    background: color-mix(in srgb, var(--c) 70%, transparent);
+    border: 1px solid var(--c);
+  }
+  .map-marker[data-hollow='true'] {
+    background: transparent;
+    border: 1.5px solid color-mix(in srgb, var(--c) 60%, transparent);
+  }
+  .trend-chart .recharts-line,
+  .trend-chart .recharts-area {
+    pointer-events: none;
+  }
+  .map-marker[data-selected='true'] {
+    width: 14px;
+    height: 14px;
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+
+  .range-dual {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    appearance: none;
+    background: transparent;
+    pointer-events: none;
+  }
+  .range-dual::-webkit-slider-thumb {
+    appearance: none;
+    pointer-events: auto;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: var(--foreground);
+    border: 2px solid var(--background);
+    box-shadow: 0 0 0 1px var(--border);
+    cursor: pointer;
+  }
+  .range-dual::-moz-range-thumb {
+    pointer-events: auto;
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: var(--foreground);
+    border: 2px solid var(--background);
+    box-shadow: 0 0 0 1px var(--border);
+    cursor: pointer;
+  }
+  .range-dual::-moz-range-track {
+    background: transparent;
+  }
+}
+
+/* MapLibre */
+.maplibregl-map {
+  font-family: var(--font-sans);
+  /* Match the dark basemap so a redraw never flashes the near-black page background. */
+  background: #17171a;
+}
+.maplibregl-canvas {
+  filter: grayscale(1) brightness(0.85) contrast(0.9);
+}
+.maplibregl-ctrl-group {
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--border) !important;
+}
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(0.85);
+}
+.maplibregl-ctrl-group button:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--surface)) !important;
+}
+.maplibregl-ctrl-attrib {
+  background: color-mix(in srgb, var(--background) 80%, transparent) !important;
+  color: var(--muted-foreground);
+  font-size: 10px;
+}
+.maplibregl-ctrl-attrib a {
+  color: var(--subtle-foreground) !important;
+}
+.maplibregl-ctrl-attrib-button {
+  filter: invert(0.7);
+}
+.maplibregl-popup.map-tooltip .maplibregl-popup-content {
+  background: var(--surface);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.4);
+}
+.maplibregl-popup.map-tooltip .maplibregl-popup-tip {
+  display: none;
+}
+
+.map-marker[data-hovered='true'] {
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--foreground) 70%, transparent);
+}
+
+.drop-pin {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: var(--primary);
+  border: 2px solid var(--background);
+  box-shadow: 0 0 0 1px var(--primary);
+  pointer-events: none;
+}
+.drop-pin::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 2px solid var(--primary);
+  animation: pin-pulse 1.8s ease-out infinite;
+}
+@keyframes pin-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.draft-pin,
+.draft-pin-swatch {
+  display: block;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: color-mix(in srgb, var(--background) 70%, transparent);
+  border: 2px solid var(--primary);
+  flex-shrink: 0;
+}
+.draft-pin {
+  cursor: pointer;
+  transition: box-shadow 120ms;
+}
+.draft-pin:hover,
+.draft-pin:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 35%, transparent);
+}
+.draft-pin-swatch {
+  width: 10px;
+  height: 10px;
+  border-width: 1.5px;
+}
+
+.map-toast {
+  animation: map-toast-in 120ms ease-out;
+}
+@keyframes map-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 6px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-toast {
+    animation: none;
+  }
+}
+
+.bid-row-new {
+  animation: bid-row-in 1.6s ease-out;
+}
+@keyframes bid-row-in {
+  0% {
+    opacity: 0;
+    background-color: color-mix(in srgb, var(--primary) 22%, transparent);
+  }
+  15% {
+    opacity: 1;
+    background-color: color-mix(in srgb, var(--primary) 22%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drop-pin::after,
+  .bid-row-new {
+    animation: none;
+  }
+}
+
+.detail-modal[open] {
+  animation: detail-modal-in 150ms ease-out;
+}
+.detail-modal::backdrop {
+  background: rgb(0 0 0 / 0.6);
+  animation: detail-backdrop-in 150ms ease-out;
+}
+@keyframes detail-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+@keyframes detail-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.command-palette[open] {
+  animation: command-palette-in 140ms ease-out;
+}
+.command-palette::backdrop {
+  background: rgb(0 0 0 / 0.5);
+  animation: detail-backdrop-in 140ms ease-out;
+}
+@keyframes command-palette-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .command-palette[open],
+  .command-palette::backdrop {
+    animation: none;
+  }
+}
+
+.detail-fade-in {
+  animation: detail-fade-in 180ms ease-out;
+}
+.detail-fade-out {
+  animation: detail-fade-out 100ms ease-out forwards;
+}
+@keyframes detail-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes detail-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.crumb-in {
+  animation: crumb-in 180ms ease-out;
+}
+@keyframes crumb-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.click-flash {
+  background-color: color-mix(in srgb, var(--primary) 22%, transparent) !important;
+}
+.map-marker.click-flash {
+  background-color: var(--primary) !important;
+}
+g.click-flash circle:last-of-type {
+  fill: var(--primary);
+  fill-opacity: 1;
+}
+
+.map-marker[data-focused='true'] {
+  width: 14px;
+  height: 14px;
+  box-shadow:
+    0 0 0 2px var(--background),
+    0 0 0 4px var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detail-modal[open],
+  .detail-modal::backdrop {
+    animation: none;
+  }
+  .crumb-in {
+    animation: none;
+  }
+}
