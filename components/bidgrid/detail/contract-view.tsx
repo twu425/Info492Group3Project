@@ -1,5 +1,6 @@
 'use client'
 
+import { ExternalLink, FileText } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useId, useState } from 'react'
 import type { Contract, LineItem } from '@/lib/bidgrid/data'
@@ -75,6 +76,20 @@ export function ContractView({ contract, active, onOpenItem, onOpenBidder }: Con
                 <dd className="font-mono text-foreground">{formatUsdWhole(low.total)}</dd>
               </div>
             </dl>
+            {contract.pdfUrl && (
+              <div className="border-t px-4 py-3">
+                <a
+                  href={contract.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-foreground/[0.06]"
+                >
+                  <FileText aria-hidden="true" className="size-4 text-muted-foreground" />
+                  Bid summary PDF
+                  <ExternalLink aria-hidden="true" className="size-3.5 text-muted-foreground" />
+                </a>
+              </div>
+            )}
           </section>
 
           <section aria-labelledby={`${ids}-map`} className="flex flex-col overflow-hidden rounded-lg border bg-surface">

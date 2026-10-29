@@ -22,6 +22,7 @@ function adapt(d: ContractDetail): Contract {
     lng: d.lng ?? 0,
     primaryFamily: d.primaryFamily as ItemFamily,
     families: d.families as ItemFamily[],
+    pdfUrl: d.pdfUrl,
     bidders: d.bidders,
     lineItems: d.lineItems.map(
       (li): LineItem => ({

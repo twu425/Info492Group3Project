@@ -60,6 +60,8 @@ export interface ContractDetail extends ContractSummary {
   bidders: BidderRow[]
   lineItems: LineItemRow[]
   locations: LocationRow[]
+  /** Link to the official Caltrans bid-summary PDF. */
+  pdfUrl: string | null
 }
 
 export interface FamilyStat {

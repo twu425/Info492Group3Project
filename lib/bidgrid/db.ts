@@ -114,7 +114,13 @@ export function getContract(ea: string): ContractDetail | null {
        FROM locations WHERE contract_ea = ? ORDER BY n_points DESC`,
     )
     .all(ea)
-  return { ...toSummary(c), bidders: bidders as any, lineItems: lineItems as any, locations: locations as any }
+  return {
+    ...toSummary(c),
+    pdfUrl: c.pdf_url ?? null,
+    bidders: bidders as any,
+    lineItems: lineItems as any,
+    locations: locations as any,
+  }
 }
 
 export function familyStats(filters: ContractFilters = {}): FamilyStat[] {

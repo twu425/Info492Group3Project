@@ -141,6 +141,8 @@ export interface Contract {
   families: ItemFamily[]
   bidders: Bidder[]
   lineItems: LineItem[]
+  /** Link to the official Caltrans bid-summary PDF (detail views only). */
+  pdfUrl?: string | null
 }
 
 export interface ItemDef {

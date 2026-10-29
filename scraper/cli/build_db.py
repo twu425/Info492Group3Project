@@ -41,7 +41,8 @@ CREATE TABLE contracts (
   num_bidders INTEGER,
   num_items INTEGER,
   low_bidder TEXT,
-  low_total REAL
+  low_total REAL,
+  pdf_url TEXT
 );
 CREATE TABLE bidders (
   contract_ea TEXT, rank INTEGER, name TEXT, total REAL,
@@ -181,13 +182,14 @@ def main():
         pm_end = _num(loc["end_pm"]) if loc else None
 
         con.execute(
-            "INSERT INTO contracts VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO contracts VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (ea, int(summary.get("district") or ea[:2]),
              summary.get("bid_date") or (item_rows[0]["bid_date"] if item_rows else ""),
              county, route, pm_start, pm_end, lat, lng,
              FAMILY_CATEGORY.get(primary_family, "Other"), type_of_work, primary_family,
              len(bidder_total), len({r["item_no"] for r in item_rows}),
-             bidder_name.get(1, ""), round(bidder_total.get(1, 0.0), 2)),
+             bidder_name.get(1, ""), round(bidder_total.get(1, 0.0), 2),
+             summary.get("pdf_url") or None),
         )
         con.executemany(
             "INSERT INTO bidders VALUES (?,?,?,?)",
