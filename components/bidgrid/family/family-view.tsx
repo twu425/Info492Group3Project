@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { useId, useMemo, useState } from 'react'
-import { CONTRACTS, DISTRICTS, ITEM_CATALOG, type ItemFamily, type Unit } from '@/lib/bidgrid/data'
+import { CONTRACTS, type ItemFamily, type Unit } from '@/lib/bidgrid/data'
 import { quantityBand, type QuantityBand } from '@/lib/bidgrid/estimate'
 import {
   DATA_DOMAIN_END,
@@ -14,7 +14,9 @@ import {
   type RangeKey,
 } from '@/lib/bidgrid/family'
 import { FAMILY_COLORS, formatDistrict, shortItemName } from '@/lib/bidgrid/format'
+import { DistrictSelect } from '../district-select'
 import { MapSkeleton } from '../detail/map-skeleton'
+import { FamilyItemsTable, type FamilyItemSummary } from './family-items-table'
 import { FamilyTable } from './family-table'
 import { StatCards } from './stat-cards'
 import { TrendChart } from './trend-chart'
@@ -24,10 +26,6 @@ const FamilyMap = dynamic(() => import('./family-map').then((m) => m.FamilyMap),
   loading: () => <MapSkeleton />,
 })
 
-const DISTRICT_OPTIONS: { value: DistrictFilter; label: string }[] = [
-  { value: 'all', label: 'All' },
-  ...DISTRICTS.map((d) => ({ value: d, label: formatDistrict(d) })),
-]
 const RANGE_OPTIONS: { value: RangeKey; label: string }[] = [
   { value: '3y', label: '3Y' },
   { value: '5y', label: '5Y' },
@@ -50,6 +48,8 @@ interface FamilyViewProps {
   active: boolean
   onOpenContract: (ea: string) => void
   onOpenBidder: (name: string) => void
+  /** Open another item in this family as a new view (keeps this one in the stack). */
+  onOpenItem: (itemCode: string, label: string) => void
 }
 
 export function FamilyView({
@@ -60,19 +60,22 @@ export function FamilyView({
   active,
   onOpenContract,
   onOpenBidder,
+  onOpenItem,
 }: FamilyViewProps) {
   const ids = useId()
   const color = FAMILY_COLORS[family]
-  const items = useMemo(() => ITEM_CATALOG.filter((i) => i.family === family), [family])
   const allPoints = useMemo(() => familyPoints(family), [family])
-
-  // Units present in the family, most-observed first. Stats mix nothing across units: the
-  // selector scopes the item dropdown (and so the stats/trend/map) to a single unit.
-  const familyUnits = useMemo(() => {
-    const counts = new Map<Unit, number>()
-    allPoints.forEach((p) => counts.set(p.unit, (counts.get(p.unit) ?? 0) + 1))
-    return [...new Set(items.map((i) => i.unit))].sort((a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0))
-  }, [items, allPoints])
+  // Items are derived from the real bid data for this family (code/description/unit),
+  // not a fixed catalog, so every family — including 'Other' — has a populated list.
+  const items = useMemo(() => {
+    const seen = new Map<string, { code: string; description: string; unit: Unit }>()
+    for (const p of allPoints) {
+      if (!seen.has(p.itemCode)) {
+        seen.set(p.itemCode, { code: p.itemCode, description: p.description, unit: p.unit })
+      }
+    }
+    return [...seen.values()]
+  }, [allPoints])
 
   const mostBidItem = (pool: typeof items, bidder: string | null) => {
     const counts = new Map<string, number>()
@@ -90,22 +93,21 @@ export function FamilyView({
     if (initialItem && items.some((i) => i.code === initialItem)) return initialItem
     return mostBidItem(items, highlightBidder)
   })
-  // Default to the unit of the opening item (which is the most common unit when none was named).
-  const [unit, setUnit] = useState<Unit>(() => items.find((i) => i.code === itemCode)?.unit ?? familyUnits[0])
   const [district, setDistrict] = useState<DistrictFilter>('all')
   const [range, setRange] = useState<RangeKey>('all')
-  const [tableUnit, setTableUnit] = useState<Unit | 'all'>('all')
   const [tableBand, setTableBand] = useState<BandFilter>('all')
 
-  const unitItems = useMemo(() => items.filter((i) => i.unit === unit), [items, unit])
-  const item = unitItems.find((i) => i.code === itemCode) ?? unitItems[0] ?? items[0]
+  // Each item code has exactly one unit, so there's no unit to switch — the item is
+  // the whole subject of the view.
+  const item =
+    items.find((i) => i.code === itemCode) ?? items[0] ?? { code: '', description: '—', unit: 'EA' as Unit }
   const from = rangeStart(range)
 
-  const selectItem = (code: string) => setItemCode(code)
-  const selectUnit = (u: Unit) => {
-    setUnit(u)
-    const best = mostBidItem(items.filter((i) => i.unit === u), highlightBidder)
-    if (best) setItemCode(best)
+  // Opening a different item is a *new* view (keeps this one in the stack), so each
+  // view stays about a single item and its header never goes stale.
+  const openItem = (code: string) => {
+    if (!code || code === item.code) return
+    onOpenItem(code, items.find((i) => i.code === code)?.description ?? code)
   }
 
   const itemPoints = useMemo(() => allPoints.filter((p) => p.itemCode === item.code), [allPoints, item.code])
@@ -115,16 +117,37 @@ export function FamilyView({
     [itemPoints, district, from],
   )
   const quarters = useMemo(() => quarterSeries(chartPoints), [chartPoints])
+
+  // Fit the chart's x-axis to the actual data — the individual bids and the
+  // quarterly-average points — with a little padding on each side so nothing sits
+  // flush against the edges.
+  const chartDomain = useMemo<[number, number]>(() => {
+    if (chartPoints.length === 0) return [from, DATA_DOMAIN_END]
+    let lo = Infinity
+    let hi = -Infinity
+    for (const p of chartPoints) {
+      if (p.time < lo) lo = p.time
+      if (p.time > hi) hi = p.time
+    }
+    for (const q of quarters) {
+      if (q.time < lo) lo = q.time
+      if (q.time > hi) hi = q.time
+    }
+    const pad = Math.max((hi - lo) * 0.06, 10 * 86_400_000)
+    return [lo - pad, hi + pad]
+  }, [chartPoints, quarters, from])
+
+  // The table shows the selected item's bids — same scope as the stats/chart/map —
+  // so the item dropdown drives the whole view consistently.
   const tableRows = useMemo(
     () =>
-      allPoints.filter(
+      itemPoints.filter(
         (p) =>
           (district === 'all' || p.district === district) &&
           p.time >= from &&
-          (tableUnit === 'all' || p.unit === tableUnit) &&
           (tableBand === 'all' || quantityBand(p.itemCode, p.quantity) === tableBand),
       ),
-    [allPoints, district, from, tableUnit, tableBand],
+    [itemPoints, district, from, tableBand],
   )
   const mapContracts = useMemo(
     () =>
@@ -143,10 +166,40 @@ export function FamilyView({
     [family, district, from, item.code],
   )
 
-  const scopeLabel = `${district === 'all' ? 'All districts' : DISTRICT_OPTIONS.find((o) => o.value === district)?.label} · ${
+  // Every item in the family (independent of the unit/item in view) for the table
+  // that lets you jump to a sibling item.
+  const familyItems = useMemo<FamilyItemSummary[]>(() => {
+    const by = new Map<
+      string,
+      { code: string; description: string; unit: Unit; contracts: Set<string>; prices: number[] }
+    >()
+    for (const p of allPoints) {
+      let s = by.get(p.itemCode)
+      if (!s) {
+        s = { code: p.itemCode, description: p.description, unit: p.unit, contracts: new Set(), prices: [] }
+        by.set(p.itemCode, s)
+      }
+      s.contracts.add(p.ea)
+      s.prices.push(p.unitPrice)
+    }
+    return [...by.values()]
+      .map((s) => {
+        const sorted = [...s.prices].sort((a, b) => a - b)
+        return {
+          code: s.code,
+          description: s.description,
+          unit: s.unit,
+          bids: s.prices.length,
+          contracts: s.contracts.size,
+          median: sorted[Math.floor(sorted.length / 2)] ?? 0,
+        }
+      })
+      .sort((a, b) => b.bids - a.bids)
+  }, [allPoints])
+
+  const scopeLabel = `${district === 'all' ? 'All districts' : formatDistrict(district)} · ${
     range === 'all' ? 'all years' : `last ${range === '3y' ? 3 : 5} years`
   }`
-  const multiUnit = familyUnits.length > 1
 
   return (
     <div className="flex flex-col bg-background">
@@ -157,34 +210,6 @@ export function FamilyView({
               Bid prices for <span className="font-mono text-foreground">{item.code}</span>{' '}
               {shortItemName(item.description).toLowerCase()}, per {item.unit}.
             </p>
-          </div>
-          <div className="flex flex-col gap-2 md:flex-row md:items-end">
-            {multiUnit && (
-              <label className="flex flex-col gap-1.5">
-                <span className="eyebrow">Unit</span>
-                <div className="segmented segmented-fit" role="group" aria-label="Unit">
-                  {familyUnits.map((u) => (
-                    <button key={u} type="button" aria-pressed={unit === u} onClick={() => selectUnit(u)}>
-                      {u}
-                    </button>
-                  ))}
-                </div>
-              </label>
-            )}
-            <label className="flex flex-col gap-1.5">
-              <span className="eyebrow">Item</span>
-              <select
-                value={item.code}
-                onChange={(e) => selectItem(e.target.value)}
-                className="h-9 w-full rounded-md border bg-surface pl-2.5 text-sm text-foreground md:w-80"
-              >
-                {unitItems.map((i) => (
-                  <option key={i.code} value={i.code}>
-                    {`${i.code} · ${shortItemName(i.description)} (${i.unit})`}
-                  </option>
-                ))}
-              </select>
-            </label>
           </div>
         </div>
 
@@ -212,20 +237,7 @@ export function FamilyView({
               </ul>
             </div>
             <div className="flex gap-2">
-              <div className="segmented w-80" role="group" aria-label="District">
-                {DISTRICT_OPTIONS.map((o) => (
-                  <button key={o.label} type="button" aria-pressed={district === o.value} onClick={() => setDistrict(o.value)}>
-                    {o.label}
-                  </button>
-                ))}
-              </div>
-              <div className="segmented w-36" role="group" aria-label="Time range">
-                {RANGE_OPTIONS.map((o) => (
-                  <button key={o.value} type="button" aria-pressed={range === o.value} onClick={() => setRange(o.value)}>
-                    {o.label}
-                  </button>
-                ))}
-              </div>
+              <DistrictSelect value={district} onChange={setDistrict} className="w-52" />
             </div>
           </div>
           <div className="h-80 px-2 pb-3 pt-4 md:pr-4">
@@ -233,7 +245,7 @@ export function FamilyView({
               <TrendChart
                 points={chartPoints}
                 quarters={quarters}
-                domain={[from, DATA_DOMAIN_END]}
+                domain={chartDomain}
                 color={color}
                 highlightId={highlightId}
                 highlightBidder={highlightBidder}
@@ -269,21 +281,9 @@ export function FamilyView({
         <section aria-labelledby={`${ids}-table`} className="overflow-hidden rounded-lg border bg-surface">
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b px-4 py-3">
             <h2 id={`${ids}-table`} className="eyebrow">
-              Line items
+              Bids for {item.code}
             </h2>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-              {multiUnit && (
-                <div className="segmented segmented-fit" role="group" aria-label="Unit filter">
-                  <button type="button" aria-pressed={tableUnit === 'all'} onClick={() => setTableUnit('all')}>
-                    All
-                  </button>
-                  {familyUnits.map((u) => (
-                    <button key={u} type="button" aria-pressed={tableUnit === u} onClick={() => setTableUnit(u)}>
-                      {u}
-                    </button>
-                  ))}
-                </div>
-              )}
               <div className="segmented segmented-fit" role="group" aria-label="Quantity band filter">
                 {BAND_OPTIONS.map((b) => (
                   <button key={b.value} type="button" aria-pressed={tableBand === b.value} onClick={() => setTableBand(b.value)}>
@@ -293,7 +293,7 @@ export function FamilyView({
               </div>
               <p className="text-xs text-muted-foreground">
                 <span className="font-mono text-subtle-foreground">{tableRows.length}</span>
-                {` bids · ${multiUnit && tableUnit !== 'all' ? `${tableUnit} items` : `all ${family.toLowerCase()} items`} · ${scopeLabel}`}
+                {` bids · ${item.code} · ${scopeLabel}`}
               </p>
             </div>
           </div>
@@ -303,6 +303,19 @@ export function FamilyView({
             onOpenContract={onOpenContract}
             onOpenBidder={onOpenBidder}
           />
+        </section>
+
+        <section aria-labelledby={`${ids}-items`} className="overflow-hidden rounded-lg border bg-surface">
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b px-4 py-3">
+            <h2 id={`${ids}-items`} className="eyebrow">
+              Other items in {family}
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              <span className="font-mono text-subtle-foreground">{familyItems.length}</span>
+              {' items · click a row to open it'}
+            </p>
+          </div>
+          <FamilyItemsTable items={familyItems} currentCode={item.code} onOpen={openItem} />
         </section>
       </div>
     </div>

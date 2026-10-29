@@ -12,6 +12,7 @@ import {
   type District,
   type ItemFamily,
 } from '@/lib/bidgrid/data'
+import { DistrictSelect } from './district-select'
 import { FamilyFilter } from './family-filter'
 import { YearRangeSlider } from './year-range-slider'
 
@@ -45,16 +46,6 @@ interface FilterSidebarProps {
 
 const DISTRICT_LABEL = DISTRICT_NAMES
 
-type DistrictOption = { id: string; label: string; districts: District[] }
-const DISTRICT_OPTIONS: DistrictOption[] = [
-  { id: 'all', label: 'All', districts: [...DISTRICTS] },
-  ...DISTRICTS.map((d) => ({ id: String(d), label: String(d).padStart(2, '0'), districts: [d] })),
-]
-
-function matchesOption(selected: Set<District>, option: DistrictOption) {
-  return selected.size === option.districts.length && option.districts.every((d) => selected.has(d))
-}
-
 export function FilterSidebar({
   filters,
   onChange,
@@ -68,7 +59,10 @@ export function FilterSidebar({
   onToggleDraftPins,
   draftCount,
 }: FilterSidebarProps) {
-  const activeDistricts = DISTRICTS.filter((d) => filters.districts.has(d))
+  const districtValue =
+    filters.districts.size === 1 && filters.districts.size !== DISTRICTS.length
+      ? [...filters.districts][0]
+      : 'all'
   const activeCount = countActiveFilters(filters)
 
   return (
@@ -138,21 +132,14 @@ export function FilterSidebar({
 
         <fieldset className="flex min-w-0 flex-col gap-2.5">
           <legend className="eyebrow mb-2.5">District</legend>
-          <div className="segmented" role="group" aria-label="District">
-            {DISTRICT_OPTIONS.map((opt) => (
-              <button
-                key={opt.id}
-                type="button"
-                aria-pressed={matchesOption(filters.districts, opt)}
-                aria-label={opt.id === 'all' ? 'All districts' : `District ${opt.id}, ${DISTRICT_LABEL[opt.districts[0]]}`}
-                onClick={() => onChange({ ...filters, districts: new Set(opt.districts) })}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
+          <DistrictSelect
+            value={districtValue}
+            onChange={(v) =>
+              onChange({ ...filters, districts: new Set(v === 'all' ? DISTRICTS : [v]) })
+            }
+          />
           <p className="text-xs text-muted-foreground">
-            {activeDistricts.map((d) => DISTRICT_LABEL[d]).join(' + ') || 'No district selected'}
+            {districtValue === 'all' ? 'All districts' : `${DISTRICT_LABEL[districtValue]}`}
           </p>
         </fieldset>
 

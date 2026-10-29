@@ -19,6 +19,9 @@ function toView(result: SearchResult): DetailView {
       kind: 'family',
       family: result.target.family,
       itemCode: result.target.itemCode,
+      // Item results carry the item name as their title; use it so the header
+      // names the item. Family-level results (no itemCode) show the family.
+      itemLabel: result.target.itemCode ? result.title : null,
       highlightId: null,
       highlightBidder: null,
       sourceEa: null,

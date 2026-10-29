@@ -1,11 +1,4 @@
-import {
-  BIDDER_PROFILES,
-  CONTRACTS,
-  FAMILY_CATEGORY,
-  type Category,
-  type District,
-  type ItemFamily,
-} from './data'
+import { CONTRACTS, FAMILY_CATEGORY, type Category, type District, type ItemFamily } from './data'
 import { quarterStartOf } from './family'
 
 export interface BidRecord {
@@ -134,9 +127,8 @@ export function bidderStats(bids: BidRecord[]): BidderStats {
 }
 
 export function bidderInfo(name: string): BidderInfo {
-  const profile = BIDDER_PROFILES.find((p) => p.name === name)
   const counts = new Map<Category, number>()
-  let fallbackDistrict: District | null = null
+  const districtCounts = new Map<District, number>()
   for (const c of CONTRACTS) {
     let bidsHere = false
     for (const li of c.lineItems) {
@@ -145,17 +137,19 @@ export function bidderInfo(name: string): BidderInfo {
       const cat = FAMILY_CATEGORY[li.family]
       counts.set(cat, (counts.get(cat) ?? 0) + 1)
     }
-    if (bidsHere && fallbackDistrict === null) fallbackDistrict = c.district
+    if (bidsHere) districtCounts.set(c.district, (districtCounts.get(c.district) ?? 0) + 1)
   }
   const specialties = [...counts.entries()]
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
     .map(([cat]) => cat)
+  // Home = the district this bidder bids in most; general = active across many categories.
+  const home = [...districtCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 3
   return {
     name,
-    home: profile?.home ?? fallbackDistrict ?? 3,
+    home,
     specialties,
-    isGeneral: profile ? profile.specialties === null : false,
+    isGeneral: counts.size >= 4,
   }
 }
 

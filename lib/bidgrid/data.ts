@@ -1,3 +1,6 @@
+import rawContractsJson from './contracts.generated.json'
+import { classifyFamily } from './classify'
+
 export type Category =
   | 'Concrete'
   | 'Paving'
@@ -6,6 +9,8 @@ export type Category =
   | 'Structures'
   | 'Traffic & Electrical'
   | 'Landscape & Erosion'
+  | 'General & Site Work'
+  | 'Other'
 
 export type ItemFamily =
   | 'Minor Concrete'
@@ -34,30 +39,55 @@ export type ItemFamily =
   | 'Erosion Control'
   | 'Irrigation'
   | 'Planting'
+  | 'Bridge Deck & Rehab'
+  | 'Piles & Shoring'
+  | 'Structural Steel'
+  | 'Seal Coats & Surface Treatments'
+  | 'Fencing'
+  | 'Mobilization'
+  | 'Traffic Control'
+  | 'Project Overhead'
+  | 'Water Pollution Control'
+  | 'Other'
 
-export type Unit = 'CY' | 'TON' | 'LF' | 'SQFT' | 'EA' | 'LS'
-export type District = 2 | 3 | 4 | 7 | 8 | 11
+// Real bid data carries many unit codes (SQYD, LB, WDAY, HR, STA, …), so Unit is
+// an open string. UNITS stays the short list the AI estimator offers.
+export type Unit = string
+export type District = number
 
 export const UNITS: Unit[] = ['CY', 'TON', 'LF', 'SQFT', 'EA', 'LS']
-export const DISTRICTS: District[] = [2, 3, 4, 7, 8, 11]
+export const DISTRICTS: District[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 export const MIN_YEAR = 2016
 export const MAX_YEAR = 2026
 
 export const DISTRICT_NAMES: Record<District, string> = {
+  1: 'Eureka',
   2: 'Redding',
   3: 'Sacramento',
   4: 'Bay Area',
+  5: 'San Luis Obispo',
+  6: 'Fresno',
   7: 'Los Angeles',
   8: 'San Bernardino / Riverside',
+  9: 'Bishop',
+  10: 'Stockton',
   11: 'San Diego',
+  12: 'Orange County',
 }
 
 export const CATEGORY_FAMILIES: Record<Category, ItemFamily[]> = {
   Concrete: ['Minor Concrete', 'Structural Concrete', 'Concrete Barrier', 'PCC Pavement'],
-  Paving: ['Hot Mix Asphalt', 'Rubberized HMA', 'Aggregate Base', 'Cold Planing'],
+  Paving: ['Hot Mix Asphalt', 'Rubberized HMA', 'Aggregate Base', 'Cold Planing', 'Seal Coats & Surface Treatments'],
   Earthwork: ['Roadway Excavation', 'Embankment', 'Clearing & Grubbing'],
   Drainage: ['Reinforced Concrete Pipe', 'Corrugated Steel Pipe', 'Drainage Inlets'],
-  Structures: ['Reinforcing Steel', 'Retaining Wall', 'Sound Wall'],
+  Structures: [
+    'Reinforcing Steel',
+    'Retaining Wall',
+    'Sound Wall',
+    'Bridge Deck & Rehab',
+    'Piles & Shoring',
+    'Structural Steel',
+  ],
   'Traffic & Electrical': [
     'Thermoplastic Striping',
     'Pavement Markers',
@@ -65,8 +95,11 @@ export const CATEGORY_FAMILIES: Record<Category, ItemFamily[]> = {
     'Traffic Signals',
     'Lighting',
     'Metal Beam Guardrail',
+    'Fencing',
   ],
   'Landscape & Erosion': ['Erosion Control', 'Irrigation', 'Planting'],
+  'General & Site Work': ['Mobilization', 'Traffic Control', 'Project Overhead', 'Water Pollution Control'],
+  Other: ['Other'],
 }
 
 export const CATEGORIES = Object.keys(CATEGORY_FAMILIES) as Category[]
@@ -531,6 +564,8 @@ const CATEGORY_SPIKE: Record<Category, number> = {
   Structures: 0.14,
   'Traffic & Electrical': 0.12,
   'Landscape & Erosion': 0.1,
+  'General & Site Work': 0.1,
+  Other: 0.12,
 }
 
 const DISTRICT_FACTOR: Record<District, number> = { 2: 0.95, 3: 1, 4: 1.24, 7: 1.17, 8: 0.97, 11: 1.05 }
@@ -807,11 +842,105 @@ function topUpDensity(contracts: Contract[]) {
   }
 }
 
-export const CONTRACTS: Contract[] = DISTRICT_COUNTS.flatMap(([district, n]) =>
-  Array.from({ length: n }, () => generateContract(district)),
-)
-topUpDensity(CONTRACTS)
-CONTRACTS.sort((a, b) => a.bidOpenDate.localeCompare(b.bidOpenDate))
+/* ---------- Real data (scraped Caltrans bid summaries) ---------- */
+
+interface RawLineItem {
+  itemCode: string
+  itemFlag: string
+  description: string
+  quantity: number
+  unit: string
+  unitPrice: number
+  totalPrice: number
+  bidder: string
+  bidderRank: number
+}
+interface RawLocation {
+  county: string
+  route: number | string
+  pmPrefix: string
+  beginPm: number | null
+  endPm: number | null
+  centroidLon: number | null
+  centroidLat: number | null
+  nPoints: number
+  geocodeLevel: string
+}
+interface RawContract {
+  ea: string
+  district: number
+  bidOpenDate: string
+  bidders: Bidder[]
+  lineItems: RawLineItem[]
+  locations: RawLocation[]
+}
+
+// Coarse district centroids, used only to place the handful of contracts whose
+// Location string couldn't be geocoded so they still appear on the map.
+const DISTRICT_FALLBACK: Record<number, { lat: number; lng: number }> = {
+  1: { lat: 40.8, lng: -123.9 }, 2: { lat: 40.6, lng: -122.3 }, 3: { lat: 38.6, lng: -121.4 },
+  4: { lat: 37.7, lng: -122.2 }, 5: { lat: 35.3, lng: -120.6 }, 6: { lat: 36.7, lng: -119.8 },
+  7: { lat: 34.1, lng: -118.3 }, 8: { lat: 34.1, lng: -117.3 }, 9: { lat: 37.0, lng: -118.0 },
+  10: { lat: 37.9, lng: -121.3 }, 11: { lat: 32.8, lng: -117.1 }, 12: { lat: 33.7, lng: -117.8 },
+}
+
+function buildContract(rc: RawContract): Contract {
+  const lineItems: LineItem[] = rc.lineItems.map((li) => ({
+    itemCode: li.itemCode,
+    description: li.description,
+    family: classifyFamily(li.itemCode, li.description),
+    quantity: li.quantity,
+    unit: li.unit,
+    unitPrice: li.unitPrice,
+    totalPrice: li.totalPrice,
+    bidder: li.bidder,
+  }))
+
+  // Rank the families by the low bidder's spend so primaryFamily reflects the
+  // project's main work; families[] is everything the low bid touched.
+  const spend = new Map<ItemFamily, number>()
+  rc.lineItems.forEach((li, i) => {
+    if (li.bidderRank !== 1) return
+    const fam = lineItems[i].family
+    spend.set(fam, (spend.get(fam) ?? 0) + li.totalPrice)
+  })
+  const ranked = [...spend.entries()].sort((a, b) => b[1] - a[1])
+  const primaryFamily: ItemFamily = ranked[0]?.[0] ?? 'Other'
+  const families = ITEM_FAMILIES.filter((f) => spend.has(f))
+
+  // Representative location: prefer a precise segment, then the longest extent.
+  const loc = [...rc.locations].sort(
+    (a, b) =>
+      (a.geocodeLevel === 'segment' ? 0 : 1) - (b.geocodeLevel === 'segment' ? 0 : 1) ||
+      b.nPoints - a.nPoints,
+  )[0]
+  const center =
+    loc && loc.centroidLat != null && loc.centroidLon != null
+      ? { lat: loc.centroidLat, lng: loc.centroidLon }
+      : DISTRICT_FALLBACK[rc.district] ?? { lat: 37, lng: -120 }
+
+  return {
+    ea: rc.ea,
+    district: rc.district,
+    county: loc?.county ?? '',
+    route: typeof loc?.route === 'number' ? loc.route : 0,
+    postmileStart: loc?.beginPm ?? 0,
+    postmileEnd: loc?.endPm ?? 0,
+    bidOpenDate: rc.bidOpenDate,
+    projectType: FAMILY_CATEGORY[primaryFamily] ?? 'Other',
+    typeOfWork: ranked.slice(0, 3).map(([f]) => f).join(', ') || 'Other',
+    lat: center.lat,
+    lng: center.lng,
+    primaryFamily,
+    families,
+    bidders: rc.bidders,
+    lineItems,
+  }
+}
+
+export const CONTRACTS: Contract[] = (rawContractsJson as RawContract[])
+  .map(buildContract)
+  .sort((a, b) => a.bidOpenDate.localeCompare(b.bidOpenDate))
 
 export function getLowBidder(contract: Contract): Bidder {
   return contract.bidders[0]

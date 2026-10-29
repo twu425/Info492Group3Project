@@ -24,7 +24,7 @@ export function AppHeader({ filtersOpen = false, onToggleFilters, actions, searc
         </Link>
         <span aria-hidden="true" className="hidden h-4 w-px bg-border lg:block" />
         <p className="hidden truncate text-sm text-subtle-foreground lg:block">
-          Caltrans contract cost explorer · 6 districts
+          Caltrans contract cost explorer · 12 districts
         </p>
       </div>
       {search && <div className="flex min-w-0 flex-1 justify-end sm:justify-center">{search}</div>}

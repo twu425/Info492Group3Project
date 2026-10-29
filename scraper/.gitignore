@@ -1,0 +1,19 @@
+# Raw / intermediate data — large and regenerable by re-running the pipeline.
+# The built database (data/bidgrid.db) IS committed so the app works from a clone.
+data/pdfs/
+data/*.csv
+data/*.xlsx
+
+# SQLite sidecar files (the .db itself is committed; these are transient)
+data/bidgrid.db-shm
+data/bidgrid.db-wal
+
+# Resumable progress logs
+state/
+
+# Local virtualenv
+venv/
+
+# Python bytecode cache
+__pycache__/
+*.pyc

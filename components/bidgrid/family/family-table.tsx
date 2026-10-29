@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { quantityBand, vsTypical, type QuantityBand } from '@/lib/bidgrid/estimate'
 import type { PricePoint } from '@/lib/bidgrid/family'
 import { formatDistrict, formatQty, formatUsd } from '@/lib/bidgrid/format'
@@ -61,6 +61,11 @@ interface FamilyTableProps {
   onOpenBidder: (name: string) => void
 }
 
+/** Rows per page. A heavy family can have thousands of bids; painting every <tr>
+ * is what made the view slow; render one page at a time (sorting/filtering
+ * still run over the full set). */
+const PAGE_SIZE = 100
+
 /** Percent vs. typical, e.g. "+12%" / "-6%". */
 function formatVs(vs: number) {
   return `${vs >= 0 ? '+' : ''}${Math.round(vs * 100)}%`
@@ -68,6 +73,7 @@ function formatVs(vs: number) {
 
 export function FamilyTable({ rows, highlightBidder, onOpenContract, onOpenBidder }: FamilyTableProps) {
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>({ key: 'bidDate', dir: 'desc' })
+  const [page, setPage] = useState(0)
 
   const augmented: Row[] = useMemo(
     () =>
@@ -94,11 +100,27 @@ export function FamilyTable({ rows, highlightBidder, onOpenContract, onOpenBidde
     })
   }, [augmented, sort])
 
+  // Jump back to the first page whenever the data or sort order changes.
+  useEffect(() => {
+    setPage(0)
+  }, [rows, sort])
+
+  const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE))
+  const current = Math.min(page, pageCount - 1)
+  const start = current * PAGE_SIZE
+  const shown = sorted.slice(start, start + PAGE_SIZE)
+
+  // Scroll the table back to the top when the page changes.
+  const scrollRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: 0 })
+  }, [current])
+
   const toggle = (key: SortKey, numeric?: boolean) =>
     setSort((s) => (s.key === key ? { key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: numeric ? 'desc' : 'asc' }))
 
   return (
-    <div className="max-h-[560px] overflow-auto">
+    <div ref={scrollRef} className="max-h-[560px] overflow-auto">
       {/* Fixed layout + colgroup: column widths come from here, never from the rows shown,
           so switching the unit filter, the band filter, sorting, or filtering never moves a column. */}
       <table className="w-full min-w-[1458px] table-fixed border-collapse text-[13px]">
@@ -167,7 +189,7 @@ export function FamilyTable({ rows, highlightBidder, onOpenContract, onOpenBidde
           </tr>
         </thead>
         <tbody>
-          {sorted.map((row) => {
+          {shown.map((row) => {
             const highlighted = highlightBidder != null && row.bidder === highlightBidder
             return (
               <tr
@@ -241,6 +263,36 @@ export function FamilyTable({ rows, highlightBidder, onOpenContract, onOpenBidde
       </table>
       {sorted.length === 0 && (
         <p className="px-4 py-8 text-center text-sm text-muted-foreground">No line items match these filters.</p>
+      )}
+      {sorted.length > PAGE_SIZE && (
+        <div className="sticky bottom-0 flex items-center justify-between border-t bg-surface px-4 py-2 text-xs text-muted-foreground">
+          <span>
+            {`${(start + 1).toLocaleString()}–${Math.min(start + PAGE_SIZE, sorted.length).toLocaleString()} of ${sorted.length.toLocaleString()} bids`}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={current === 0}
+              aria-label="Previous page"
+              className="inline-flex items-center gap-1 rounded-md border px-2 py-1 transition-colors hover:bg-foreground/[0.06] disabled:pointer-events-none disabled:opacity-40"
+            >
+              <ChevronLeft aria-hidden="true" className="size-3.5" />
+              Prev
+            </button>
+            <span className="font-mono tabular-nums">{`Page ${current + 1} of ${pageCount.toLocaleString()}`}</span>
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+              disabled={current >= pageCount - 1}
+              aria-label="Next page"
+              className="inline-flex items-center gap-1 rounded-md border px-2 py-1 transition-colors hover:bg-foreground/[0.06] disabled:pointer-events-none disabled:opacity-40"
+            >
+              Next
+              <ChevronRight aria-hidden="true" className="size-3.5" />
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )

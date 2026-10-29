@@ -483,3 +483,25 @@ g.click-flash circle:last-of-type {
     animation: none;
   }
 }
+
+/* Indeterminate top loading bar — driven by GlobalLoadingBar / useGlobalFetching. */
+@keyframes bidgrid-loading-bar {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(320%); }
+}
+.loading-bar-indeterminate {
+  width: 30%;
+  will-change: transform;
+  animation: bidgrid-loading-bar 1.1s ease-in-out infinite;
+}
+
+/* Compositor-promoted spinner — keeps spinning smoothly even when the main thread
+   is busy (e.g. a heavy view render during a transition). */
+@keyframes bidgrid-spin {
+  to { transform: rotate(360deg); }
+}
+.bidgrid-spin {
+  animation: bidgrid-spin 0.7s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}

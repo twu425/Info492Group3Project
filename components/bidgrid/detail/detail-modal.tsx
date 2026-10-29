@@ -3,18 +3,21 @@
 import { ArrowLeft, Building2, ChevronRight, MapPin, X } from 'lucide-react'
 import { Fragment, useEffect, useEffectEvent, useLayoutEffect, useRef, useState, type AnimationEvent } from 'react'
 import { Button } from '@/components/ui/button'
-import { CONTRACTS, type ItemFamily, type LineItem } from '@/lib/bidgrid/data'
-import { FAMILY_COLORS } from '@/lib/bidgrid/format'
+import { type ItemFamily, type LineItem } from '@/lib/bidgrid/data'
+import { FAMILY_COLORS, shortItemName } from '@/lib/bidgrid/format'
 import { cn } from '@/lib/utils'
-import { BidderView } from './bidder-view'
-import { FamilyView } from '../family/family-view'
-import { ContractView } from './contract-view'
+import { BidderDetailLoader } from './bidder-detail-loader'
+import { FamilyDetailLoader } from '../family/family-detail-loader'
+import { ContractDetailLoader } from './contract-detail-loader'
 
 export type DetailView =
   | {
       kind: 'family'
       family: ItemFamily
       itemCode: string | null
+      /** The clicked item's description, so the header names the item, not the (often
+       * generic, e.g. "Other") family. Null when opened at the family level. */
+      itemLabel: string | null
       highlightId: string | null
       /** Highlight every bid from this bidder on the trend chart. */
       highlightBidder: string | null
@@ -27,6 +30,7 @@ export const familyDetail = (family: ItemFamily, itemCode: string | null = null)
   kind: 'family',
   family,
   itemCode,
+  itemLabel: null,
   highlightId: null,
   highlightBidder: null,
   sourceEa: null,
@@ -36,15 +40,28 @@ export const lineItemDetail = (ea: string, item: LineItem): DetailView => ({
   kind: 'family',
   family: item.family,
   itemCode: item.itemCode,
+  itemLabel: item.description,
   highlightId: `${ea}-${item.itemCode}-${item.bidder}`,
   highlightBidder: null,
   sourceEa: ea,
+})
+
+/** Open another item within a family as its own view. */
+export const itemDetail = (family: ItemFamily, itemCode: string, label: string): DetailView => ({
+  kind: 'family',
+  family,
+  itemCode,
+  itemLabel: label,
+  highlightId: null,
+  highlightBidder: null,
+  sourceEa: null,
 })
 
 export const familyForBidder = (family: ItemFamily, bidder: string): DetailView => ({
   kind: 'family',
   family,
   itemCode: null,
+  itemLabel: null,
   highlightId: null,
   highlightBidder: bidder,
   sourceEa: null,
@@ -71,10 +88,17 @@ interface MorphOrigin {
 const FLASH_MS = 100
 const MORPH_MS = 250
 
-const viewLabel = (v: DetailView) => (v.kind === 'family' ? v.family : v.kind === 'contract' ? v.ea : v.name)
+const viewLabel = (v: DetailView) =>
+  v.kind === 'family'
+    ? v.itemLabel
+      ? shortItemName(v.itemLabel)
+      : v.family
+    : v.kind === 'contract'
+      ? v.ea
+      : v.name
 
 const viewKindLabel = (v: DetailView) =>
-  v.kind === 'family' ? 'Item family' : v.kind === 'contract' ? 'Contract' : 'Bidder'
+  v.kind === 'family' ? (v.itemLabel ? 'Line item' : 'Item family') : v.kind === 'contract' ? 'Contract' : 'Bidder'
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -345,7 +369,14 @@ export function DetailModal({ initial, onClose, onShowOnMap, onViewChange }: Det
                         className="size-2.5 shrink-0 rounded-full"
                         style={{ background: FAMILY_COLORS[view.family] }}
                       />
-                      <span className="truncate">{view.family}</span>
+                      <span className="truncate">
+                        {view.itemLabel ? shortItemName(view.itemLabel) : view.family}
+                      </span>
+                      {view.itemLabel && (
+                        <span className="shrink-0 rounded-md border px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                          {view.family}
+                        </span>
+                      )}
                     </>
                   ) : view.kind === 'contract' ? (
                     <>
@@ -420,7 +451,7 @@ function DetailPane({
 }) {
   if (view.kind === 'family') {
     return (
-      <FamilyView
+      <FamilyDetailLoader
         family={view.family}
         initialItem={view.itemCode}
         highlightId={view.highlightId}
@@ -428,12 +459,13 @@ function DetailPane({
         active={active}
         onOpenContract={(ea) => onNavigate({ kind: 'contract', ea })}
         onOpenBidder={(name) => onNavigate(bidderDetail(name))}
+        onOpenItem={(itemCode, label) => onNavigate(itemDetail(view.family, itemCode, label))}
       />
     )
   }
   if (view.kind === 'bidder') {
     return (
-      <BidderView
+      <BidderDetailLoader
         name={view.name}
         active={active}
         onOpenContract={(ea) => onNavigate({ kind: 'contract', ea })}
@@ -442,15 +474,11 @@ function DetailPane({
       />
     )
   }
-  const contract = CONTRACTS.find((c) => c.ea === view.ea)
-  if (!contract) {
-    return <p className="p-6 text-sm text-muted-foreground">{`Contract ${view.ea} isn't in the dataset.`}</p>
-  }
   return (
-    <ContractView
-      contract={contract}
+    <ContractDetailLoader
+      ea={view.ea}
       active={active}
-      onOpenItem={(item) => onNavigate(lineItemDetail(contract.ea, item))}
+      onOpenItem={(item) => onNavigate(lineItemDetail(view.ea, item))}
       onOpenBidder={(name) => onNavigate(bidderDetail(name))}
     />
   )

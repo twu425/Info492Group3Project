@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState } from 'react'
 import { Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Scatter, XAxis, YAxis } from 'recharts'
-import type { PricePoint, QuarterStat } from '@/lib/bidgrid/family'
+import { quarterStartOf, type PricePoint, type QuarterStat } from '@/lib/bidgrid/family'
 import { formatDistrict, formatQty, formatUsd, formatUsdCompact } from '@/lib/bidgrid/format'
 
 interface TrendChartProps {
@@ -39,14 +39,26 @@ export function TrendChart({
     [points, highlightId, highlightBidder],
   )
 
-  const yearTicks = useMemo(() => {
+  // Short spans (a couple of years or less) get quarterly ticks so a few months of
+  // data isn't labeled with a single year; longer spans get yearly ticks.
+  const { ticks: xTicks, quarterly } = useMemo(() => {
+    const quarterly = domain[1] - domain[0] <= 2.5 * 365.25 * 86_400_000
     const ticks: number[] = []
-    for (let y = new Date(domain[0]).getUTCFullYear(); ; y++) {
-      const t = Date.UTC(y, 0, 1)
-      if (t > domain[1]) break
-      if (t >= domain[0]) ticks.push(t)
+    if (quarterly) {
+      let t = quarterStartOf(domain[0])
+      while (t <= domain[1]) {
+        if (t >= domain[0]) ticks.push(t)
+        const d = new Date(t)
+        t = Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 3, 1)
+      }
+    } else {
+      for (let y = new Date(domain[0]).getUTCFullYear(); ; y++) {
+        const t = Date.UTC(y, 0, 1)
+        if (t > domain[1]) break
+        if (t >= domain[0]) ticks.push(t)
+      }
     }
-    return ticks
+    return { ticks, quarterly }
   }, [domain])
 
   const yDomain = useMemo<[number, number]>(() => {
@@ -111,8 +123,13 @@ export function TrendChart({
             type="number"
             dataKey="time"
             domain={domain}
-            ticks={yearTicks}
-            tickFormatter={(t: number) => String(new Date(t).getUTCFullYear())}
+            ticks={xTicks}
+            tickFormatter={(t: number) => {
+              const d = new Date(t)
+              return quarterly
+                ? `Q${Math.floor(d.getUTCMonth() / 3) + 1} ’${String(d.getUTCFullYear()).slice(2)}`
+                : String(d.getUTCFullYear())
+            }}
             axisLine={false}
             tickLine={false}
             tick={TICK}
