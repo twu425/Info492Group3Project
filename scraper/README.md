@@ -79,6 +79,7 @@ python -m cli.export_app      # -> ../lib/bidgrid/contracts.generated.json
 
 `build_db` classifies item families (`caltrans/classify.py`, kept in sync with the
 app's `lib/bidgrid/classify.ts`) and writes the normalized tables + indexes.
+**See [DATABASE.md](DATABASE.md)** for the full schema and the ingestion data flow.
 
 Both `bidgrid.db` and `contracts.generated.json` are **committed to the repo** so a
 fresh clone builds and runs without re-scraping. The raw/intermediate data (PDFs,
