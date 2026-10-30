@@ -1,0 +1,34 @@
+
+queryBids open-ended question eval — 5 questions × 3 runs
+
+[queryBids] {"purpose":"Median low-bid unit price for item 390132 in District 2","ms":2,"rowCount":1,"truncated":false,"sql":"WITH p AS (SELECT li.unit_price AS up, ROW_NUMBER() OVER (ORDER BY li.unit_price) AS rn, COUNT(*) OVER () AS n FROM line_items li JOIN contracts c ON c.ea = li.contract_ea WHERE li.item_code = '390132' AND li.bidder_rank = 1 AND c.district = 2 AND li.unit_price IS NOT NULL) SELECT n AS sample_size, AVG(up) AS median_unit_price FROM p WHERE rn IN ((n + 1) / 2, (n + 2) / 2)"}
+[queryBids] {"purpose":"Median low-bid unit price for item 390132 in District 2","ms":2,"rowCount":1,"truncated":false,"sql":"WITH p AS (SELECT li.unit_price AS up FROM line_items li JOIN contracts c ON c.ea = li.contract_ea WHERE li.item_code = '390132' AND li.bidder_rank = 1 AND c.district = 2 AND li.unit_price IS NOT NULL), r AS (SELECT up, ROW_NUMBER() OVER (ORDER BY up) AS rn, COUNT(*) OVER () AS cnt FROM p) SELECT cnt AS bids, AVG(up) AS median_unit_price FROM r WHERE rn IN ((cnt + 1) / 2, (cnt + 2) / 2) GROUP BY cnt"}
+[queryBids] {"purpose":"Median low-bid unit price for item 390132 in District 2","ms":3,"rowCount":1,"truncated":false,"sql":"WITH x AS (SELECT li.unit_price AS p FROM line_items li JOIN contracts c ON c.ea = li.contract_ea WHERE li.item_code = '390132' AND li.bidder_rank = 1 AND c.district = 2 AND li.unit_price IS NOT NULL ORDER BY li.unit_price), n AS (SELECT COUNT(*) AS cnt FROM x) SELECT (SELECT cnt FROM n) AS n, (SELECT p FROM x LIMIT 1 OFFSET (SELECT (cnt-1)/2 FROM n)) AS lo_mid, (SELECT p FROM x LIMIT 1 OFFSET (SELECT cnt/2 FROM n)) AS hi_mid"}
+  median-hma-d2            ref=152                          3/3 pass
+      e.g. "The median low-bid unit price for Hot Mix Asphalt Type A (item 390132) in District 2 is $152 per ton, based on 9 low-bid contracts."
+[queryBids] {"purpose":"Find the firm with the most paving contract wins","ms":1,"rowCount":5,"truncated":false,"sql":"SELECT low_bidder, COUNT(*) AS wins FROM contracts WHERE project_type = 'Paving' GROUP BY low_bidder ORDER BY wins DESC LIMIT 5"}
+[queryBids] {"purpose":"Count total paving contracts for sample size","ms":0,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(*) AS paving_contracts FROM contracts WHERE project_type = 'Paving'"}
+[queryBids] {"purpose":"Find the firm with the most paving contract wins","ms":1,"rowCount":5,"truncated":false,"sql":"SELECT low_bidder, COUNT(*) AS wins FROM contracts WHERE project_type = 'Paving' GROUP BY low_bidder ORDER BY wins DESC LIMIT 5"}
+[queryBids] {"purpose":"Count total paving contracts for context","ms":0,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(*) AS paving_contracts FROM contracts WHERE project_type = 'Paving'"}
+[queryBids] {"purpose":"Find the firm with the most paving contract wins","ms":1,"rowCount":5,"truncated":false,"sql":"SELECT low_bidder, COUNT(*) AS wins FROM contracts WHERE project_type = 'Paving' AND low_bidder IS NOT NULL GROUP BY low_bidder ORDER BY wins DESC LIMIT 5"}
+[queryBids] {"purpose":"Count total paving contracts for context","ms":1,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(*) AS paving_contracts FROM contracts WHERE project_type = 'Paving'"}
+  top-paving-firm          ref=GRANITE CONSTRUCTION COMPANY 3/3 pass
+      e.g. "Granite Construction Company won the most paving contracts, with 7 wins out of 89 paving contracts in the database. Doolittle Construction and American Pavement"
+[queryBids] {"purpose":"Average number of bidders on Structures contracts","ms":1,"rowCount":1,"truncated":false,"sql":"SELECT ROUND(AVG(num_bidders), 2) AS avg_bidders, COUNT(*) AS contracts FROM contracts WHERE project_type = 'Structures' AND num_bidders IS NOT NULL"}
+[queryBids] {"purpose":"Average number of bidders on Structures contracts","ms":0,"rowCount":1,"truncated":false,"sql":"SELECT ROUND(AVG(num_bidders), 2) AS avg_bidders, COUNT(*) AS contracts FROM contracts WHERE project_type = 'Structures' AND num_bidders IS NOT NULL"}
+[queryBids] {"purpose":"Average number of bidders on Structures contracts","ms":0,"rowCount":1,"truncated":false,"sql":"SELECT ROUND(AVG(num_bidders), 2) AS avg_bidders, COUNT(*) AS contracts FROM contracts WHERE project_type = 'Structures' AND num_bidders IS NOT NULL"}
+  avg-bidders-structures   ref=7.03                         3/3 pass
+      e.g. "On average, structures contracts draw about 7 bidders (7.03). That's based on 33 structures contracts with a recorded bidder count."
+[queryBids] {"purpose":"Count contracts in District 7","ms":1,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(*) AS contracts FROM contracts WHERE district = 7"}
+[queryBids] {"purpose":"Count contracts in District 7","ms":0,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(*) AS contracts FROM contracts WHERE district = 7"}
+[queryBids] {"purpose":"Count contracts in District 7","ms":1,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(*) AS contracts FROM contracts WHERE district = 7"}
+  count-d7                 ref=25                           3/3 pass
+      e.g. "There are 25 contracts in the data bid in District 7."
+[queryBids] {"purpose":"Count distinct contractors who placed bids across all contracts","ms":2,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(DISTINCT name) AS distinct_bidders, COUNT(DISTINCT contract_ea) AS contracts FROM bidders WHERE name IS NOT NULL AND TRIM(name) <> ''"}
+[queryBids] {"purpose":"Count distinct contractor names that placed bids across all contracts","ms":2,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(DISTINCT name) AS distinct_bidders, COUNT(DISTINCT contract_ea) AS contracts, COUNT(*) AS bid_rows FROM bidders WHERE name IS NOT NULL AND TRIM(name) <> ''"}
+[queryBids] {"purpose":"Count distinct contractor names across all bids","ms":2,"rowCount":1,"truncated":false,"sql":"SELECT COUNT(DISTINCT name) AS distinct_bidders, COUNT(DISTINCT contract_ea) AS contracts, COUNT(*) AS bid_rows FROM bidders WHERE name IS NOT NULL AND TRIM(name) <> ''"}
+  distinct-firms           ref=264                          3/3 pass
+      e.g. "There are 264 distinct contractors that placed bids, across 239 contracts in the data."
+
+OVERALL: 15/15 (100.0%) correct within tolerance
+Saved /Users/ethan/Desktop/bidgrid-construction-explorer/eval/harness/results/questions.json

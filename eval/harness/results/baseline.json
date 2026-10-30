@@ -1,0 +1,330 @@
+{
+  "summary": {
+    "label": "baseline",
+    "n": 15,
+    "errors": 0,
+    "familyRecall": 0.5591164780638465,
+    "codePrecision": 0.6256613756613756,
+    "familyPrecision": 0.8800264550264549,
+    "medianPctError": 1.4779423224756192,
+    "medianUnitPriceError": 0.5489818181818182,
+    "matchedItemsForUnitPrice": 55,
+    "dollarCoverage": 0.10650166888173382,
+    "matchingAccuracy": 0.9000000000000001,
+    "agentRelevantShare": 0.9936305732484076,
+    "keywordRelevantShare": 0.19333333333333333,
+    "capHits": 0,
+    "avgSteps": 3.3333333333333335
+  },
+  "results": [
+    {
+      "ea": "04-1W7104",
+      "primaryFamily": "Hot Mix Asphalt",
+      "builtCount": 3,
+      "familyRecall": 0.15,
+      "codePrecision": 1,
+      "familyPrecision": 1,
+      "pctError": -0.8623705611002177,
+      "unitPriceErrors": [
+        0.4301449275362319,
+        0.22857142857142865,
+        0.885
+      ],
+      "dollarCoverage": 0.08334688761274359,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 3,
+      "hitCap": false
+    },
+    {
+      "ea": "03-0N9104",
+      "primaryFamily": "Traffic Signals",
+      "builtCount": 7,
+      "familyRecall": 0.5454545454545454,
+      "codePrecision": 0.5714285714285714,
+      "familyPrecision": 0.8571428571428571,
+      "pctError": 1.4779423224756192,
+      "unitPriceErrors": [
+        0.7808046875,
+        0.7213613333333333,
+        0.7371694915254237,
+        0.4884615384615385
+      ],
+      "dollarCoverage": 0.05532015370103012,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 3,
+      "hitCap": false
+    },
+    {
+      "ea": "10-1U0604",
+      "primaryFamily": "Rubberized HMA",
+      "builtCount": 7,
+      "familyRecall": 0.8571428571428571,
+      "codePrecision": 0.5714285714285714,
+      "familyPrecision": 0.8571428571428571,
+      "pctError": 0.7485349075971894,
+      "unitPriceErrors": [
+        0.6909090909090909,
+        0.2157599938617354,
+        0.799464367816092,
+        0.4309090909090909
+      ],
+      "dollarCoverage": 0.03973006689589453,
+      "matchingAccuracy": 1,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 3,
+      "hitCap": false
+    },
+    {
+      "ea": "04-3Y6204",
+      "primaryFamily": "Bridge Deck & Rehab",
+      "builtCount": 7,
+      "familyRecall": 0.6363636363636364,
+      "codePrecision": 0.7142857142857143,
+      "familyPrecision": 1,
+      "pctError": -0.5853052066156567,
+      "unitPriceErrors": [
+        4.666666666666667,
+        0.7472289156626506,
+        0.5489818181818182,
+        0.78,
+        0.7093333333333334
+      ],
+      "dollarCoverage": 0.03368533822510269,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.1,
+      "stepsUsed": 3,
+      "hitCap": false
+    },
+    {
+      "ea": "06-1J0104",
+      "primaryFamily": "Thermoplastic Striping",
+      "builtCount": 8,
+      "familyRecall": 1,
+      "codePrecision": 0.5,
+      "familyPrecision": 0.875,
+      "pctError": 1.5134428467630363,
+      "unitPriceErrors": [
+        0.69,
+        0.5087714285714285,
+        0.4,
+        0.07374999999999998
+      ],
+      "dollarCoverage": 0.24884653961885658,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0,
+      "stepsUsed": 4,
+      "hitCap": false
+    },
+    {
+      "ea": "02-2K2204",
+      "primaryFamily": "Seal Coats & Surface Treatments",
+      "builtCount": 2,
+      "familyRecall": 0.6666666666666666,
+      "codePrecision": 0.5,
+      "familyPrecision": 1,
+      "pctError": 1.8024957667327224,
+      "unitPriceErrors": [
+        0.6000000000000001
+      ],
+      "dollarCoverage": 0.12197401828456855,
+      "matchingAccuracy": 1,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0,
+      "stepsUsed": 3,
+      "hitCap": false
+    },
+    {
+      "ea": "04-3G4524",
+      "primaryFamily": "Structural Concrete",
+      "builtCount": 9,
+      "familyRecall": 1,
+      "codePrecision": 0.2222222222222222,
+      "familyPrecision": 0.8888888888888888,
+      "pctError": 0.48748697826892834,
+      "unitPriceErrors": [
+        0.45105263157894737,
+        0.5949690909090909
+      ],
+      "dollarCoverage": 0.0024673798110898294,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 3,
+      "hitCap": false
+    },
+    {
+      "ea": "07-0Y7304",
+      "primaryFamily": "PCC Pavement",
+      "builtCount": 6,
+      "familyRecall": 0.625,
+      "codePrecision": 0.5,
+      "familyPrecision": 0.8333333333333334,
+      "pctError": 12.714468902104235,
+      "unitPriceErrors": [
+        0.33333333333333337,
+        0.5825,
+        0.3195
+      ],
+      "dollarCoverage": 0.027177718788381024,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 4,
+      "hitCap": false
+    },
+    {
+      "ea": "07-376404",
+      "primaryFamily": "Structural Steel",
+      "builtCount": 9,
+      "familyRecall": 0.3684210526315789,
+      "codePrecision": 0.5555555555555556,
+      "familyPrecision": 0.8888888888888888,
+      "pctError": 3.9077890452902357,
+      "unitPriceErrors": [
+        13.88036809815951,
+        0.4766171003717472,
+        4.089442815249266,
+        0.21117324561403517,
+        0.913448275862069
+      ],
+      "dollarCoverage": 0.2918007338952696,
+      "matchingAccuracy": 1,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 3,
+      "hitCap": false
+    },
+    {
+      "ea": "03-3G5004",
+      "primaryFamily": "Corrugated Steel Pipe",
+      "builtCount": 5,
+      "familyRecall": 0.4166666666666667,
+      "codePrecision": 1,
+      "familyPrecision": 1,
+      "pctError": 4.933377817618389,
+      "unitPriceErrors": [
+        0.47382894736842107,
+        0.1578615384615385,
+        0.7444444444444445,
+        3.383624,
+        0.24347826086956526
+      ],
+      "dollarCoverage": 0.13518820892753586,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 4,
+      "hitCap": false
+    },
+    {
+      "ea": "03-3G5104",
+      "primaryFamily": "Reinforced Concrete Pipe",
+      "builtCount": 8,
+      "familyRecall": 0.875,
+      "codePrecision": 0.375,
+      "familyPrecision": 1,
+      "pctError": 21.511788520773592,
+      "unitPriceErrors": [
+        0.08371273712737115,
+        0.7882136279926335,
+        4.3324921700223715
+      ],
+      "dollarCoverage": 0.08126292819312163,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 0.9044585987261147,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 4,
+      "hitCap": false
+    },
+    {
+      "ea": "12-0V6704",
+      "primaryFamily": "Concrete Barrier",
+      "builtCount": 5,
+      "familyRecall": 0.5555555555555556,
+      "codePrecision": 1,
+      "familyPrecision": 1,
+      "pctError": 3.475462959827287,
+      "unitPriceErrors": [
+        0.76766,
+        0.84504,
+        0.6683,
+        0.852
+      ],
+      "dollarCoverage": 0.12342632307039923,
+      "matchingAccuracy": 1,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.3,
+      "stepsUsed": 3,
+      "hitCap": false
+    },
+    {
+      "ea": "04-1J9614",
+      "primaryFamily": "Planting",
+      "builtCount": 0,
+      "familyRecall": 0,
+      "codePrecision": 0,
+      "familyPrecision": 0,
+      "pctError": -1,
+      "unitPriceErrors": [],
+      "dollarCoverage": 0,
+      "matchingAccuracy": 1,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.4,
+      "stepsUsed": 2,
+      "hitCap": false
+    },
+    {
+      "ea": "08-1N6104",
+      "primaryFamily": "Roadside Signs",
+      "builtCount": 8,
+      "familyRecall": 0.3333333333333333,
+      "codePrecision": 0.875,
+      "familyPrecision": 1,
+      "pctError": -0.14261953840039707,
+      "unitPriceErrors": [
+        0.26415094339622647,
+        0.4384839650145773,
+        1.2400000000000002,
+        0.2178318135764944,
+        0.33310000000000006,
+        0.3192307692307692,
+        0.5150093808630392
+      ],
+      "dollarCoverage": 0.2565606978041461,
+      "matchingAccuracy": 0.8333333333333334,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "stepsUsed": 4,
+      "hitCap": false
+    },
+    {
+      "ea": "04-0Q1904",
+      "primaryFamily": "Roadway Excavation",
+      "builtCount": 5,
+      "familyRecall": 0.35714285714285715,
+      "codePrecision": 1,
+      "familyPrecision": 1,
+      "pctError": -0.0021492807913335143,
+      "unitPriceErrors": [
+        0.4123478260869565,
+        0.2899310344827586,
+        2.326571428571429,
+        0.42933620000000006,
+        0.44979310344827583
+      ],
+      "dollarCoverage": 0.0967380383978679,
+      "matchingAccuracy": 1,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.3,
+      "stepsUsed": 4,
+      "hitCap": false
+    }
+  ]
+}

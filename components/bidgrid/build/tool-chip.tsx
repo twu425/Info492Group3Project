@@ -1,4 +1,4 @@
-import { ITEM_CATALOG } from '@/lib/bidgrid/data'
+import { catalogByCode } from '@/lib/bidgrid/catalog'
 import type { BuildUIMessage } from '@/lib/bidgrid/build-tools'
 import { formatQty, itemLabel } from '@/lib/bidgrid/format'
 import { cn } from '@/lib/utils'
@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 type Part = BuildUIMessage['parts'][number]
 
 function catalogLabel(code: string | undefined, fallback: string) {
-  const item = code ? ITEM_CATALOG.find((i) => i.code === code) : undefined
+  const item = code ? catalogByCode.get(code) : undefined
   return item ? itemLabel(item.description) : fallback
 }
 
@@ -30,7 +30,57 @@ function describe(part: Part): { label: string; pending: boolean; failed: boolea
   const qtyUnit = (s: { qty?: number; unit?: string } | undefined) =>
     s?.qty != null ? ` · ${formatQty(s.qty)} ${s.unit ?? ''}`.trimEnd() : ''
 
+  const count = (key: string) => (Array.isArray(output?.[key]) ? (output![key] as unknown[]).length : undefined)
+
   switch (part.type) {
+    case 'tool-searchSimilarProjects': {
+      const n = count('projects')
+      if (!pending && (failed || n === 0)) return { label: 'No similar projects nearby', pending: false, failed: true }
+      return { label: pending ? 'Finding similar projects' : `Found ${n} similar project${n === 1 ? '' : 's'}`, pending, failed }
+    }
+    case 'tool-searchCatalog': {
+      const desc = input?.description ? itemLabel(String(input.description)) : 'items'
+      const n = count('candidates')
+      if (!pending && failed) return { label: `No catalog match · ${desc}`, pending: false, failed: true }
+      return { label: pending ? `Searching catalog · ${desc}` : `Catalog · ${desc} · ${n} match${n === 1 ? '' : 'es'}`, pending, failed }
+    }
+    case 'tool-queryBids': {
+      const purpose = input?.purpose ? String(input.purpose) : 'the bid data'
+      if (!pending && failed) return { label: `Query failed · ${purpose}`, pending: false, failed: true }
+      const rows = output && typeof output.rowCount === 'number' ? ` · ${output.rowCount} row${output.rowCount === 1 ? '' : 's'}` : ''
+      return { label: `${pending ? 'Querying' : 'Queried'} · ${purpose}${pending ? '' : rows}`, pending, failed }
+    }
+    case 'tool-computeQuantity': {
+      if (!pending && failed) return { label: 'Couldn’t compute', pending: false, failed: true }
+      const op = input?.operation ? String(input.operation) : 'quantity'
+      const q = output && typeof output.quantity === 'number' ? ` · ${formatQty(output.quantity)} ${output.unit ?? ''}`.trimEnd() : ''
+      return { label: `${pending ? 'Computing' : 'Computed'} · ${op}${q}`, pending, failed }
+    }
+    case 'tool-checkEstimate': {
+      if (pending) return { label: 'Reviewing estimate', pending, failed }
+      const n = Array.isArray(output?.findings) ? (output!.findings as unknown[]).length : undefined
+      if (n === 0) return { label: 'Reviewed · no issues', pending, failed }
+      return { label: `Reviewed · ${n} finding${n === 1 ? '' : 's'}`, pending, failed }
+    }
+    case 'tool-searchBidders': {
+      if (!pending && failed) return { label: 'Bidder lookup failed', pending: false, failed: true }
+      const n = Array.isArray(output?.bidders) ? (output!.bidders as unknown[]).length : undefined
+      return { label: pending ? 'Finding bidders' : `Bidders · ${n ?? 0} firm${n === 1 ? '' : 's'}`, pending, failed }
+    }
+    case 'tool-locatePostmiles': {
+      if (!pending && failed) return { label: 'Postmile lookup unavailable', pending: false, failed: true }
+      if (pending) return { label: 'Locating postmiles', pending, failed }
+      const route = output && typeof output.route === 'number' && output.route ? `Route ${output.route}` : 'location'
+      if (Array.isArray(output?.candidates) && (output.candidates as unknown[]).length > 1)
+        return { label: `${route} · multiple routes nearby`, pending, failed }
+      const seg = output?.segment as { lengthMi?: number } | undefined
+      const detail = seg && typeof seg.lengthMi === 'number' ? ` · ${seg.lengthMi} mi` : ''
+      return { label: `Located · ${route}${detail}`, pending, failed }
+    }
+    case 'tool-showSegment': {
+      const label = input?.label ? String(input.label) : 'segment'
+      return { label: `${pending ? 'Drawing' : 'Drew'} · ${label}`, pending, failed }
+    }
     case 'tool-searchComparables': {
       const desc = output && typeof output.description === 'string' ? itemLabel(output.description) : undefined
       const name = desc ?? catalogLabel(input?.itemCode as string | undefined, String(input?.itemFamily ?? 'items'))
@@ -43,7 +93,13 @@ function describe(part: Part): { label: string; pending: boolean; failed: boolea
       const item = readSummary(output, 'item')
       const name = item?.name ?? catalogLabel(input?.itemCode as string | undefined, String(input?.itemFamily ?? 'item'))
       const fallbackQty = input?.quantity ? ` · ${formatQty(Number(input.quantity))} ${String(input.unit ?? '')}`.trimEnd() : ''
-      const verb = pending ? 'Adding' : output?.status === 'already_exists' ? 'Already on list' : 'Added'
+      const verb = pending
+        ? 'Adding'
+        : failed
+          ? 'Couldn’t add'
+          : output?.status === 'already_exists'
+            ? 'Already on list'
+            : 'Added'
       return { label: `${verb} · ${name}${item ? qtyUnit(item) : fallbackQty}`, pending, failed }
     }
     case 'tool-updateLineItem': {

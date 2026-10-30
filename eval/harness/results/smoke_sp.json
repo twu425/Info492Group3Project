@@ -1,0 +1,182 @@
+{
+  "summary": {
+    "label": "smoke_sp",
+    "variant": "similarprojects",
+    "n": 1,
+    "errors": 0,
+    "familyRecall": 0.4,
+    "codePrecision": 0.6,
+    "familyPrecision": 0.9,
+    "medianPctError": 0.45580118346653636,
+    "medianUnitPriceError": 0.41324005330287467,
+    "matchedItemsForUnitPrice": 6,
+    "dollarCoverage": 0.19886471938318476,
+    "matchingAccuracy": 0.8333333333333334,
+    "catalogTop5": 1,
+    "avgCatalogSearches": 11,
+    "agentRelevantShare": 1,
+    "keywordRelevantShare": 0.2,
+    "agentRelevantStrict": 0.725,
+    "keywordRelevantStrict": 0.1,
+    "capHits": 0,
+    "avgSteps": 7
+  },
+  "results": [
+    {
+      "ea": "04-1W7104",
+      "primaryFamily": "Hot Mix Asphalt",
+      "builtCount": 10,
+      "familyRecall": 0.4,
+      "codePrecision": 0.6,
+      "familyPrecision": 0.9,
+      "pctError": -0.45580118346653636,
+      "unitPriceErrors": [
+        3.0629468599033816,
+        0.22857142857142865,
+        0.4274509803921571,
+        0.3990291262135922,
+        0.885,
+        0.10564783088235297
+      ],
+      "dollarCoverage": 0.19886471938318476,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 11,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.725,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 7,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 90,
+          "unit": "TON",
+          "unitPrice": 841.03
+        },
+        {
+          "itemCode": "600037",
+          "family": "Bridge Deck & Rehab",
+          "quantity": 3688,
+          "unit": "SQFT",
+          "unitPrice": 0.86
+        },
+        {
+          "itemCode": "600043",
+          "family": "Bridge Deck & Rehab",
+          "quantity": 3688,
+          "unit": "SQFT",
+          "unitPrice": 3.64
+        },
+        {
+          "itemCode": "374493",
+          "family": "Seal Coats & Surface Treatments",
+          "quantity": 13,
+          "unit": "TON",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "832006",
+          "family": "Metal Beam Guardrail",
+          "quantity": 3168,
+          "unit": "LF",
+          "unitPrice": 30.95
+        },
+        {
+          "itemCode": "510053",
+          "family": "Structural Concrete",
+          "quantity": 60,
+          "unit": "CY",
+          "unitPrice": 7173.93
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 9504,
+          "unit": "LF",
+          "unitPrice": 0.46
+        },
+        {
+          "itemCode": "839640",
+          "family": "Concrete Barrier",
+          "quantity": 1000,
+          "unit": "LF",
+          "unitPrice": 181.88
+        },
+        {
+          "itemCode": "999990",
+          "family": "Mobilization",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": 243263.79
+        },
+        {
+          "itemCode": "650018",
+          "family": "Reinforced Concrete Pipe",
+          "quantity": 300,
+          "unit": "LF",
+          "unitPrice": null
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "04-1W7104",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 90,
+          "agentPrice": 841.03,
+          "realPrice": 207,
+          "absErr": 3.0629468599033816
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "600037",
+          "description": "PREPARE CONCRETE BRIDGE DECK SURFACE",
+          "quantity": 3688,
+          "agentPrice": 0.86,
+          "realPrice": 0.7,
+          "absErr": 0.22857142857142865
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "600043",
+          "description": "PLACE POLYESTER CONCRETE OVERLAY",
+          "quantity": 3688,
+          "agentPrice": 3.64,
+          "realPrice": 2.55,
+          "absErr": 0.4274509803921571
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "832006",
+          "description": "MIDWEST GUARDRAIL SYSTEM (STEEL POST)",
+          "quantity": 3168,
+          "agentPrice": 30.95,
+          "realPrice": 51.5,
+          "absErr": 0.3990291262135922
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "846007",
+          "description": "6\" THERMOPLASTIC TRAFFIC STRIPE (ENHANCED WET NIGHT VISIBILITY)",
+          "quantity": 9504,
+          "agentPrice": 0.46,
+          "realPrice": 4,
+          "absErr": 0.885
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "999990",
+          "description": "MOBILIZATION",
+          "quantity": 1,
+          "agentPrice": 243263.79,
+          "realPrice": 272000,
+          "absErr": 0.10564783088235297
+        }
+      ]
+    }
+  ]
+}

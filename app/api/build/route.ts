@@ -9,14 +9,34 @@ import {
 } from 'ai'
 import { z } from 'zod'
 import {
+  checkEstimateInput,
   clientTools,
+  computeQuantityInput,
+  gatedActiveTools,
+  locatePostmilesInput,
+  queryBidsInput,
+  searchBiddersInput,
+  searchCatalogInput,
   searchComparablesInput,
+  searchSimilarProjectsInput,
   TOOL_DESCRIPTIONS,
   type BuildUIMessage,
+  type CheckEstimateOutput,
+  type ComputeQuantityOutput,
+  type LocatePostmilesToolOutput,
+  type QueryBidsOutput,
+  type SearchBiddersOutput,
+  type SearchCatalogOutput,
   type SearchComparablesOutput,
+  type SearchSimilarProjectsOutput,
 } from '@/lib/bidgrid/build-tools'
-import { UNITS, type Unit } from '@/lib/bidgrid/data'
-import { estimateBidItems, estimateItem, nearestCounty, resolveItem } from '@/lib/bidgrid/estimate'
+import { catalogItemDb, resolveItemDb, searchCatalogDb } from '@/lib/bidgrid/catalog-db'
+import { dbContracts, dbEstimator } from '@/lib/bidgrid/contracts-db'
+import { searchBidders } from '@/lib/bidgrid/bidders'
+import { checkEstimate, type CheckItem } from '@/lib/bidgrid/check-estimate'
+import { computeQuantity } from '@/lib/bidgrid/compute'
+import { locatePostmiles } from '@/lib/bidgrid/postmiles'
+import { queryDb, runQueryBids } from '@/lib/bidgrid/query-bids'
 import { formatDistrict, formatQty, formatUnitPrice, itemLabel } from '@/lib/bidgrid/format'
 import { SYSTEM_PROMPT } from '@/lib/bidgrid/system-prompt'
 
@@ -33,7 +53,7 @@ const bodySchema = z.object({
         itemCode: z.string().max(20),
         description: z.string().max(200),
         quantity: z.number(),
-        unit: z.enum(UNITS as [Unit, ...Unit[]]),
+        unit: z.string().min(1).max(12),
         unitPrice: z.number().positive().optional(),
         source: z.enum(['assistant', 'user']).optional(),
       }),
@@ -80,10 +100,12 @@ export async function POST(req: Request) {
     )
   }
 
-  const county = nearestCounty(pin)
+  // Pricing, comparables, and similar projects all run over contracts read live from bidgrid.db.
+  const est = dbEstimator()
+  const county = est.pinArea(pin)
   const round2 = (n: number | null | undefined) => (n == null ? null : Math.round(n * 100) / 100)
   // Lump sums are size-matched to the rest of the list, so price them in list context.
-  const estimates = estimateBidItems(pin, items)
+  const estimates = est.estimateBidItems(pin, items)
   const effective = items.map((i, idx) => round2(i.unitPrice ?? estimates[idx]?.p50))
   const estTotal = items.reduce((s, i, idx) => (effective[idx] != null ? s + effective[idx]! * i.quantity : s), 0)
   const snapshot = items
@@ -118,7 +140,9 @@ export async function POST(req: Request) {
     : ''
 
   const context = [
-    `Pin: ${pin.lat.toFixed(4)}, ${pin.lng.toFixed(4)} — nearest data is ${county.name} (${county.code}), ${formatDistrict(county.district)}, ${Math.round(county.miles)} mi away.`,
+    `Pin: ${pin.lat.toFixed(4)}, ${pin.lng.toFixed(4)} — in ${county.name} County (${county.code}), ${formatDistrict(county.district)}. For a data question, "the area" means ${county.name} County unless the user names another place.${
+      county.miles > 40 ? ` (Nearest project data is ~${Math.round(county.miles)} mi away, so comparables may be sparse.)` : ''
+    }`,
     scopeBlock,
     items.length
       ? `Current bid items — the live, authoritative list (${items.length} item${items.length === 1 ? '' : 's'}) exactly as the user sees it in the table right now. It overrides everything earlier in the chat, including your own messages and tool results. This list already includes every change from your tool calls so far, including ones in this response. An item you just added appears here once; that is the same item, not a duplicate — do not warn about duplicates for items tagged "(added by you this conversation)". The bracketed key is internal: use it only to target updateLineItem/removeLineItem, and never show or mention it to the user.\n${snapshot}\n${locationLine}`
@@ -130,28 +154,95 @@ export async function POST(req: Request) {
     .filter(Boolean)
     .join('\n\n')
 
-  // Backup guard so the assistant can't skip asking: on the very first user message of a
-  // brand-new draft (no items, no saved scope), only updateProjectScope is available. That
-  // forces either a text reply (clarifying questions) or a scope save — never a silent item
-  // add. Once the user's message already carries the values, the assistant saves them with
-  // updateProjectScope; the next step runs with scope no longer empty, so the full tool set
-  // is restored and the items are added without asking.
+  // On a brand-new draft's first message, estimate *building* is gated so the assistant
+  // asks before adding items — but scope-setting and read-only data questions (queryBids)
+  // stay available, so a first-message data question is answered rather than refused.
   const firstUserMessage = messages.filter((m) => m.role === 'user').length <= 1
-  const gateToScopeOnly = items.length === 0 && Object.keys(scope).length === 0 && firstUserMessage
-  const SCOPE_ONLY_TOOLS = ['updateProjectScope'] as const
+  const activeTools = gatedActiveTools({
+    firstUserMessage,
+    hasItems: items.length > 0,
+    hasScope: Object.keys(scope).length > 0,
+  })
 
   const result = streamText({
-    model: anthropic('claude-haiku-5-5'),
+    model: anthropic('claude-sonnet-5-5'),
     instructions: `${SYSTEM_PROMPT}\n\n${context}`,
     messages: await convertToModelMessages(messages),
     stopWhen: isStepCount(8),
-    activeTools: gateToScopeOnly ? SCOPE_ONLY_TOOLS : undefined,
+    activeTools,
     tools: {
+      queryBids: tool({
+        description: TOOL_DESCRIPTIONS.queryBids,
+        inputSchema: queryBidsInput,
+        execute: async ({ sql, purpose }): Promise<QueryBidsOutput> => runQueryBids(queryDb(), sql, purpose),
+      }),
+      computeQuantity: tool({
+        description: TOOL_DESCRIPTIONS.computeQuantity,
+        inputSchema: computeQuantityInput,
+        execute: async (input): Promise<ComputeQuantityOutput> => computeQuantity(input),
+      }),
+      checkEstimate: tool({
+        description: TOOL_DESCRIPTIONS.checkEstimate,
+        inputSchema: checkEstimateInput,
+        execute: async (): Promise<CheckEstimateOutput> => {
+          const checkItems: CheckItem[] = items.map((i) => ({
+            id: i.id,
+            itemCode: i.itemCode,
+            description: i.description,
+            family: catalogItemDb(i.itemCode)?.family ?? 'Other',
+            quantity: i.quantity,
+            unit: i.unit,
+            unitPrice: i.unitPrice,
+          }))
+          return checkEstimate(est, pin, checkItems)
+        },
+      }),
+      searchBidders: tool({
+        description: TOOL_DESCRIPTIONS.searchBidders,
+        inputSchema: searchBiddersInput,
+        execute: async ({ itemFamilies, itemCode, radiusMi }): Promise<SearchBiddersOutput> =>
+          searchBidders(dbContracts(), pin, { itemFamilies, itemCode, radiusMi }),
+      }),
+      locatePostmiles: tool({
+        description: TOOL_DESCRIPTIONS.locatePostmiles,
+        inputSchema: locatePostmilesInput,
+        execute: async (input): Promise<LocatePostmilesToolOutput> => {
+          const result = await locatePostmiles(input, pin)
+          // The postmile service places the pin on an actual route; pinArea only snaps to the
+          // nearest geocoded past contract. When they disagree, the postmile answer wins — log it
+          // (this is what produced misleading "N miles from your pin" county labels before).
+          if (!('error' in result) && result.county && result.county !== county.code) {
+            console.log('[locatePostmiles] area disagreement', {
+              pinArea: { county: county.code, district: county.district, miles: Math.round(county.miles) },
+              postmile: { county: result.county, district: result.district, route: result.route },
+            })
+          }
+          return result
+        },
+      }),
+      searchSimilarProjects: tool({
+        description: TOOL_DESCRIPTIONS.searchSimilarProjects,
+        inputSchema: searchSimilarProjectsInput,
+        execute: async ({ itemFamilies }): Promise<SearchSimilarProjectsOutput> => {
+          const projects = est.describeSimilarProjects(pin, itemFamilies ?? [], { limit: 5 })
+          if (projects.length === 0) return { error: 'No similar past projects found near this location.' }
+          return { projects }
+        },
+      }),
+      searchCatalog: tool({
+        description: TOOL_DESCRIPTIONS.searchCatalog,
+        inputSchema: searchCatalogInput,
+        execute: async ({ description, unit, itemFamily }): Promise<SearchCatalogOutput> => {
+          const candidates = searchCatalogDb(description, { unit, family: itemFamily, limit: 5 })
+          if (candidates.length === 0) return { error: `No catalog items match "${description}".` }
+          return { candidates }
+        },
+      }),
       searchComparables: tool({
         description: TOOL_DESCRIPTIONS.searchComparables,
         inputSchema: searchComparablesInput,
         execute: async ({ itemFamily, quantity, itemCode }): Promise<SearchComparablesOutput> => {
-          const item = resolveItem(itemFamily, { itemCode })
+          const item = resolveItemDb(itemFamily, { itemCode })
           // Size-match lump-sum searches to the rest of the current list, same as the table.
           const isLS = item?.unit === 'LS'
           const referenceTotal = isLS
@@ -162,7 +253,7 @@ export async function POST(req: Request) {
               }, 0)
             : 0
           const estimate = item
-            ? estimateItem(
+            ? est.estimateItem(
                 pin,
                 item.code,
                 quantity,

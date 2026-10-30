@@ -1,0 +1,35 @@
+
+Running "searchcatalog_3" over 15 cases (model agent + keyword baseline)…
+
+  04-1W7104  Hot Mix Asphalt          built=8 recall=40.0% cov$=8.2% match=83.3% upErr=46.1% totErr=279% relS(ai/kw)=75.0%/10.0% steps=4/stop
+  03-0N9104  Traffic Signals          built=10 recall=63.6% cov$=7.0% match=83.3% upErr=70.6% totErr=51% relS(ai/kw)=28.6%/10.0% steps=3/stop
+  10-1U0604  Rubberized HMA           built=6 recall=85.7% cov$=3.7% match=100.0% upErr=48.9% totErr=-15% relS(ai/kw)=81.0%/10.0% steps=5/stop
+  04-3Y6204  Bridge Deck & Rehab      built=7 recall=63.6% cov$=2.2% match=83.3% upErr=80.5% totErr=-31% relS(ai/kw)=68.9%/10.0% steps=4/stop
+  06-1J0104  Thermoplastic Striping   built=6 recall=85.7% cov$=24.2% match=83.3% upErr=59.8% totErr=131% relS(ai/kw)=53.6%/0.0% steps=4/stop
+  02-2K2204  Seal Coats & Surface Treatments built=2 recall=66.7% cov$=12.2% match=100.0% upErr=60.0% totErr=137% relS(ai/kw)=66.7%/0.0% steps=4/stop
+  04-3G4524  Structural Concrete      built=8 recall=100.0% cov$=2.6% match=83.3% upErr=64.7% totErr=14% relS(ai/kw)=68.8%/10.0% steps=5/stop
+  07-0Y7304  PCC Pavement             built=8 recall=100.0% cov$=14.6% match=83.3% upErr=28.7% totErr=591% relS(ai/kw)=25.0%/0.0% steps=4/stop
+  07-376404  Structural Steel         built=4 recall=21.1% cov$=0.0% match=100.0% upErr=n/a totErr=18% relS(ai/kw)=90.6%/10.0% steps=4/stop
+  03-3G5004  Corrugated Steel Pipe    built=6 recall=50.0% cov$=10.5% match=83.3% upErr=47.4% totErr=455% relS(ai/kw)=60.8%/10.0% steps=4/stop
+  03-3G5104  Reinforced Concrete Pipe built=7 recall=75.0% cov$=8.3% match=83.3% upErr=51.3% totErr=539% relS(ai/kw)=47.0%/10.0% steps=5/stop
+  12-0V6704  Concrete Barrier         built=8 recall=88.9% cov$=12.3% match=100.0% upErr=79.1% totErr=377% relS(ai/kw)=21.7%/0.0% steps=6/stop
+  04-1J9614  Planting                 built=2 recall=66.7% cov$=8.8% match=100.0% upErr=25.7% totErr=24% relS(ai/kw)=0.0%/0.0% steps=5/stop
+  08-1N6104  Roadside Signs           built=7 recall=29.2% cov$=25.2% match=83.3% upErr=28.4% totErr=-32% relS(ai/kw)=58.8%/20.0% steps=4/stop
+  04-0Q1904  Roadway Excavation       built=7 recall=50.0% cov$=7.3% match=100.0% upErr=41.4% totErr=-26% relS(ai/kw)=47.8%/10.0% steps=5/stop
+
+================ SUMMARY: searchcatalog_3 ================
+cases: 15  (errors: 0)
+item hit-rate  — family recall:     65.7%
+               — family precision:  97.7%
+               — code precision:    54.4%
+item-matching accuracy (resolver):  90.0%
+searchCatalog top-5 accuracy:       98.9%  (avg 8.3 catalog searches/case)
+unit-price error on matched codes:  47.4% (median, 49 items)
+$ coverage (matched items/low bid):  9.8%
+total vs actual (median abs error): 50.7%
+comparable relevance (loose) — agent / keyword:  100.0% / 19.3%
+comparable relevance (strict)— agent / keyword:  52.9% / 7.3%
+step-cap hits: 0/15   avg steps: 4.4
+stop reasons: {"stop":15}
+
+Saved /Users/ethan/Desktop/bidgrid-construction-explorer/eval/harness/results/searchcatalog_3.json

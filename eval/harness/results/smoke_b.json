@@ -1,0 +1,120 @@
+{
+  "summary": {
+    "label": "smoke_b",
+    "variant": "baseline",
+    "n": 1,
+    "errors": 0,
+    "familyRecall": 0.2,
+    "codePrecision": 1,
+    "familyPrecision": 1,
+    "medianPctError": 0.6437981583485334,
+    "medianUnitPriceError": 0.15584644639885914,
+    "matchedItemsForUnitPrice": 4,
+    "dollarCoverage": 0.1170898848880948,
+    "matchingAccuracy": 0.8333333333333334,
+    "catalogTop5": 1,
+    "avgCatalogSearches": 0,
+    "agentRelevantShare": 1,
+    "keywordRelevantShare": 0.2,
+    "agentRelevantStrict": 0.6575342465753424,
+    "keywordRelevantStrict": 0.1,
+    "capHits": 0,
+    "avgSteps": 4
+  },
+  "results": [
+    {
+      "ea": "04-1W7104",
+      "primaryFamily": "Hot Mix Asphalt",
+      "builtCount": 4,
+      "familyRecall": 0.2,
+      "codePrecision": 1,
+      "familyPrecision": 1,
+      "pctError": -0.6437981583485334,
+      "unitPriceErrors": [
+        0.024879227053140163,
+        0.22857142857142865,
+        0.08312146422628963,
+        0.8775
+      ],
+      "dollarCoverage": 0.1170898848880948,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 0,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.6575342465753424,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 2760,
+          "unit": "TON",
+          "unitPrice": 201.85
+        },
+        {
+          "itemCode": "600037",
+          "family": "Bridge Deck & Rehab",
+          "quantity": 14400,
+          "unit": "SQFT",
+          "unitPrice": 0.86
+        },
+        {
+          "itemCode": "510094",
+          "family": "Structural Concrete",
+          "quantity": 40,
+          "unit": "CY",
+          "unitPrice": 2755.22
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 15840,
+          "unit": "LF",
+          "unitPrice": 0.49
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "04-1W7104",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 2760,
+          "agentPrice": 201.85,
+          "realPrice": 207,
+          "absErr": 0.024879227053140163
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "600037",
+          "description": "PREPARE CONCRETE BRIDGE DECK SURFACE",
+          "quantity": 14400,
+          "agentPrice": 0.86,
+          "realPrice": 0.7,
+          "absErr": 0.22857142857142865
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "510094",
+          "description": "STRUCTURAL CONCRETE, DRAINAGE INLET",
+          "quantity": 40,
+          "agentPrice": 2755.22,
+          "realPrice": 3005,
+          "absErr": 0.08312146422628963
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "846007",
+          "description": "6\" THERMOPLASTIC TRAFFIC STRIPE (ENHANCED WET NIGHT VISIBILITY)",
+          "quantity": 15840,
+          "agentPrice": 0.49,
+          "realPrice": 4,
+          "absErr": 0.8775
+        }
+      ]
+    }
+  ]
+}

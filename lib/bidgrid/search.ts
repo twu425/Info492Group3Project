@@ -1,12 +1,5 @@
-import {
-  BIDDER_PROFILES,
-  CATEGORIES,
-  CATEGORY_FAMILIES,
-  CONTRACTS,
-  DISTRICT_NAMES,
-  ITEM_CATALOG,
-  type ItemFamily,
-} from './data'
+import { CATEGORIES, CATEGORY_FAMILIES, CONTRACTS, type ItemFamily } from './data'
+import { REAL_CATALOG } from './catalog'
 import { formatDistrict, itemLabel } from './format'
 
 export type SearchType = 'family' | 'item' | 'contract' | 'bidder'
@@ -51,7 +44,9 @@ function bestScore(q: string, ...fields: string[]): number {
   return best
 }
 
-/** Contracts each bidder appears in, newest first — used to open a representative contract. */
+const CONTRACT_BY_EA = new Map(CONTRACTS.map((c) => [c.ea, c]))
+
+/** Real bidders → the contracts they appear in, newest first (for a representative contract). */
 const BIDDER_CONTRACTS = (() => {
   const map = new Map<string, string[]>()
   const byDateDesc = [...CONTRACTS].sort((a, b) => b.bidOpenDate.localeCompare(a.bidOpenDate))
@@ -93,7 +88,7 @@ export function search(query: string): SearchResult[] {
   }
 
   const items: SearchResult[] = []
-  for (const def of ITEM_CATALOG) {
+  for (const def of REAL_CATALOG) {
     const s = bestScore(q, def.code, def.description, def.family)
     if (s < 0) continue
     items.push({
@@ -122,19 +117,17 @@ export function search(query: string): SearchResult[] {
   }
 
   const bidders: SearchResult[] = []
-  for (const profile of BIDDER_PROFILES) {
-    const s = score(profile.name, q)
-    if (s < 0) continue
-    const contractsForBidder = BIDDER_CONTRACTS.get(profile.name) ?? []
-    if (contractsForBidder.length === 0) continue
-    const specialties = profile.specialties === null ? 'General contractor' : profile.specialties.join(', ')
+  for (const [name, eas] of BIDDER_CONTRACTS) {
+    const s = score(name, q)
+    if (s < 0 || eas.length === 0) continue
+    const rep = CONTRACT_BY_EA.get(eas[0])
     bidders.push({
-      id: `bidder:${profile.name}`,
+      id: `bidder:${name}`,
       type: 'bidder',
-      title: profile.name,
-      subtitle: `${contractsForBidder.length} contracts · ${DISTRICT_NAMES[profile.home]} · ${specialties}`,
+      title: name,
+      subtitle: `${eas.length} contract${eas.length === 1 ? '' : 's'}${rep ? ` · ${formatDistrict(rep.district)}` : ''}`,
       score: s,
-      target: { kind: 'bidder', name: profile.name },
+      target: { kind: 'bidder', name },
     })
   }
 

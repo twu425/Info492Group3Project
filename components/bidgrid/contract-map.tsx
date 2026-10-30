@@ -2,7 +2,7 @@
 
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { ChevronDown } from 'lucide-react'
-import { Map as MapLibreMap, Marker, NavigationControl, Popup } from 'maplibre-gl'
+import { Map as MapLibreMap, Marker, NavigationControl, Popup, type GeoJSONSource } from 'maplibre-gl'
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
 import { CATEGORIES, CONTRACTS, type Contract, type ItemFamily } from '@/lib/bidgrid/data'
 import { CATEGORY_COLORS, FAMILY_COLORS } from '@/lib/bidgrid/format'
@@ -10,6 +10,7 @@ import type { LatLng } from '@/lib/bidgrid/estimate'
 import { STYLE_URL } from '@/lib/bidgrid/maplibre'
 import { usePersistentBoolean } from '@/lib/bidgrid/preferences'
 import { cn } from '@/lib/utils'
+import type { MapSegment } from './build/build-drawer'
 
 interface ContractMapProps {
   contracts: Contract[]
@@ -19,6 +20,8 @@ interface ContractMapProps {
   focusEa: string | null
   onSelect: (ea: string) => void
   pin: LatLng | null
+  /** A located highway segment to draw as a line (from the showSegment tool). */
+  segment: MapSegment | null
   hoveredEa: string | null
   onMapClick: (point: LatLng) => void
   draftPins: DraftPin[]
@@ -57,6 +60,7 @@ export function ContractMap({
   focusEa,
   onSelect,
   pin,
+  segment,
   hoveredEa,
   onMapClick,
   draftPins,
@@ -243,6 +247,51 @@ export function ContractMap({
       pinElRef.current = null
     }
   }, [map, pin])
+
+  // Draw a located highway segment (from showSegment) as an amber line, and frame it.
+  useEffect(() => {
+    if (!map || !segment || segment.points.length < 2) return
+    const SOURCE = 'located-segment'
+    const LINE = `${SOURCE}-line`
+    const data = {
+      type: 'Feature' as const,
+      properties: {},
+      geometry: { type: 'LineString' as const, coordinates: segment.points.map((p) => [p.lng, p.lat]) },
+    }
+    let removed = false
+    const draw = () => {
+      if (removed || !map.isStyleLoaded()) return
+      const existing = map.getSource(SOURCE) as GeoJSONSource | undefined
+      if (existing) {
+        existing.setData(data)
+      } else {
+        map.addSource(SOURCE, { type: 'geojson', data })
+        map.addLayer({
+          id: LINE,
+          type: 'line',
+          source: SOURCE,
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+          paint: { 'line-color': '#f59e0b', 'line-width': 5, 'line-opacity': 0.9 },
+        })
+      }
+      const lats = segment.points.map((p) => p.lat)
+      const lngs = segment.points.map((p) => p.lng)
+      map.fitBounds(
+        [
+          [Math.min(...lngs), Math.min(...lats)],
+          [Math.max(...lngs), Math.max(...lats)],
+        ],
+        { padding: { top: 60, bottom: 60, left: sidebarCollapsed ? 80 : 300, right: drawerOpen ? 520 : 60 }, maxZoom: 14, duration: 700 },
+      )
+    }
+    if (map.isStyleLoaded()) draw()
+    else map.once('load', draw)
+    return () => {
+      removed = true
+      if (map.getLayer(LINE)) map.removeLayer(LINE)
+      if (map.getSource(SOURCE)) map.removeSource(SOURCE)
+    }
+  }, [map, segment, sidebarCollapsed, drawerOpen])
 
   // Dim the current pin while choosing a replacement location.
   useEffect(() => {

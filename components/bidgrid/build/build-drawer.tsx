@@ -47,7 +47,15 @@ interface BuildDrawerProps {
   onHoverContract: (ea: string | null) => void
   onOpenDetail: (view: DetailView) => void
   onActiveDraftChange: (id: string | null) => void
+  /** Draw a located highway segment on the map (from the showSegment tool). */
+  onShowSegment: (segment: MapSegment | null) => void
   onClose: () => void
+}
+
+export interface MapSegment {
+  points: LatLng[]
+  route?: number
+  label?: string
 }
 
 function nextIdFrom(items: BidItem[]) {
@@ -90,6 +98,7 @@ export function BuildDrawer({
   onHoverContract,
   onOpenDetail,
   onActiveDraftChange,
+  onShowSegment,
   onClose,
 }: BuildDrawerProps) {
   // Mount off-screen, then slide in on the next frame; slide out when `open` goes false.
@@ -202,7 +211,7 @@ export function BuildDrawer({
       const current = itemsRef.current
 
       if (toolCall.toolName === 'addLineItem') {
-        const { itemFamily, description, quantity, unit, itemCode } = toolCall.input
+        const { itemFamily, description, quantity, unit, itemCode, quantitySource } = toolCall.input
         const item = resolveItem(itemFamily, { itemCode, description, unit })
         if (!item) {
           addToolOutput({ tool: 'addLineItem', toolCallId: toolCall.toolCallId, output: { error: 'No matching catalog item.' } })
@@ -218,7 +227,7 @@ export function BuildDrawer({
           return
         }
         const id = `b${nextId.current++}`
-        const added: BidItem = { id, itemCode: item.code, description: item.description, family: item.family, quantity, unit: item.unit }
+        const added: BidItem = { id, itemCode: item.code, description: item.description, family: item.family, quantity, unit: item.unit, quantitySource: quantitySource ?? 'assumed' }
         commitItems([...current, added])
         sourcesRef.current.set(id, 'assistant')
         addToolOutput({
@@ -229,14 +238,14 @@ export function BuildDrawer({
       }
 
       if (toolCall.toolName === 'updateLineItem') {
-        const { id, quantity } = toolCall.input
+        const { id, quantity, quantitySource } = toolCall.input
         const target = current.find((i) => i.id === id)
         if (!target) {
           addToolOutput({ tool: 'updateLineItem', toolCallId: toolCall.toolCallId, output: { status: 'not_found' } })
           return
         }
         const before = summarize(target)
-        const updated: BidItem = { ...target, quantity }
+        const updated: BidItem = { ...target, quantity, quantitySource: quantitySource ?? target.quantitySource }
         commitItems(current.map((i) => (i.id === id ? updated : i)))
         sourcesRef.current.set(id, 'assistant')
         addToolOutput({
@@ -256,6 +265,16 @@ export function BuildDrawer({
         commitItems(current.filter((i) => i.id !== id))
         sourcesRef.current.delete(id)
         addToolOutput({ tool: 'removeLineItem', toolCallId: toolCall.toolCallId, output: { status: 'removed', item: summarize(target) } })
+      }
+
+      if (toolCall.toolName === 'showSegment') {
+        const { points, route, label } = toolCall.input
+        onShowSegment({ points, route, label })
+        addToolOutput({
+          tool: 'showSegment',
+          toolCallId: toolCall.toolCallId,
+          output: { status: 'shown', count: points.length },
+        })
       }
 
       if (toolCall.toolName === 'updateProjectScope') {
@@ -287,7 +306,8 @@ export function BuildDrawer({
   const changeQuantity = (id: string, quantity: number) => {
     const target = itemsRef.current.find((i) => i.id === id)
     if (!target) return
-    commitItems(itemsRef.current.map((i) => (i.id === id ? { ...i, quantity } : i)))
+    // A manual edit makes the quantity the user's own.
+    commitItems(itemsRef.current.map((i) => (i.id === id ? { ...i, quantity, quantitySource: 'user' } : i)))
     sourcesRef.current.set(id, 'user')
     setPendingEdits((prev) => [
       ...prev,
@@ -611,6 +631,7 @@ export function BuildDrawer({
         onSend={send}
         onStop={stop}
         onRetry={() => regenerate()}
+        onOpenContract={onOpenContract}
       />
 
       <BidItems

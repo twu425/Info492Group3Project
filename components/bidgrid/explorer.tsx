@@ -15,7 +15,7 @@ import { getDraft, useDrafts, type Draft } from '@/lib/bidgrid/drafts'
 import type { LatLng } from '@/lib/bidgrid/estimate'
 import { usePersistentBoolean } from '@/lib/bidgrid/preferences'
 import { AppHeader } from './app-header'
-import { BuildDrawer, type BuildDrawerHandle } from './build/build-drawer'
+import { BuildDrawer, type BuildDrawerHandle, type MapSegment } from './build/build-drawer'
 import type { DraftPin } from './contract-map'
 import { DetailModal, focusedEa, type DetailView } from './detail/detail-modal'
 import { DraftsMenu } from './drafts-menu'
@@ -53,6 +53,7 @@ export function Explorer({ initialEa }: { initialEa: string | null }) {
   const lastPin = useRef<LatLng | null>(null)
   const [buildSession, setBuildSession] = useState(0)
   const [hoveredEa, setHoveredEa] = useState<string | null>(null)
+  const [segment, setSegment] = useState<MapSegment | null>(null)
   const [initialDraft, setInitialDraft] = useState<Draft | null>(null)
   const [activeDraftId, setActiveDraftId] = useState<string | null>(null)
   const drawerRef = useRef<BuildDrawerHandle>(null)
@@ -144,6 +145,7 @@ export function Explorer({ initialEa }: { initialEa: string | null }) {
   const finishCloseBuild = () => {
     setPin(null)
     setHoveredEa(null)
+    setSegment(null)
     setInitialDraft(null)
     setActiveDraftId(null)
     cancelReplacePin()
@@ -152,6 +154,7 @@ export function Explorer({ initialEa }: { initialEa: string | null }) {
   const loadDraft = (draft: Draft) => {
     selectContract(null)
     setHoveredEa(null)
+    setSegment(null)
     setInitialDraft(draft)
     setActiveDraftId(draft.id)
     setBuildSession((s) => s + 1)
@@ -217,6 +220,7 @@ export function Explorer({ initialEa }: { initialEa: string | null }) {
             focusEa={focusEa}
             onSelect={openContract}
             pin={pin}
+            segment={segment}
             hoveredEa={hoveredEa}
             onMapClick={dropPin}
             draftPins={draftPins}
@@ -263,6 +267,7 @@ export function Explorer({ initialEa }: { initialEa: string | null }) {
             onOpenContract={openContract}
             onHoverContract={setHoveredEa}
             onOpenDetail={openDetail}
+            onShowSegment={setSegment}
             onClose={finishCloseBuild}
           />
         )}

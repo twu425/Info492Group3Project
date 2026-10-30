@@ -1,0 +1,1527 @@
+{
+  "summary": {
+    "label": "searchcatalog_2",
+    "variant": "searchcatalog",
+    "n": 15,
+    "errors": 0,
+    "familyRecall": 0.6715819852661957,
+    "codePrecision": 0.49417989417989416,
+    "familyPrecision": 1,
+    "medianPctError": 0.6147551630041671,
+    "medianUnitPriceError": 0.48909090909090913,
+    "matchedItemsForUnitPrice": 45,
+    "dollarCoverage": 0.09139019647862005,
+    "matchingAccuracy": 0.9000000000000001,
+    "catalogTop5": 0.9888888888888888,
+    "avgCatalogSearches": 8.2,
+    "agentRelevantShare": 1,
+    "keywordRelevantShare": 0.19333333333333333,
+    "agentRelevantStrict": 0.489061485024837,
+    "keywordRelevantStrict": 0.07333333333333333,
+    "capHits": 0,
+    "avgSteps": 4.2
+  },
+  "results": [
+    {
+      "ea": "04-1W7104",
+      "primaryFamily": "Hot Mix Asphalt",
+      "builtCount": 8,
+      "familyRecall": 0.4,
+      "codePrecision": 0.375,
+      "familyPrecision": 1,
+      "pctError": -0.2570456715408076,
+      "unitPriceErrors": [
+        0.3001449275362318,
+        0.3990291262135922,
+        0.885
+      ],
+      "dollarCoverage": 0.08152218310118133,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 8,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.65625,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 1380,
+          "unit": "TON",
+          "unitPrice": 269.13
+        },
+        {
+          "itemCode": "600039",
+          "family": "Bridge Deck & Rehab",
+          "quantity": 6000,
+          "unit": "SQFT",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "377501",
+          "family": "Seal Coats & Surface Treatments",
+          "quantity": 76,
+          "unit": "TON",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "650018",
+          "family": "Reinforced Concrete Pipe",
+          "quantity": 600,
+          "unit": "LF",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "832006",
+          "family": "Metal Beam Guardrail",
+          "quantity": 6336,
+          "unit": "LF",
+          "unitPrice": 30.95
+        },
+        {
+          "itemCode": "510053",
+          "family": "Structural Concrete",
+          "quantity": 80,
+          "unit": "CY",
+          "unitPrice": 7173.93
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 9504,
+          "unit": "LF",
+          "unitPrice": 0.46
+        },
+        {
+          "itemCode": "839640",
+          "family": "Concrete Barrier",
+          "quantity": 1584,
+          "unit": "LF",
+          "unitPrice": 181.88
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "04-1W7104",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 1380,
+          "agentPrice": 269.13,
+          "realPrice": 207,
+          "absErr": 0.3001449275362318
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "832006",
+          "description": "MIDWEST GUARDRAIL SYSTEM (STEEL POST)",
+          "quantity": 6336,
+          "agentPrice": 30.95,
+          "realPrice": 51.5,
+          "absErr": 0.3990291262135922
+        },
+        {
+          "ea": "04-1W7104",
+          "itemCode": "846007",
+          "description": "6\" THERMOPLASTIC TRAFFIC STRIPE (ENHANCED WET NIGHT VISIBILITY)",
+          "quantity": 9504,
+          "agentPrice": 0.46,
+          "realPrice": 4,
+          "absErr": 0.885
+        }
+      ]
+    },
+    {
+      "ea": "03-0N9104",
+      "primaryFamily": "Traffic Signals",
+      "builtCount": 9,
+      "familyRecall": 0.7272727272727273,
+      "codePrecision": 0.5555555555555556,
+      "familyPrecision": 1,
+      "pctError": 3.4990299277994668,
+      "unitPriceErrors": [
+        0.847066,
+        0.7808046875,
+        0.7371694915254237,
+        0.06417142857142855
+      ],
+      "dollarCoverage": 0.07004298319085876,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 10,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.3157894736842105,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "870400",
+          "family": "Traffic Signals",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 15840,
+          "unit": "LF",
+          "unitPrice": 0.66
+        },
+        {
+          "itemCode": "731504",
+          "family": "Minor Concrete",
+          "quantity": 782,
+          "unit": "CY",
+          "unitPrice": 764.67
+        },
+        {
+          "itemCode": "731521",
+          "family": "Minor Concrete",
+          "quantity": 652,
+          "unit": "CY",
+          "unitPrice": 1372.91
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 1837,
+          "unit": "TON",
+          "unitPrice": 280.57
+        },
+        {
+          "itemCode": "170103",
+          "family": "Clearing & Grubbing",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "211111",
+          "family": "Erosion Control",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "260203",
+          "family": "Aggregate Base",
+          "quantity": 2347,
+          "unit": "CY",
+          "unitPrice": 155.07
+        },
+        {
+          "itemCode": "820840",
+          "family": "Roadside Signs",
+          "quantity": 10,
+          "unit": "EA",
+          "unitPrice": 491.31
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "03-0N9104",
+          "itemCode": "731504",
+          "description": "MINOR CONCRETE (CURB AND GUTTER)",
+          "quantity": 782,
+          "agentPrice": 764.67,
+          "realPrice": 5000,
+          "absErr": 0.847066
+        },
+        {
+          "ea": "03-0N9104",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 1837,
+          "agentPrice": 280.57,
+          "realPrice": 1280,
+          "absErr": 0.7808046875
+        },
+        {
+          "ea": "03-0N9104",
+          "itemCode": "260203",
+          "description": "CLASS 2 AGGREGATE BASE (CY)",
+          "quantity": 2347,
+          "agentPrice": 155.07,
+          "realPrice": 590,
+          "absErr": 0.7371694915254237
+        },
+        {
+          "ea": "03-0N9104",
+          "itemCode": "820840",
+          "description": "ROADSIDE SIGN - ONE POST",
+          "quantity": 10,
+          "agentPrice": 491.31,
+          "realPrice": 525,
+          "absErr": 0.06417142857142855
+        }
+      ]
+    },
+    {
+      "ea": "10-1U0604",
+      "primaryFamily": "Rubberized HMA",
+      "builtCount": 8,
+      "familyRecall": 1,
+      "codePrecision": 0.375,
+      "familyPrecision": 1,
+      "pctError": -0.5268559615047527,
+      "unitPriceErrors": [
+        0.6909090909090909,
+        0.052098519143712,
+        0.48909090909090913
+      ],
+      "dollarCoverage": 0.037136047095473045,
+      "matchingAccuracy": 1,
+      "catalogTop5": 1,
+      "catalogSearchCount": 8,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.8095238095238095,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "390137",
+          "family": "Rubberized HMA",
+          "quantity": 7313,
+          "unit": "TON",
+          "unitPrice": 110.32
+        },
+        {
+          "itemCode": "375002",
+          "family": "Seal Coats & Surface Treatments",
+          "quantity": 933,
+          "unit": "TON",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "374493",
+          "family": "Seal Coats & Surface Treatments",
+          "quantity": 94,
+          "unit": "TON",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 83952,
+          "unit": "LF",
+          "unitPrice": 0.34
+        },
+        {
+          "itemCode": "190101",
+          "family": "Roadway Excavation",
+          "quantity": 1658,
+          "unit": "CY",
+          "unitPrice": 37.08
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 3250,
+          "unit": "TON",
+          "unitPrice": 137.12
+        },
+        {
+          "itemCode": "870400",
+          "family": "Traffic Signals",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "810230",
+          "family": "Pavement Markers",
+          "quantity": 2100,
+          "unit": "EA",
+          "unitPrice": 2.81
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "10-1U0604",
+          "itemCode": "846007",
+          "description": "6\" THERMOPLASTIC TRAFFIC STRIPE (ENHANCED WET NIGHT VISIBILITY)",
+          "quantity": 83952,
+          "agentPrice": 0.34,
+          "realPrice": 1.1,
+          "absErr": 0.6909090909090909
+        },
+        {
+          "ea": "10-1U0604",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 3250,
+          "agentPrice": 137.12,
+          "realPrice": 130.33,
+          "absErr": 0.052098519143712
+        },
+        {
+          "ea": "10-1U0604",
+          "itemCode": "810230",
+          "description": "PAVEMENT MARKER (RETROREFLECTIVE)",
+          "quantity": 2100,
+          "agentPrice": 2.81,
+          "realPrice": 5.5,
+          "absErr": 0.48909090909090913
+        }
+      ]
+    },
+    {
+      "ea": "04-3Y6204",
+      "primaryFamily": "Bridge Deck & Rehab",
+      "builtCount": 6,
+      "familyRecall": 0.5454545454545454,
+      "codePrecision": 0.5,
+      "familyPrecision": 1,
+      "pctError": -0.34348873467643726,
+      "unitPriceErrors": [
+        1.4,
+        0.7346987951807229,
+        0.81475
+      ],
+      "dollarCoverage": 0.023222953740359476,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 8,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.1,
+      "agentRelevantStrict": 0.7215189873417721,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "600045",
+          "family": "Bridge Deck & Rehab",
+          "quantity": 12000,
+          "unit": "SQFT",
+          "unitPrice": 0.6
+        },
+        {
+          "itemCode": "510053",
+          "family": "Structural Concrete",
+          "quantity": 60,
+          "unit": "CY",
+          "unitPrice": 7070.13
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 16000,
+          "unit": "LF",
+          "unitPrice": 0.78
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 3500,
+          "unit": "TON",
+          "unitPrice": 242.22
+        },
+        {
+          "itemCode": "401050",
+          "family": "PCC Pavement",
+          "quantity": 200,
+          "unit": "CY",
+          "unitPrice": 507.7
+        },
+        {
+          "itemCode": "810230",
+          "family": "Pavement Markers",
+          "quantity": 300,
+          "unit": "EA",
+          "unitPrice": 7.41
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "04-3Y6204",
+          "itemCode": "600045",
+          "description": "TREAT BRIDGE DECK",
+          "quantity": 12000,
+          "agentPrice": 0.6,
+          "realPrice": 0.25,
+          "absErr": 1.4
+        },
+        {
+          "ea": "04-3Y6204",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 3500,
+          "agentPrice": 242.22,
+          "realPrice": 913,
+          "absErr": 0.7346987951807229
+        },
+        {
+          "ea": "04-3Y6204",
+          "itemCode": "810230",
+          "description": "PAVEMENT MARKER (RETROREFLECTIVE)",
+          "quantity": 300,
+          "agentPrice": 7.41,
+          "realPrice": 40,
+          "absErr": 0.81475
+        }
+      ]
+    },
+    {
+      "ea": "06-1J0104",
+      "primaryFamily": "Thermoplastic Striping",
+      "builtCount": 6,
+      "familyRecall": 0.8571428571428571,
+      "codePrecision": 0.5,
+      "familyPrecision": 1,
+      "pctError": 1.0202450159086156,
+      "unitPriceErrors": [
+        0.69,
+        0.6826857142857143,
+        0.5125
+      ],
+      "dollarCoverage": 0.2424272818455366,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 8,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0,
+      "agentRelevantStrict": 0.5769230769230769,
+      "keywordRelevantStrict": 0,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 90288,
+          "unit": "LF",
+          "unitPrice": 0.31
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 9932,
+          "unit": "TON",
+          "unitPrice": 111.06
+        },
+        {
+          "itemCode": "190101",
+          "family": "Roadway Excavation",
+          "quantity": 3010,
+          "unit": "CY",
+          "unitPrice": 25.49
+        },
+        {
+          "itemCode": "820840",
+          "family": "Roadside Signs",
+          "quantity": 12,
+          "unit": "EA",
+          "unitPrice": 595.43
+        },
+        {
+          "itemCode": "870400",
+          "family": "Traffic Signals",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "810230",
+          "family": "Pavement Markers",
+          "quantity": 1504,
+          "unit": "EA",
+          "unitPrice": 1.95
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "06-1J0104",
+          "itemCode": "846007",
+          "description": "6\" THERMOPLASTIC TRAFFIC STRIPE (ENHANCED WET NIGHT VISIBILITY)",
+          "quantity": 90288,
+          "agentPrice": 0.31,
+          "realPrice": 1,
+          "absErr": 0.69
+        },
+        {
+          "ea": "06-1J0104",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 9932,
+          "agentPrice": 111.06,
+          "realPrice": 350,
+          "absErr": 0.6826857142857143
+        },
+        {
+          "ea": "06-1J0104",
+          "itemCode": "810230",
+          "description": "PAVEMENT MARKER (RETROREFLECTIVE)",
+          "quantity": 1504,
+          "agentPrice": 1.95,
+          "realPrice": 4,
+          "absErr": 0.5125
+        }
+      ]
+    },
+    {
+      "ea": "02-2K2204",
+      "primaryFamily": "Seal Coats & Surface Treatments",
+      "builtCount": 2,
+      "familyRecall": 0.6666666666666666,
+      "codePrecision": 0.5,
+      "familyPrecision": 1,
+      "pctError": 0.4828886005237516,
+      "unitPriceErrors": [
+        0.6000000000000001
+      ],
+      "dollarCoverage": 0.12197401828456855,
+      "matchingAccuracy": 1,
+      "catalogTop5": 1,
+      "catalogSearchCount": 4,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0,
+      "agentRelevantStrict": 0.5,
+      "keywordRelevantStrict": 0,
+      "stepsUsed": 5,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 14845,
+          "unit": "TON",
+          "unitPrice": 143.5
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 224928,
+          "unit": "LF",
+          "unitPrice": 0.36
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "02-2K2204",
+          "itemCode": "846007",
+          "description": "6\" THERMOPLASTIC TRAFFIC STRIPE (ENHANCED WET NIGHT VISIBILITY)",
+          "quantity": 224928,
+          "agentPrice": 0.36,
+          "realPrice": 0.9,
+          "absErr": 0.6000000000000001
+        }
+      ]
+    },
+    {
+      "ea": "04-3G4524",
+      "primaryFamily": "Structural Concrete",
+      "builtCount": 6,
+      "familyRecall": 0.75,
+      "codePrecision": 0.16666666666666666,
+      "familyPrecision": 1,
+      "pctError": -0.35219653036219073,
+      "unitPriceErrors": [
+        0.658421052631579
+      ],
+      "dollarCoverage": 0.001585026822728707,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 9,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.6206896551724138,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "510053",
+          "family": "Structural Concrete",
+          "quantity": 150,
+          "unit": "CY",
+          "unitPrice": 7070.13
+        },
+        {
+          "itemCode": "600037",
+          "family": "Bridge Deck & Rehab",
+          "quantity": 8000,
+          "unit": "SQFT",
+          "unitPrice": 1.18
+        },
+        {
+          "itemCode": "490603",
+          "family": "Piles & Shoring",
+          "quantity": 1440,
+          "unit": "LF",
+          "unitPrice": 290.62
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 2000,
+          "unit": "LF",
+          "unitPrice": 2.38
+        },
+        {
+          "itemCode": "810230",
+          "family": "Pavement Markers",
+          "quantity": 200,
+          "unit": "EA",
+          "unitPrice": 6.49
+        },
+        {
+          "itemCode": "870400",
+          "family": "Traffic Signals",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": 600745.89
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "04-3G4524",
+          "itemCode": "810230",
+          "description": "PAVEMENT MARKER (RETROREFLECTIVE)",
+          "quantity": 200,
+          "agentPrice": 6.49,
+          "realPrice": 19,
+          "absErr": 0.658421052631579
+        }
+      ]
+    },
+    {
+      "ea": "07-0Y7304",
+      "primaryFamily": "PCC Pavement",
+      "builtCount": 7,
+      "familyRecall": 0.875,
+      "codePrecision": 0.42857142857142855,
+      "familyPrecision": 1,
+      "pctError": 9.728581925239787,
+      "unitPriceErrors": [
+        0.33333333333333337,
+        0.32499999999999996,
+        0.42000000000000004
+      ],
+      "dollarCoverage": 0.14263945925956045,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 0.8333333333333334,
+      "catalogSearchCount": 9,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.21428571428571427,
+      "keywordRelevantStrict": 0,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 192192,
+          "unit": "LF",
+          "unitPrice": 1
+        },
+        {
+          "itemCode": "377501",
+          "family": "Seal Coats & Surface Treatments",
+          "quantity": 2563,
+          "unit": "TON",
+          "unitPrice": 249.75
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 42282,
+          "unit": "TON",
+          "unitPrice": 552.96
+        },
+        {
+          "itemCode": "260203",
+          "family": "Aggregate Base",
+          "quantity": 14236,
+          "unit": "CY",
+          "unitPrice": 126
+        },
+        {
+          "itemCode": "820850",
+          "family": "Roadside Signs",
+          "quantity": 18,
+          "unit": "EA",
+          "unitPrice": 1402.8
+        },
+        {
+          "itemCode": "810230",
+          "family": "Pavement Markers",
+          "quantity": 2402,
+          "unit": "EA",
+          "unitPrice": 2.32
+        },
+        {
+          "itemCode": "870400",
+          "family": "Traffic Signals",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "07-0Y7304",
+          "itemCode": "846007",
+          "description": "6\" THERMOPLASTIC TRAFFIC STRIPE (ENHANCED WET NIGHT VISIBILITY)",
+          "quantity": 192192,
+          "agentPrice": 1,
+          "realPrice": 1.5,
+          "absErr": 0.33333333333333337
+        },
+        {
+          "ea": "07-0Y7304",
+          "itemCode": "377501",
+          "description": "SLURRY SEAL",
+          "quantity": 2563,
+          "agentPrice": 249.75,
+          "realPrice": 370,
+          "absErr": 0.32499999999999996
+        },
+        {
+          "ea": "07-0Y7304",
+          "itemCode": "810230",
+          "description": "PAVEMENT MARKER (RETROREFLECTIVE)",
+          "quantity": 2402,
+          "agentPrice": 2.32,
+          "realPrice": 4,
+          "absErr": 0.42000000000000004
+        }
+      ]
+    },
+    {
+      "ea": "07-376404",
+      "primaryFamily": "Structural Steel",
+      "builtCount": 4,
+      "familyRecall": 0.21052631578947367,
+      "codePrecision": 0,
+      "familyPrecision": 1,
+      "pctError": 0.10972827655010109,
+      "unitPriceErrors": [],
+      "dollarCoverage": 0,
+      "matchingAccuracy": 1,
+      "catalogTop5": 1,
+      "catalogSearchCount": 11,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.8285714285714286,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "510053",
+          "family": "Structural Concrete",
+          "quantity": 150,
+          "unit": "CY",
+          "unitPrice": 3646.18
+        },
+        {
+          "itemCode": "731510",
+          "family": "Minor Concrete",
+          "quantity": 2400,
+          "unit": "CY",
+          "unitPrice": 2894.71
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 26928,
+          "unit": "LF",
+          "unitPrice": 0.48
+        },
+        {
+          "itemCode": "870400",
+          "family": "Traffic Signals",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        }
+      ],
+      "unitPriceDetail": []
+    },
+    {
+      "ea": "03-3G5004",
+      "primaryFamily": "Corrugated Steel Pipe",
+      "builtCount": 7,
+      "familyRecall": 0.5833333333333334,
+      "codePrecision": 0.7142857142857143,
+      "familyPrecision": 1,
+      "pctError": 2.2522098676750826,
+      "unitPriceErrors": [
+        0.47382894736842107,
+        0.7444444444444445,
+        0.40740740740740744,
+        0.24347826086956526,
+        2
+      ],
+      "dollarCoverage": 0.10502531123036478,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 8,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.6,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "665024",
+          "family": "Corrugated Steel Pipe",
+          "quantity": 200,
+          "unit": "LF",
+          "unitPrice": 475
+        },
+        {
+          "itemCode": "650018",
+          "family": "Reinforced Concrete Pipe",
+          "quantity": 200,
+          "unit": "LF",
+          "unitPrice": 399.89
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 4182,
+          "unit": "TON",
+          "unitPrice": 115
+        },
+        {
+          "itemCode": "210280",
+          "family": "Erosion Control",
+          "quantity": 126720,
+          "unit": "SQFT",
+          "unitPrice": 0.8
+        },
+        {
+          "itemCode": "260203",
+          "family": "Aggregate Base",
+          "quantity": 3717,
+          "unit": "CY",
+          "unitPrice": 87
+        },
+        {
+          "itemCode": "170103",
+          "family": "Clearing & Grubbing",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": 15000
+        },
+        {
+          "itemCode": "510090",
+          "family": "Structural Concrete",
+          "quantity": 40,
+          "unit": "CY",
+          "unitPrice": null
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "03-3G5004",
+          "itemCode": "650018",
+          "description": "24\" REINFORCED CONCRETE PIPE",
+          "quantity": 200,
+          "agentPrice": 399.89,
+          "realPrice": 760,
+          "absErr": 0.47382894736842107
+        },
+        {
+          "ea": "03-3G5004",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 4182,
+          "agentPrice": 115,
+          "realPrice": 450,
+          "absErr": 0.7444444444444445
+        },
+        {
+          "ea": "03-3G5004",
+          "itemCode": "210280",
+          "description": "ROLLED EROSION CONTROL PRODUCT (BLANKET)",
+          "quantity": 126720,
+          "agentPrice": 0.8,
+          "realPrice": 1.35,
+          "absErr": 0.40740740740740744
+        },
+        {
+          "ea": "03-3G5004",
+          "itemCode": "260203",
+          "description": "CLASS 2 AGGREGATE BASE (CY)",
+          "quantity": 3717,
+          "agentPrice": 87,
+          "realPrice": 115,
+          "absErr": 0.24347826086956526
+        },
+        {
+          "ea": "03-3G5004",
+          "itemCode": "170103",
+          "description": "CLEARING AND GRUBBING (LS)",
+          "quantity": 1,
+          "agentPrice": 15000,
+          "realPrice": 5000,
+          "absErr": 2
+        }
+      ]
+    },
+    {
+      "ea": "03-3G5104",
+      "primaryFamily": "Reinforced Concrete Pipe",
+      "builtCount": 8,
+      "familyRecall": 1,
+      "codePrecision": 0.5,
+      "familyPrecision": 1,
+      "pctError": 5.885103638591579,
+      "unitPriceErrors": [
+        0.044037940379403784,
+        0.4843462246777164,
+        3.307194630872483
+      ],
+      "dollarCoverage": 0.0874457300025004,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 8,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.35064935064935066,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "650018",
+          "family": "Reinforced Concrete Pipe",
+          "quantity": 500,
+          "unit": "LF",
+          "unitPrice": 352.75
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 1742,
+          "unit": "TON",
+          "unitPrice": 280
+        },
+        {
+          "itemCode": "665025",
+          "family": "Corrugated Steel Pipe",
+          "quantity": 300,
+          "unit": "LF",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "170103",
+          "family": "Clearing & Grubbing",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": 19253.16
+        },
+        {
+          "itemCode": "198050",
+          "family": "Embankment",
+          "quantity": 2000,
+          "unit": "CY",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "820840",
+          "family": "Roadside Signs",
+          "quantity": 8,
+          "unit": "EA",
+          "unitPrice": 448.51
+        },
+        {
+          "itemCode": "190101",
+          "family": "Roadway Excavation",
+          "quantity": 2000,
+          "unit": "CY",
+          "unitPrice": 35.5
+        },
+        {
+          "itemCode": "211111",
+          "family": "Erosion Control",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "03-3G5104",
+          "itemCode": "650018",
+          "description": "24\" REINFORCED CONCRETE PIPE",
+          "quantity": 500,
+          "agentPrice": 352.75,
+          "realPrice": 369,
+          "absErr": 0.044037940379403784
+        },
+        {
+          "ea": "03-3G5104",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 1742,
+          "agentPrice": 280,
+          "realPrice": 543,
+          "absErr": 0.4843462246777164
+        },
+        {
+          "ea": "03-3G5104",
+          "itemCode": "170103",
+          "description": "CLEARING AND GRUBBING (LS)",
+          "quantity": 1,
+          "agentPrice": 19253.16,
+          "realPrice": 4470,
+          "absErr": 3.307194630872483
+        }
+      ]
+    },
+    {
+      "ea": "12-0V6704",
+      "primaryFamily": "Concrete Barrier",
+      "builtCount": 6,
+      "familyRecall": 0.6666666666666666,
+      "codePrecision": 0.8333333333333334,
+      "familyPrecision": 1,
+      "pctError": 3.2040785040003392,
+      "unitPriceErrors": [
+        0.71,
+        0.82976,
+        0.7346333333333334,
+        0.852
+      ],
+      "dollarCoverage": 0.12342632307039923,
+      "matchingAccuracy": 1,
+      "catalogTop5": 1,
+      "catalogSearchCount": 10,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.3,
+      "agentRelevantStrict": 0.1875,
+      "keywordRelevantStrict": 0,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "839640",
+          "family": "Concrete Barrier",
+          "quantity": 8976,
+          "unit": "LF",
+          "unitPrice": 112
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 3950,
+          "unit": "TON",
+          "unitPrice": 145
+        },
+        {
+          "itemCode": "190101",
+          "family": "Roadway Excavation",
+          "quantity": 3984,
+          "unit": "CY",
+          "unitPrice": 42.56
+        },
+        {
+          "itemCode": "260203",
+          "family": "Aggregate Base",
+          "quantity": 2789,
+          "unit": "CY",
+          "unitPrice": 79.61
+        },
+        {
+          "itemCode": "846007",
+          "family": "Thermoplastic Striping",
+          "quantity": 44880,
+          "unit": "LF",
+          "unitPrice": 0.37
+        },
+        {
+          "itemCode": "170103",
+          "family": "Clearing & Grubbing",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "12-0V6704",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 3950,
+          "agentPrice": 145,
+          "realPrice": 500,
+          "absErr": 0.71
+        },
+        {
+          "ea": "12-0V6704",
+          "itemCode": "190101",
+          "description": "ROADWAY EXCAVATION",
+          "quantity": 3984,
+          "agentPrice": 42.56,
+          "realPrice": 250,
+          "absErr": 0.82976
+        },
+        {
+          "ea": "12-0V6704",
+          "itemCode": "260203",
+          "description": "CLASS 2 AGGREGATE BASE (CY)",
+          "quantity": 2789,
+          "agentPrice": 79.61,
+          "realPrice": 300,
+          "absErr": 0.7346333333333334
+        },
+        {
+          "ea": "12-0V6704",
+          "itemCode": "846007",
+          "description": "6\" THERMOPLASTIC TRAFFIC STRIPE (ENHANCED WET NIGHT VISIBILITY)",
+          "quantity": 44880,
+          "agentPrice": 0.37,
+          "realPrice": 2.5,
+          "absErr": 0.852
+        }
+      ]
+    },
+    {
+      "ea": "04-1J9614",
+      "primaryFamily": "Planting",
+      "builtCount": 4,
+      "familyRecall": 1,
+      "codePrecision": 0.25,
+      "familyPrecision": 1,
+      "pctError": 4.724790830945559,
+      "unitPriceErrors": [],
+      "dollarCoverage": 0.009053460685346975,
+      "matchingAccuracy": 1,
+      "catalogTop5": 1,
+      "catalogSearchCount": 5,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.4,
+      "agentRelevantStrict": 0,
+      "keywordRelevantStrict": 0,
+      "stepsUsed": 5,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "210280",
+          "family": "Erosion Control",
+          "quantity": 1045440,
+          "unit": "SQFT",
+          "unitPrice": 1.72
+        },
+        {
+          "itemCode": "211111",
+          "family": "Erosion Control",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "204099",
+          "family": "Planting",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        },
+        {
+          "itemCode": "206300",
+          "family": "Irrigation",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": null
+        }
+      ],
+      "unitPriceDetail": []
+    },
+    {
+      "ea": "08-1N6104",
+      "primaryFamily": "Roadside Signs",
+      "builtCount": 7,
+      "familyRecall": 0.2916666666666667,
+      "codePrecision": 1,
+      "familyPrecision": 1,
+      "pctError": -0.6147551630041671,
+      "unitPriceErrors": [
+        0.2201333333333333,
+        0.26415094339622647,
+        0.6585681891804342,
+        1.2400000000000002,
+        0.04761904761904767,
+        0.2836121212121212,
+        0.027615384615384597
+      ],
+      "dollarCoverage": 0.2520581915045603,
+      "matchingAccuracy": 0.8333333333333334,
+      "catalogTop5": 1,
+      "catalogSearchCount": 8,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.2,
+      "agentRelevantStrict": 0.5178571428571429,
+      "keywordRelevantStrict": 0.2,
+      "stepsUsed": 4,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "820840",
+          "family": "Roadside Signs",
+          "quantity": 6,
+          "unit": "EA",
+          "unitPrice": 467.92
+        },
+        {
+          "itemCode": "401050",
+          "family": "PCC Pavement",
+          "quantity": 1760,
+          "unit": "CY",
+          "unitPrice": 390
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 871,
+          "unit": "TON",
+          "unitPrice": 256
+        },
+        {
+          "itemCode": "190101",
+          "family": "Roadway Excavation",
+          "quantity": 1760,
+          "unit": "CY",
+          "unitPrice": 42.56
+        },
+        {
+          "itemCode": "832006",
+          "family": "Metal Beam Guardrail",
+          "quantity": 2640,
+          "unit": "LF",
+          "unitPrice": 47
+        },
+        {
+          "itemCode": "510092",
+          "family": "Structural Concrete",
+          "quantity": 4,
+          "unit": "CY",
+          "unitPrice": 2117.96
+        },
+        {
+          "itemCode": "650018",
+          "family": "Reinforced Concrete Pipe",
+          "quantity": 500,
+          "unit": "LF",
+          "unitPrice": 252.82
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "08-1N6104",
+          "itemCode": "820840",
+          "description": "ROADSIDE SIGN - ONE POST",
+          "quantity": 6,
+          "agentPrice": 467.92,
+          "realPrice": 600,
+          "absErr": 0.2201333333333333
+        },
+        {
+          "ea": "08-1N6104",
+          "itemCode": "401050",
+          "description": "JOINTED PLAIN CONCRETE PAVEMENT",
+          "quantity": 1760,
+          "agentPrice": 390,
+          "realPrice": 530,
+          "absErr": 0.26415094339622647
+        },
+        {
+          "ea": "08-1N6104",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 871,
+          "agentPrice": 256,
+          "realPrice": 154.35,
+          "absErr": 0.6585681891804342
+        },
+        {
+          "ea": "08-1N6104",
+          "itemCode": "190101",
+          "description": "ROADWAY EXCAVATION",
+          "quantity": 1760,
+          "agentPrice": 42.56,
+          "realPrice": 19,
+          "absErr": 1.2400000000000002
+        },
+        {
+          "ea": "08-1N6104",
+          "itemCode": "832006",
+          "description": "MIDWEST GUARDRAIL SYSTEM (STEEL POST)",
+          "quantity": 2640,
+          "agentPrice": 47,
+          "realPrice": 49.35,
+          "absErr": 0.04761904761904767
+        },
+        {
+          "ea": "08-1N6104",
+          "itemCode": "510092",
+          "description": "STRUCTURAL CONCRETE, HEADWALL",
+          "quantity": 4,
+          "agentPrice": 2117.96,
+          "realPrice": 1650,
+          "absErr": 0.2836121212121212
+        },
+        {
+          "ea": "08-1N6104",
+          "itemCode": "650018",
+          "description": "24\" REINFORCED CONCRETE PIPE",
+          "quantity": 500,
+          "agentPrice": 252.82,
+          "realPrice": 260,
+          "absErr": 0.027615384615384597
+        }
+      ]
+    },
+    {
+      "ea": "04-0Q1904",
+      "primaryFamily": "Roadway Excavation",
+      "builtCount": 7,
+      "familyRecall": 0.5,
+      "codePrecision": 0.7142857142857143,
+      "familyPrecision": 1,
+      "pctError": 0.06271881524947666,
+      "unitPriceErrors": [
+        0.4123478260869565,
+        0.2899310344827586,
+        0.42933620000000006,
+        0.44979310344827583,
+        0.1875
+      ],
+      "dollarCoverage": 0.07329397734586197,
+      "matchingAccuracy": 1,
+      "catalogTop5": 1,
+      "catalogSearchCount": 9,
+      "agentRelevantShare": 1,
+      "keywordRelevantShare": 0.3,
+      "agentRelevantStrict": 0.43636363636363634,
+      "keywordRelevantStrict": 0.1,
+      "stepsUsed": 5,
+      "stopReason": "stop",
+      "hitCap": false,
+      "built": [
+        {
+          "itemCode": "190101",
+          "family": "Roadway Excavation",
+          "quantity": 2500,
+          "unit": "CY",
+          "unitPrice": 67.58
+        },
+        {
+          "itemCode": "210280",
+          "family": "Erosion Control",
+          "quantity": 20000,
+          "unit": "SQFT",
+          "unitPrice": 1.94
+        },
+        {
+          "itemCode": "390132",
+          "family": "Hot Mix Asphalt",
+          "quantity": 4000,
+          "unit": "TON",
+          "unitPrice": 187.04
+        },
+        {
+          "itemCode": "170103",
+          "family": "Clearing & Grubbing",
+          "quantity": 1,
+          "unit": "LS",
+          "unitPrice": 28533.19
+        },
+        {
+          "itemCode": "832006",
+          "family": "Metal Beam Guardrail",
+          "quantity": 1000,
+          "unit": "LF",
+          "unitPrice": 38.02
+        },
+        {
+          "itemCode": "260203",
+          "family": "Aggregate Base",
+          "quantity": 3900,
+          "unit": "CY",
+          "unitPrice": 79.78
+        },
+        {
+          "itemCode": "665024",
+          "family": "Corrugated Steel Pipe",
+          "quantity": 120,
+          "unit": "LF",
+          "unitPrice": 475
+        }
+      ],
+      "unitPriceDetail": [
+        {
+          "ea": "04-0Q1904",
+          "itemCode": "190101",
+          "description": "ROADWAY EXCAVATION",
+          "quantity": 2500,
+          "agentPrice": 67.58,
+          "realPrice": 115,
+          "absErr": 0.4123478260869565
+        },
+        {
+          "ea": "04-0Q1904",
+          "itemCode": "390132",
+          "description": "HOT MIX ASPHALT (TYPE A)",
+          "quantity": 4000,
+          "agentPrice": 187.04,
+          "realPrice": 145,
+          "absErr": 0.2899310344827586
+        },
+        {
+          "ea": "04-0Q1904",
+          "itemCode": "170103",
+          "description": "CLEARING AND GRUBBING (LS)",
+          "quantity": 1,
+          "agentPrice": 28533.19,
+          "realPrice": 50000,
+          "absErr": 0.42933620000000006
+        },
+        {
+          "ea": "04-0Q1904",
+          "itemCode": "260203",
+          "description": "CLASS 2 AGGREGATE BASE (CY)",
+          "quantity": 3900,
+          "agentPrice": 79.78,
+          "realPrice": 145,
+          "absErr": 0.44979310344827583
+        },
+        {
+          "ea": "04-0Q1904",
+          "itemCode": "665024",
+          "description": "24\" CORRUGATED STEEL PIPE (.109\" THICK)",
+          "quantity": 120,
+          "agentPrice": 475,
+          "realPrice": 400,
+          "absErr": 0.1875
+        }
+      ]
+    }
+  ]
+}

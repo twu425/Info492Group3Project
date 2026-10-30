@@ -120,7 +120,10 @@ export function FamilyTable({ rows, highlightBidder, onOpenContract, onOpenBidde
     setSort((s) => (s.key === key ? { key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: numeric ? 'desc' : 'asc' }))
 
   return (
-    <div ref={scrollRef} className="max-h-[560px] overflow-auto">
+    // Outer wrapper owns the height box and clips corners; only the inner div scrolls, so the
+    // pagination bar below stays put at full width when the table is scrolled horizontally.
+    <div className="flex max-h-[560px] flex-col overflow-hidden">
+      <div ref={scrollRef} className="min-h-0 flex-1 overflow-auto">
       {/* Fixed layout + colgroup: column widths come from here, never from the rows shown,
           so switching the unit filter, the band filter, sorting, or filtering never moves a column. */}
       <table className="w-full min-w-[1458px] table-fixed border-collapse text-[13px]">
@@ -264,8 +267,9 @@ export function FamilyTable({ rows, highlightBidder, onOpenContract, onOpenBidde
       {sorted.length === 0 && (
         <p className="px-4 py-8 text-center text-sm text-muted-foreground">No line items match these filters.</p>
       )}
+      </div>
       {sorted.length > PAGE_SIZE && (
-        <div className="sticky bottom-0 flex items-center justify-between border-t bg-surface px-4 py-2 text-xs text-muted-foreground">
+        <div className="flex items-center justify-between border-t bg-surface px-4 py-2 text-xs text-muted-foreground">
           <span>
             {`${(start + 1).toLocaleString()}–${Math.min(start + PAGE_SIZE, sorted.length).toLocaleString()} of ${sorted.length.toLocaleString()} bids`}
           </span>

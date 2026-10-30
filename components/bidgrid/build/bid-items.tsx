@@ -28,6 +28,13 @@ const dash = <span className="text-muted-foreground">{'—'}</span>
 
 const round2 = (n: number) => Math.round(n * 100) / 100
 
+/** Short label for where a quantity came from, shown under the quantity cell. */
+const QTY_SOURCE_LABEL: Record<NonNullable<PricedBidItem['quantitySource']>, string> = {
+  user: 'you',
+  similar: 'from similar',
+  assumed: 'assumed',
+}
+
 /** Current unit price: the user's override if set, otherwise the comparable P50, rounded to the cent. */
 function effectivePrice(r: PricedBidItem): number | null {
   if (r.unitPrice != null) return round2(r.unitPrice)
@@ -435,6 +442,11 @@ export function BidItems({
                           label={`Quantity for ${itemLabel(r.description)}`}
                           onCommit={(n) => onQuantityChange(r.id, n)}
                         />
+                        {r.quantitySource && (
+                          <div className="mt-0.5 text-[10px] leading-none text-muted-foreground" title="Source of this quantity">
+                            {QTY_SOURCE_LABEL[r.quantitySource]}
+                          </div>
+                        )}
                       </td>
                       <td className="px-2 py-1 align-middle font-mono text-muted-foreground">{r.unit}</td>
                       <td className="cursor-text px-2 py-1 text-right align-middle hover:bg-foreground/[0.07]">

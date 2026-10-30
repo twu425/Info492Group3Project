@@ -1,0 +1,50 @@
+{
+  "runs": 3,
+  "perCase": {
+    "median-hma-d2": {
+      "refl": "152",
+      "passes": 3,
+      "answers": [
+        "The median low-bid unit price for Hot Mix Asphalt Type A (item 390132) in District 2 is $152 per ton, based on 9 low-bid contracts.",
+        "The median low-bid unit price for Hot Mix Asphalt Type A (item 390132) in District 2 is $152 per ton. That is based on 9 winning bids.",
+        "The median low-bid unit price for Hot Mix Asphalt Type A (item 390132) in District 2 is $152 per ton. That is based on 9 low-bid contracts in the bid database."
+      ]
+    },
+    "top-paving-firm": {
+      "refl": "GRANITE CONSTRUCTION COMPANY",
+      "passes": 3,
+      "answers": [
+        "Granite Construction Company won the most paving contracts, with 7 wins out of 89 paving contracts in the database. Doolittle Construction and American Pavement",
+        "Granite Construction Company won the most paving contracts, with 7 wins out of 89 paving contracts in the database. Doolittle Construction and American Pavement",
+        "Granite Construction Company won the most paving contracts, with 7 low bids out of 89 paving contracts in the database. Doolittle Construction and American Pave"
+      ]
+    },
+    "avg-bidders-structures": {
+      "refl": "7.03",
+      "passes": 3,
+      "answers": [
+        "On average, structures contracts draw about 7 bidders (7.03). That's based on 33 structures contracts with a recorded bidder count.",
+        "On average, Structures contracts draw about 7 bidders (7.0). That's based on 33 contracts in the database that have a recorded bidder count.",
+        "On average, Structures contracts draw about 7 bidders (7.03), based on 33 contracts with bidder counts on record."
+      ]
+    },
+    "count-d7": {
+      "refl": "25",
+      "passes": 3,
+      "answers": [
+        "There are 25 contracts in the data bid in District 7.",
+        "There are 25 contracts in the data bid in District 7.",
+        "There are 25 contracts in the data bid in District 7."
+      ]
+    },
+    "distinct-firms": {
+      "refl": "264",
+      "passes": 3,
+      "answers": [
+        "There are 264 distinct contractors that placed bids, across 239 contracts in the data.",
+        "There are 264 distinct contractors across 239 contracts, based on 1,432 bid entries. This counts names as they appear in the bidder records, so spelling variant",
+        "There are 264 distinct contractor names across 239 contracts, based on 1,432 bid entries. Names are matched as written, so the same firm entered under slightly "
+      ]
+    }
+  }
+}

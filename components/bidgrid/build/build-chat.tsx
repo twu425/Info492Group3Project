@@ -1,11 +1,12 @@
 'use client'
 
-import { ArrowUp, MapPin, Square, Trash2 } from 'lucide-react'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { ArrowUp, ChevronRight, MapPin, Square, Trash2 } from 'lucide-react'
+import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 import type { ChatStatus } from 'ai'
 import type { BuildUIMessage } from '@/lib/bidgrid/build-tools'
 import { OPENING_MESSAGE } from '@/lib/bidgrid/system-prompt'
 import { cn } from '@/lib/utils'
+import { ChatMarkdown } from './chat-markdown'
 import { ToolChip } from './tool-chip'
 
 const EXAMPLES = ['Sidewalk and curb ramps, half mile', 'Bridge deck widening', 'Median barrier replacement, 2,000 LF']
@@ -26,6 +27,7 @@ interface BuildChatProps {
   onSend: (text: string) => void
   onStop: () => void
   onRetry: () => void
+  onOpenContract: (ea: string) => void
 }
 
 function EventChip({ event }: { event: ChatEvent }) {
@@ -54,6 +56,71 @@ function EditNotes({ edits }: { edits: string[] }) {
   )
 }
 
+type ToolPart = Extract<BuildUIMessage['parts'][number], { type: `tool-${string}` }>
+
+const isToolPart = (p: BuildUIMessage['parts'][number]): p is ToolPart => p.type.startsWith('tool-')
+
+// Short present-tense verb shown while a step is still running.
+const TOOL_ACTION: Record<string, string> = {
+  'tool-searchSimilarProjects': 'Finding similar projects',
+  'tool-searchCatalog': 'Searching the catalog',
+  'tool-searchComparables': 'Pricing items',
+  'tool-addLineItem': 'Adding items',
+  'tool-updateLineItem': 'Updating items',
+  'tool-removeLineItem': 'Removing items',
+  'tool-updateProjectScope': 'Noting details',
+  'tool-queryBids': 'Querying the data',
+  'tool-locatePostmiles': 'Locating postmiles',
+  'tool-showSegment': 'Drawing the segment',
+  'tool-computeQuantity': 'Calculating quantities',
+  'tool-checkEstimate': 'Reviewing the estimate',
+  'tool-searchBidders': 'Finding bidders',
+}
+
+/** One collapsible summary for a run of tool calls, so a build doesn't stack 15 chips. */
+function ToolActivity({ parts }: { parts: ToolPart[] }) {
+  const [open, setOpen] = useState(false)
+  if (parts.length === 1) return <ToolChip part={parts[0]} />
+
+  const pending = parts.filter((p) => p.state === 'input-streaming' || p.state === 'input-available')
+  const busy = pending.length > 0
+  const added = parts.filter(
+    (p) => p.type === 'tool-addLineItem' && p.state === 'output-available' && !!p.output && !('error' in p.output) && p.output.status === 'added',
+  ).length
+
+  // While working, name the current step; once done, recap it in one line.
+  const summary = busy
+    ? TOOL_ACTION[pending[pending.length - 1].type] ?? 'Working'
+    : added > 0
+      ? `${added} item${added === 1 ? '' : 's'} added · ${parts.length} steps`
+      : `${parts.length} steps`
+
+  return (
+    <div className="flex w-full flex-col gap-1.5">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className="inline-flex max-w-full items-center gap-1.5 self-start rounded-sm bg-foreground/[0.05] px-2 py-0.5 font-mono text-[11px] text-muted-foreground transition-colors hover:text-foreground"
+      >
+        {busy ? (
+          <span aria-hidden="true" className="size-1.5 shrink-0 animate-pulse rounded-full bg-primary" />
+        ) : (
+          <ChevronRight aria-hidden="true" className={cn('size-3 shrink-0 transition-transform', open && 'rotate-90')} />
+        )}
+        <span className="truncate">{open ? 'Hide steps' : summary}</span>
+      </button>
+      {open && (
+        <div className="flex flex-col items-start gap-1.5 border-l border-foreground/10 pl-2.5">
+          {parts.map((p, i) => (
+            <ToolChip key={i} part={p} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function BuildChat({
   messages,
   status,
@@ -63,6 +130,7 @@ export function BuildChat({
   onSend,
   onStop,
   onRetry,
+  onOpenContract,
 }: BuildChatProps) {
   const [input, setInput] = useState('')
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -84,8 +152,14 @@ export function BuildChat({
     setInput('')
   }
 
+  // Keep a "working" indicator up for the whole turn — not just before the first assistant
+  // part — so the gap while tools run (searching, querying) isn't dead air. It steps aside
+  // only while the assistant is actively streaming visible text, which is its own feedback.
   const last = messages.at(-1)
-  const showThinking = status === 'submitted' || (status === 'streaming' && last?.role !== 'assistant')
+  const lastPart = last?.role === 'assistant' ? last.parts.at(-1) : undefined
+  const streamingText =
+    status === 'streaming' && lastPart?.type === 'text' && (lastPart.text?.trim().length ?? 0) > 0
+  const showThinking = busy && !streamingText
 
   return (
     <section aria-label="Estimate chat" className="flex min-h-0 flex-1 flex-col">
@@ -113,17 +187,26 @@ export function BuildChat({
             </div>
           ) : (
             <div className="flex max-w-[92%] flex-col items-start gap-1.5">
-              {m.parts.map((p, i) => {
-                if (p.type === 'text') {
-                  return p.text.trim() ? (
-                    <p key={i} className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-                      {p.text}
-                    </p>
-                  ) : null
+              {(() => {
+                // Group consecutive tool calls so a multi-step turn collapses to one line,
+                // while assistant text between steps still renders in place.
+                const blocks: ReactNode[] = []
+                let run: ToolPart[] = []
+                const flush = (key: string) => {
+                  if (run.length) blocks.push(<ToolActivity key={`tools-${key}`} parts={run} />)
+                  run = []
                 }
-                if (p.type.startsWith('tool-')) return <ToolChip key={i} part={p} />
-                return null
-              })}
+                m.parts.forEach((p, i) => {
+                  if (isToolPart(p)) {
+                    run.push(p)
+                  } else if (p.type === 'text') {
+                    flush(String(i))
+                    if (p.text.trim()) blocks.push(<ChatMarkdown key={i} text={p.text} onOpenContract={onOpenContract} />)
+                  }
+                })
+                flush('end')
+                return blocks
+              })()}
             </div>
             )}
           </Fragment>
@@ -136,7 +219,7 @@ export function BuildChat({
         {showThinking && (
           <p className="flex items-center gap-2 text-xs text-muted-foreground">
             <span aria-hidden="true" className="size-1.5 animate-pulse rounded-full bg-primary" />
-            Thinking
+            Working…
           </p>
         )}
 

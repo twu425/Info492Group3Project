@@ -1,0 +1,898 @@
+[
+  {
+    "ea": "04-1W7104",
+    "lat": 37.473518808524645,
+    "lng": -121.91034822479001,
+    "county": "ALA",
+    "district": 4,
+    "route": 680,
+    "bidOpenDate": "2026-08-18",
+    "lowBidTotal": 2849776,
+    "coveredSpend": 1929974,
+    "lengthMiles": 0.6,
+    "primaryFamily": "Hot Mix Asphalt",
+    "coveredFamilies": [
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 391095
+      },
+      {
+        "family": "Bridge Deck & Rehab",
+        "spend": 329924
+      },
+      {
+        "family": "Seal Coats & Surface Treatments",
+        "spend": 260090
+      },
+      {
+        "family": "Reinforced Concrete Pipe",
+        "spend": 237650
+      },
+      {
+        "family": "Metal Beam Guardrail",
+        "spend": 175095
+      },
+      {
+        "family": "Structural Concrete",
+        "spend": 168790
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 93010
+      },
+      {
+        "family": "Concrete Barrier",
+        "spend": 71910
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 61500
+      },
+      {
+        "family": "Irrigation",
+        "spend": 48213
+      },
+      {
+        "family": "Erosion Control",
+        "spend": 23836
+      },
+      {
+        "family": "Lighting",
+        "spend": 19500
+      },
+      {
+        "family": "Structural Steel",
+        "spend": 12551
+      },
+      {
+        "family": "Clearing & Grubbing",
+        "spend": 8355
+      },
+      {
+        "family": "Drainage Inlets",
+        "spend": 8300
+      },
+      {
+        "family": "PCC Pavement",
+        "spend": 5750
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 5410
+      },
+      {
+        "family": "Embankment",
+        "spend": 4500
+      },
+      {
+        "family": "Reinforcing Steel",
+        "spend": 4095
+      },
+      {
+        "family": "Roadside Signs",
+        "spend": 400
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 680 in ALA County. The scope covers: hot mix asphalt paving, bridge deck rehabilitation, surface seal treatment, reinforced concrete drainage pipe, metal beam guardrail, structural concrete, thermoplastic striping and concrete barrier. The project runs about 0.6 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "03-0N9104",
+    "lat": 38.85391913653782,
+    "lng": -120.0162739303566,
+    "county": "ED",
+    "district": 3,
+    "route": 50,
+    "bidOpenDate": "2026-03-11",
+    "lowBidTotal": 851263,
+    "coveredSpend": 530744,
+    "lengthMiles": null,
+    "primaryFamily": "Traffic Signals",
+    "coveredFamilies": [
+      {
+        "family": "Traffic Signals",
+        "spend": 310000
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 87725
+      },
+      {
+        "family": "Minor Concrete",
+        "spend": 39312
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 20200
+      },
+      {
+        "family": "Clearing & Grubbing",
+        "spend": 18600
+      },
+      {
+        "family": "Erosion Control",
+        "spend": 14710
+      },
+      {
+        "family": "Aggregate Base",
+        "spend": 11800
+      },
+      {
+        "family": "Roadside Signs",
+        "spend": 9897
+      },
+      {
+        "family": "Roadway Excavation",
+        "spend": 8100
+      },
+      {
+        "family": "Planting",
+        "spend": 5600
+      },
+      {
+        "family": "Cold Planing",
+        "spend": 4800
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 50 in ED County. The scope covers: traffic signal and lighting work, thermoplastic striping, minor concrete (curb, gutter, sidewalk), hot mix asphalt paving, clearing and grubbing, erosion control, aggregate base and roadside signs. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "10-1U0604",
+    "lat": 37.429713219897636,
+    "lng": -121.09805386140073,
+    "county": "STA",
+    "district": 10,
+    "route": 33,
+    "bidOpenDate": "2026-03-18",
+    "lowBidTotal": 3353868,
+    "coveredSpend": 2849731,
+    "lengthMiles": 5.3,
+    "primaryFamily": "Rubberized HMA",
+    "coveredFamilies": [
+      {
+        "family": "Rubberized HMA",
+        "spend": 1313000
+      },
+      {
+        "family": "Seal Coats & Surface Treatments",
+        "spend": 1167939
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 144394
+      },
+      {
+        "family": "Roadway Excavation",
+        "spend": 112424
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 95134
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 8700
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 8140
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 33 in STA County. The scope covers: rubberized asphalt overlay, surface seal treatment, thermoplastic striping, roadway excavation, hot mix asphalt paving, traffic signal and lighting work and pavement markers. The project runs about 5.3 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "04-3Y6204",
+    "lat": 37.567465799351666,
+    "lng": -122.30250878269942,
+    "county": "SM",
+    "district": 4,
+    "route": 101,
+    "bidOpenDate": "2026-05-14",
+    "lowBidTotal": 2689688,
+    "coveredSpend": 2125509,
+    "lengthMiles": null,
+    "primaryFamily": "Bridge Deck & Rehab",
+    "coveredFamilies": [
+      {
+        "family": "Bridge Deck & Rehab",
+        "spend": 1702267
+      },
+      {
+        "family": "Structural Concrete",
+        "spend": 172604
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 143733
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 60935
+      },
+      {
+        "family": "PCC Pavement",
+        "spend": 16131
+      },
+      {
+        "family": "Embankment",
+        "spend": 11425
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 10414
+      },
+      {
+        "family": "Reinforcing Steel",
+        "spend": 5250
+      },
+      {
+        "family": "Roadway Excavation",
+        "spend": 1750
+      },
+      {
+        "family": "Piles & Shoring",
+        "spend": 500
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 500
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 101 in SM County. The scope covers: bridge deck rehabilitation, structural concrete, thermoplastic striping, hot mix asphalt paving, concrete pavement, embankment, pavement markers and reinforcing steel. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "06-1J0104",
+    "lat": 36.40816136070248,
+    "lng": -119.06124436332445,
+    "county": "TUL",
+    "district": 6,
+    "route": 216,
+    "bidOpenDate": "2026-02-26",
+    "lowBidTotal": 997000,
+    "coveredSpend": 602818,
+    "lengthMiles": 5.7,
+    "primaryFamily": "Thermoplastic Striping",
+    "coveredFamilies": [
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 219970
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 154200
+      },
+      {
+        "family": "Seal Coats & Surface Treatments",
+        "spend": 137750
+      },
+      {
+        "family": "Roadway Excavation",
+        "spend": 43920
+      },
+      {
+        "family": "Roadside Signs",
+        "spend": 19578
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 19200
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 8200
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 216 in TUL County. The scope covers: thermoplastic striping, hot mix asphalt paving, surface seal treatment, roadway excavation, roadside signs, traffic signal and lighting work and pavement markers. The project runs about 5.7 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "02-2K2204",
+    "lat": 40.42117428121334,
+    "lng": -123.45948317942384,
+    "county": "TRI",
+    "district": 2,
+    "route": 36,
+    "bidOpenDate": "2026-03-03",
+    "lowBidTotal": 2080771,
+    "coveredSpend": 1491165,
+    "lengthMiles": 14.2,
+    "primaryFamily": "Seal Coats & Surface Treatments",
+    "coveredFamilies": [
+      {
+        "family": "Seal Coats & Surface Treatments",
+        "spend": 815240
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 406000
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 269925
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 36 in TRI County. The scope covers: surface seal treatment, hot mix asphalt paving and thermoplastic striping. The project runs about 14.2 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "04-3G4524",
+    "lat": 37.88588947877221,
+    "lng": -122.03437746635812,
+    "county": "CC",
+    "district": 4,
+    "route": 680,
+    "bidOpenDate": "2026-06-04",
+    "lowBidTotal": 6233333,
+    "coveredSpend": 3234401,
+    "lengthMiles": null,
+    "primaryFamily": "Structural Concrete",
+    "coveredFamilies": [
+      {
+        "family": "Structural Concrete",
+        "spend": 1782475
+      },
+      {
+        "family": "Bridge Deck & Rehab",
+        "spend": 801900
+      },
+      {
+        "family": "Piles & Shoring",
+        "spend": 208086
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 185290
+      },
+      {
+        "family": "Structural Steel",
+        "spend": 150370
+      },
+      {
+        "family": "Reinforcing Steel",
+        "spend": 87780
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 13000
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 5500
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 680 in CC County. The scope covers: structural concrete, bridge deck rehabilitation, piles and shoring, thermoplastic striping, structural steel, reinforcing steel, pavement markers and traffic signal and lighting work. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "07-0Y7304",
+    "lat": 34.185646120964385,
+    "lng": -118.91004844482602,
+    "county": "VEN",
+    "district": 7,
+    "route": 101,
+    "bidOpenDate": "2026-04-02",
+    "lowBidTotal": 3098862,
+    "coveredSpend": 2426893,
+    "lengthMiles": 9.1,
+    "primaryFamily": "PCC Pavement",
+    "coveredFamilies": [
+      {
+        "family": "PCC Pavement",
+        "spend": 1334160
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 415010
+      },
+      {
+        "family": "Seal Coats & Surface Treatments",
+        "spend": 387390
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 208800
+      },
+      {
+        "family": "Aggregate Base",
+        "spend": 54000
+      },
+      {
+        "family": "Roadside Signs",
+        "spend": 15900
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 10133
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 1500
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 101 in VEN County. The scope covers: concrete pavement, thermoplastic striping, surface seal treatment, hot mix asphalt paving, aggregate base, roadside signs, pavement markers and traffic signal and lighting work. The project runs about 9.1 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "07-376404",
+    "lat": 34.506534922574424,
+    "lng": -117.91298442596087,
+    "county": "LA",
+    "district": 7,
+    "route": 138,
+    "bidOpenDate": "2026-02-11",
+    "lowBidTotal": 9421797,
+    "coveredSpend": 6764860,
+    "lengthMiles": 1.7,
+    "primaryFamily": "Structural Steel",
+    "coveredFamilies": [
+      {
+        "family": "Structural Steel",
+        "spend": 2501049
+      },
+      {
+        "family": "Structural Concrete",
+        "spend": 2093736
+      },
+      {
+        "family": "Reinforcing Steel",
+        "spend": 587591
+      },
+      {
+        "family": "Minor Concrete",
+        "spend": 500905
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 202573
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 132000
+      },
+      {
+        "family": "Embankment",
+        "spend": 121800
+      },
+      {
+        "family": "Planting",
+        "spend": 104550
+      },
+      {
+        "family": "Concrete Barrier",
+        "spend": 84444
+      },
+      {
+        "family": "Fencing",
+        "spend": 77325
+      },
+      {
+        "family": "Metal Beam Guardrail",
+        "spend": 76800
+      },
+      {
+        "family": "Roadway Excavation",
+        "spend": 67660
+      },
+      {
+        "family": "Clearing & Grubbing",
+        "spend": 62150
+      },
+      {
+        "family": "Reinforced Concrete Pipe",
+        "spend": 40910
+      },
+      {
+        "family": "Roadside Signs",
+        "spend": 27705
+      },
+      {
+        "family": "Cold Planing",
+        "spend": 27020
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 24958
+      },
+      {
+        "family": "PCC Pavement",
+        "spend": 17300
+      },
+      {
+        "family": "Aggregate Base",
+        "spend": 14384
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 138 in LA County. The scope covers: structural steel, structural concrete, reinforcing steel, minor concrete (curb, gutter, sidewalk), thermoplastic striping, traffic signal and lighting work, embankment and planting. The project runs about 1.7 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "03-3G5004",
+    "lat": 38.7586058863613,
+    "lng": -120.84153792990726,
+    "county": "ED",
+    "district": 3,
+    "route": 49,
+    "bidOpenDate": "2026-04-09",
+    "lowBidTotal": 598351,
+    "coveredSpend": 336898,
+    "lengthMiles": 2.4,
+    "primaryFamily": "Corrugated Steel Pipe",
+    "coveredFamilies": [
+      {
+        "family": "Corrugated Steel Pipe",
+        "spend": 107100
+      },
+      {
+        "family": "Reinforced Concrete Pipe",
+        "spend": 96750
+      },
+      {
+        "family": "Structural Concrete",
+        "spend": 64450
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 31050
+      },
+      {
+        "family": "Erosion Control",
+        "spend": 17742
+      },
+      {
+        "family": "Aggregate Base",
+        "spend": 6440
+      },
+      {
+        "family": "Clearing & Grubbing",
+        "spend": 5000
+      },
+      {
+        "family": "Structural Steel",
+        "spend": 3156
+      },
+      {
+        "family": "Roadside Signs",
+        "spend": 2060
+      },
+      {
+        "family": "Minor Concrete",
+        "spend": 1500
+      },
+      {
+        "family": "Drainage Inlets",
+        "spend": 850
+      },
+      {
+        "family": "Cold Planing",
+        "spend": 800
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 49 in ED County. The scope covers: corrugated steel drainage pipe, reinforced concrete drainage pipe, structural concrete, hot mix asphalt paving, erosion control, aggregate base, clearing and grubbing and structural steel. The project runs about 2.4 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "03-3G5104",
+    "lat": 38.818466643563575,
+    "lng": -120.92739402679167,
+    "county": "ED",
+    "district": 3,
+    "route": 49,
+    "bidOpenDate": "2026-05-13",
+    "lowBidTotal": 527916,
+    "coveredSpend": 110089,
+    "lengthMiles": 1,
+    "primaryFamily": "Reinforced Concrete Pipe",
+    "coveredFamilies": [
+      {
+        "family": "Reinforced Concrete Pipe",
+        "spend": 66476
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 25261
+      },
+      {
+        "family": "Corrugated Steel Pipe",
+        "spend": 4772
+      },
+      {
+        "family": "Clearing & Grubbing",
+        "spend": 4470
+      },
+      {
+        "family": "Embankment",
+        "spend": 3264
+      },
+      {
+        "family": "Roadside Signs",
+        "spend": 3078
+      },
+      {
+        "family": "Roadway Excavation",
+        "spend": 1635
+      },
+      {
+        "family": "Erosion Control",
+        "spend": 1133
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 49 in ED County. The scope covers: reinforced concrete drainage pipe, hot mix asphalt paving, corrugated steel drainage pipe, clearing and grubbing, embankment, roadside signs, roadway excavation and erosion control. The project runs about 1 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "12-0V6704",
+    "lat": 33.65453904805908,
+    "lng": -117.86632126382857,
+    "county": "ORA",
+    "district": 12,
+    "route": 73,
+    "bidOpenDate": "2026-04-08",
+    "lowBidTotal": 719255,
+    "coveredSpend": 472460,
+    "lengthMiles": 1.7,
+    "primaryFamily": "Concrete Barrier",
+    "coveredFamilies": [
+      {
+        "family": "Concrete Barrier",
+        "spend": 292650
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 57100
+      },
+      {
+        "family": "Roadway Excavation",
+        "spend": 37500
+      },
+      {
+        "family": "Planting",
+        "spend": 37100
+      },
+      {
+        "family": "Aggregate Base",
+        "spend": 18900
+      },
+      {
+        "family": "Irrigation",
+        "spend": 16385
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 9625
+      },
+      {
+        "family": "Clearing & Grubbing",
+        "spend": 2500
+      },
+      {
+        "family": "Cold Planing",
+        "spend": 700
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 73 in ORA County. The scope covers: concrete barrier, hot mix asphalt paving, roadway excavation, planting, aggregate base, irrigation, thermoplastic striping and clearing and grubbing. The project runs about 1.7 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "04-1J9614",
+    "lat": 38.055415603804185,
+    "lng": -122.79637253255238,
+    "county": "MRN",
+    "district": 4,
+    "route": 1,
+    "bidOpenDate": "2026-04-21",
+    "lowBidTotal": 552275,
+    "coveredSpend": 314100,
+    "lengthMiles": 9.9,
+    "primaryFamily": "Planting",
+    "coveredFamilies": [
+      {
+        "family": "Planting",
+        "spend": 233100
+      },
+      {
+        "family": "Erosion Control",
+        "spend": 48400
+      },
+      {
+        "family": "Irrigation",
+        "spend": 32600
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 1 in MRN County. The scope covers: planting, erosion control and irrigation. The project runs about 9.9 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "08-1N6104",
+    "lat": 33.849601047771344,
+    "lng": -117.53460964367427,
+    "county": "RIV",
+    "district": 8,
+    "route": 15,
+    "bidOpenDate": "2026-07-22",
+    "lowBidTotal": 5015989,
+    "coveredSpend": 3234439,
+    "lengthMiles": 0.5,
+    "primaryFamily": "Roadside Signs",
+    "coveredFamilies": [
+      {
+        "family": "Roadside Signs",
+        "spend": 540264
+      },
+      {
+        "family": "PCC Pavement",
+        "spend": 515524
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 414938
+      },
+      {
+        "family": "Roadway Excavation",
+        "spend": 248900
+      },
+      {
+        "family": "Metal Beam Guardrail",
+        "spend": 221777
+      },
+      {
+        "family": "Structural Concrete",
+        "spend": 205650
+      },
+      {
+        "family": "Reinforced Concrete Pipe",
+        "spend": 192030
+      },
+      {
+        "family": "Erosion Control",
+        "spend": 174287
+      },
+      {
+        "family": "Embankment",
+        "spend": 124280
+      },
+      {
+        "family": "Aggregate Base",
+        "spend": 117580
+      },
+      {
+        "family": "Thermoplastic Striping",
+        "spend": 89021
+      },
+      {
+        "family": "Concrete Barrier",
+        "spend": 65062
+      },
+      {
+        "family": "Lighting",
+        "spend": 63072
+      },
+      {
+        "family": "Corrugated Steel Pipe",
+        "spend": 44100
+      },
+      {
+        "family": "Reinforcing Steel",
+        "spend": 39720
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 33691
+      },
+      {
+        "family": "Structural Steel",
+        "spend": 31710
+      },
+      {
+        "family": "Minor Concrete",
+        "spend": 27170
+      },
+      {
+        "family": "Planting",
+        "spend": 26250
+      },
+      {
+        "family": "Piles & Shoring",
+        "spend": 20250
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 14495
+      },
+      {
+        "family": "Drainage Inlets",
+        "spend": 11700
+      },
+      {
+        "family": "Cold Planing",
+        "spend": 9500
+      },
+      {
+        "family": "Clearing & Grubbing",
+        "spend": 3468
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 15 in RIV County. The scope covers: roadside signs, concrete pavement, hot mix asphalt paving, roadway excavation, metal beam guardrail, structural concrete, reinforced concrete drainage pipe and erosion control. The project runs about 0.5 miles. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  },
+  {
+    "ea": "04-0Q1904",
+    "lat": 38.31440585611901,
+    "lng": -122.01229811521944,
+    "county": "SOL",
+    "district": 4,
+    "route": 80,
+    "bidOpenDate": "2026-04-02",
+    "lowBidTotal": 2397196,
+    "coveredSpend": 1308535,
+    "lengthMiles": null,
+    "primaryFamily": "Roadway Excavation",
+    "coveredFamilies": [
+      {
+        "family": "Roadway Excavation",
+        "spend": 592910
+      },
+      {
+        "family": "Erosion Control",
+        "spend": 385064
+      },
+      {
+        "family": "Hot Mix Asphalt",
+        "spend": 79000
+      },
+      {
+        "family": "Embankment",
+        "spend": 63000
+      },
+      {
+        "family": "Clearing & Grubbing",
+        "spend": 60070
+      },
+      {
+        "family": "Metal Beam Guardrail",
+        "spend": 59420
+      },
+      {
+        "family": "Aggregate Base",
+        "spend": 33350
+      },
+      {
+        "family": "Corrugated Steel Pipe",
+        "spend": 11600
+      },
+      {
+        "family": "Planting",
+        "spend": 5881
+      },
+      {
+        "family": "Traffic Signals",
+        "spend": 4500
+      },
+      {
+        "family": "Concrete Barrier",
+        "spend": 4200
+      },
+      {
+        "family": "Roadside Signs",
+        "spend": 3260
+      },
+      {
+        "family": "Drainage Inlets",
+        "spend": 3200
+      },
+      {
+        "family": "Pavement Markers",
+        "spend": 3080
+      }
+    ],
+    "description": "I'm estimating a Caltrans project on Route 80 in SOL County. The scope covers: roadway excavation, erosion control, hot mix asphalt paving, embankment, clearing and grubbing, metal beam guardrail, aggregate base and corrugated steel drainage pipe. Build the full preliminary bid item list covering all of that work. Use typical assumptions for any dimension I don't give, and proceed without asking me questions."
+  }
+]

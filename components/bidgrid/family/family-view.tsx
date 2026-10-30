@@ -1,18 +1,18 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useId, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import { CONTRACTS, type ItemFamily, type Unit } from '@/lib/bidgrid/data'
 import { quantityBand, type QuantityBand } from '@/lib/bidgrid/estimate'
 import {
   DATA_DOMAIN_END,
   familyPoints,
-  itemStats,
   quarterSeries,
   rangeStart,
   type DistrictFilter,
   type RangeKey,
 } from '@/lib/bidgrid/family'
+import type { ItemStatCards } from '@/lib/bidgrid/item-stats'
 import { FAMILY_COLORS, formatDistrict, shortItemName } from '@/lib/bidgrid/format'
 import { DistrictSelect } from '../district-select'
 import { MapSkeleton } from '../detail/map-skeleton'
@@ -111,7 +111,21 @@ export function FamilyView({
   }
 
   const itemPoints = useMemo(() => allPoints.filter((p) => p.itemCode === item.code), [allPoints, item.code])
-  const stats = useMemo(() => itemStats(itemPoints), [itemPoints])
+
+  // Stat cards are computed on the server from bidgrid.db (per item code, over all bids).
+  const [statCards, setStatCards] = useState<ItemStatCards | null>(null)
+  useEffect(() => {
+    if (!item.code) return
+    let active = true
+    setStatCards(null)
+    fetch(`/api/item-stats?code=${encodeURIComponent(item.code)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: ItemStatCards | null) => active && setStatCards(data))
+      .catch(() => active && setStatCards(null))
+    return () => {
+      active = false
+    }
+  }, [item.code])
   const chartPoints = useMemo(
     () => itemPoints.filter((p) => (district === 'all' || p.district === district) && p.time >= from),
     [itemPoints, district, from],
@@ -213,7 +227,7 @@ export function FamilyView({
           </div>
         </div>
 
-        <StatCards stats={stats} unit={item.unit} />
+        <StatCards cards={statCards} unit={item.unit} />
 
         <section aria-labelledby={`${ids}-trend`} className="rounded-lg border bg-surface">
           <div className="flex flex-col gap-3 border-b px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
