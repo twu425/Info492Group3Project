@@ -222,7 +222,20 @@ export function FamilyView({
           <div className="flex flex-col gap-1.5">
             <p className="text-sm leading-relaxed text-subtle-foreground text-pretty">
               Bid prices for <span className="font-mono text-foreground">{item.code}</span>{' '}
-              {shortItemName(item.description).toLowerCase()}, per {item.unit}.
+              {shortItemName(item.description).toLowerCase()}, per {item.unit}
+              {/* Lump-sum items move the data-points figures here, since there's no Data points card.
+                  The set is chosen from the catalog unit (known now), with a skeleton holding the
+                  space until the server figures arrive, so the line doesn't grow. */}
+              {item.unit !== 'LS' ? (
+                '.'
+              ) : statCards ? (
+                <span className="tabular-nums">{` · ${statCards.dataPoints.bids.toLocaleString()} bids across ${statCards.dataPoints.contracts.toLocaleString()} contracts${statCards.dateRange ? `, ${statCards.dateRange}` : ''}.`}</span>
+              ) : (
+                <>
+                  {' · '}
+                  <span className="inline-block h-3 w-60 max-w-[70%] animate-pulse rounded bg-foreground/[0.08] align-middle" />
+                </>
+              )}
             </p>
           </div>
         </div>
