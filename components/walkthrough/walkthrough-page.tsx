@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 // All page wording and links live here. Edit this object to change the text.
 const copy = {
   brand: 'BidGrid',
-  homeHref: '/welcome',
+  homeHref: '/',
   eyebrow: 'New to BidGrid?',
   heading: 'See how BidGrid works',
   intro: 'A short walkthrough of building an estimate: drop a pin, describe the work, and review the bid items the agent finds.',
