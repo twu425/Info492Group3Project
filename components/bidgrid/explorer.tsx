@@ -75,7 +75,7 @@ export function Explorer({ initialEa }: { initialEa: string | null }) {
 
   const selectContract = (ea: string | null) => {
     setSelectedEa(ea)
-    window.history.replaceState(null, '', ea ? `/?ea=${encodeURIComponent(ea)}` : '/')
+    window.history.replaceState(null, '', ea ? `/explore?ea=${encodeURIComponent(ea)}` : '/explore')
   }
 
   const openDetail = (view: DetailView) => setDetail({ key: Date.now(), view })

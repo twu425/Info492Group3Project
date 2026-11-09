@@ -7,14 +7,14 @@ import { Button } from '@/components/ui/button'
 // All page wording and links live here. Edit this object to change the text.
 const copy = {
   brand: 'BidGrid',
-  homeHref: '/welcome',
+  homeHref: '/',
   heading: 'Log in to BidGrid',
   subhead: 'Pick up where you left off on your estimates.',
   emailLabel: 'Email or username',
   passwordLabel: 'Password',
   submitLabel: 'Log in',
   // Demo login: any values are accepted, then the user goes here.
-  afterLoginHref: '/',
+  afterLoginHref: '/explore',
 }
 
 const inputClass =
