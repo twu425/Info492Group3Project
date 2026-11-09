@@ -1,6 +1,12 @@
-import { Explorer } from '@/components/bidgrid/explorer'
+import type { Metadata } from 'next'
+import { LandingPage } from '@/components/landing/landing-page'
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ ea?: string | string[] }> }) {
-  const { ea } = await searchParams
-  return <Explorer initialEa={typeof ea === 'string' ? ea : null} />
+export const metadata: Metadata = {
+  title: 'BidGrid — Price heavy civil work from real bids',
+  description:
+    'An agent-assisted estimating tool for public heavy civil work, built on real Caltrans bid data.',
+}
+
+export default function WelcomePage() {
+  return <LandingPage />
 }
