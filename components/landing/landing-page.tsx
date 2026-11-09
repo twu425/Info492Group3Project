@@ -7,6 +7,9 @@ const copy = {
   brand: 'BidGrid',
   loginLabel: 'Log in',
   loginHref: '/login',
+  newToBidGrid: 'New to BidGrid?',
+  walkthroughLabel: 'Watch the walkthrough',
+  walkthroughHref: '/walkthrough',
 
   hero: {
     eyebrow: 'For heavy civil estimators',
@@ -62,6 +65,17 @@ function LoginButton({ className }: { className?: string }) {
   )
 }
 
+function WalkthroughLink({ className }: { className?: string }) {
+  return (
+    <p className={cn('text-sm text-subtle-foreground', className)}>
+      {copy.newToBidGrid}{' '}
+      <Link href={copy.walkthroughHref} className="rounded-sm font-medium text-foreground underline-offset-4 hover:underline">
+        {copy.walkthroughLabel} →
+      </Link>
+    </p>
+  )
+}
+
 export function LandingPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6">
@@ -88,6 +102,7 @@ export function LandingPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-subtle-foreground">{copy.hero.subhead}</p>
           <LoginButton className="mt-8" />
+          <WalkthroughLink className="mt-4" />
         </section>
 
         {/* Thesis */}
@@ -129,6 +144,7 @@ export function LandingPage() {
         <section className="border-t py-16 text-center">
           <h2 className="text-2xl font-semibold tracking-tight text-balance">{copy.closing.headline}</h2>
           <LoginButton className="mt-6" />
+          <WalkthroughLink className="mt-4" />
         </section>
       </main>
     </div>
