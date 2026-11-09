@@ -11,7 +11,7 @@ const copy = {
   intro: 'A short walkthrough of building an estimate: drop a pin, describe the work, and review the bid items the agent finds.',
   // Paste a YouTube or Loom *embed* link here (e.g. https://www.youtube.com/embed/VIDEO_ID).
   // While it's empty, the page shows the placeholder below instead.
-  videoEmbedUrl: '',
+  videoEmbedUrl: 'https://www.youtube.com/embed/jB-URd7y-TQ',
   videoTitle: 'BidGrid walkthrough',
   placeholder: 'Video walkthrough coming soon',
   closingHeadline: 'Ready to start?',
