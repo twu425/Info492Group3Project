@@ -78,29 +78,30 @@ function WalkthroughLink({ className }: { className?: string }) {
 
 export function LandingPage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 sm:px-6">
-      {/* Header */}
-      <header className="flex h-14 items-center justify-between border-b">
-        <span className="flex items-center gap-3">
-          <span aria-hidden="true" className="grid size-6 grid-cols-2 gap-0.5 rounded-md bg-surface p-1 ring-1 ring-border">
-            <span className="rounded-[1px] bg-primary" />
-            <span className="rounded-[1px] bg-subtle-foreground/40" />
-            <span className="rounded-[1px] bg-subtle-foreground/40" />
-            <span className="rounded-[1px] bg-subtle-foreground/40" />
+    <div>
+      {/* Header: line runs edge to edge, content sits in the same centred column as the page */}
+      <header className="border-b">
+        <div className="mx-auto flex h-14 max-w-6xl items-center px-4 sm:px-6">
+          <span className="flex items-center gap-3">
+            <span aria-hidden="true" className="grid size-6 grid-cols-2 gap-0.5 rounded-md bg-surface p-1 ring-1 ring-border">
+              <span className="rounded-[1px] bg-primary" />
+              <span className="rounded-[1px] bg-subtle-foreground/40" />
+              <span className="rounded-[1px] bg-subtle-foreground/40" />
+              <span className="rounded-[1px] bg-subtle-foreground/40" />
+            </span>
+            <span className="text-[15px] font-semibold tracking-tight">{copy.brand}</span>
           </span>
-          <span className="text-[15px] font-semibold tracking-tight">{copy.brand}</span>
-        </span>
-        <LoginButton />
+        </div>
       </header>
 
-      <main>
+      <main className="mx-auto max-w-6xl px-4 text-center sm:px-6">
         {/* Hero: value proposition */}
         <section className="py-16 sm:py-24">
           <p className="eyebrow">{copy.hero.eyebrow}</p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+          <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
             {copy.hero.headline}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-subtle-foreground">{copy.hero.subhead}</p>
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-subtle-foreground">{copy.hero.subhead}</p>
           <LoginButton className="mt-8" />
           <WalkthroughLink className="mt-4" />
         </section>
@@ -108,7 +109,7 @@ export function LandingPage() {
         {/* Thesis */}
         <section className="border-t py-12">
           <h2 className="eyebrow">{copy.thesis.eyebrow}</h2>
-          <blockquote className="mt-4 border-l-2 border-primary pl-4 text-lg sm:text-xl">
+          <blockquote className="mx-auto mt-4 max-w-4xl text-lg sm:text-xl">
             {copy.thesis.quote}
           </blockquote>
         </section>
@@ -141,10 +142,9 @@ export function LandingPage() {
         </section>
 
         {/* Closing call to action */}
-        <section className="border-t py-16 text-center">
+        <section className="border-t py-16">
           <h2 className="text-2xl font-semibold tracking-tight text-balance">{copy.closing.headline}</h2>
           <LoginButton className="mt-6" />
-          <WalkthroughLink className="mt-4" />
         </section>
       </main>
     </div>

@@ -27,7 +27,7 @@ export function LoginPage() {
 
   return (
     <main className="flex min-h-dvh items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-2xl">
         <Link href={copy.homeHref} className="mx-auto flex w-fit items-center gap-3 rounded-md">
           <span aria-hidden="true" className="grid size-6 grid-cols-2 gap-0.5 rounded-md bg-surface p-1 ring-1 ring-border">
             <span className="rounded-[1px] bg-primary" />
@@ -38,20 +38,20 @@ export function LoginPage() {
           <span className="text-[15px] font-semibold tracking-tight">{copy.brand}</span>
         </Link>
 
-        <div className="mt-8 rounded-lg border bg-surface p-6">
-          <h1 className="text-xl font-semibold tracking-tight">{copy.heading}</h1>
-          <p className="mt-1 text-sm text-subtle-foreground">{copy.subhead}</p>
+        <div className="mt-8 rounded-lg border bg-surface p-8">
+          <h1 className="text-2xl font-semibold tracking-tight">{copy.heading}</h1>
+          <p className="mt-2 text-base text-subtle-foreground">{copy.subhead}</p>
 
-          <ul className="mt-6 space-y-3">
+          <ul className="mt-8 space-y-4">
             {ROLE_ORDER.map((role) => (
               <li key={role}>
                 <button
                   type="button"
                   onClick={() => chooseRole(role)}
-                  className="w-full rounded-md border bg-background px-4 py-3 text-left transition-colors hover:border-primary/60 hover:bg-foreground/[0.03]"
+                  className="w-full rounded-lg border bg-background px-6 py-5 text-left transition-colors hover:border-primary/60 hover:bg-foreground/[0.03]"
                 >
-                  <span className="block text-sm font-medium">{ROLES[role].label}</span>
-                  <span className="mt-0.5 block text-sm text-subtle-foreground">{ROLES[role].description}</span>
+                  <span className="block text-lg font-medium">{ROLES[role].label}</span>
+                  <span className="mt-1 block text-base text-subtle-foreground">{ROLES[role].description}</span>
                 </button>
               </li>
             ))}
