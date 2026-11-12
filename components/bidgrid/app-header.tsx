@@ -14,7 +14,7 @@ export function AppHeader({ filtersOpen = false, onToggleFilters, actions, searc
   return (
     <header className="relative z-40 flex h-14 shrink-0 items-center gap-3 border-b bg-background px-4 sm:gap-4">
       <div className="flex min-w-0 shrink items-center gap-3">
-        <Link href="/explore" className="flex items-center gap-3 rounded-md">
+        <Link href="/" className="flex items-center gap-3 rounded-md">
           <span aria-hidden="true" className="grid size-6 shrink-0 grid-cols-2 gap-0.5 rounded-md bg-surface p-1 ring-1 ring-border">
             <span className="rounded-[1px] bg-primary" />
             <span className="rounded-[1px] bg-subtle-foreground/40" />
