@@ -1,5 +1,6 @@
 import { SlidersHorizontal } from 'lucide-react'
 import Link from 'next/link'
+import { RoleStatus } from '@/components/roles/role-status'
 import { Button } from '@/components/ui/button'
 
 interface AppHeaderProps {
@@ -29,9 +30,7 @@ export function AppHeader({ filtersOpen = false, onToggleFilters, actions, searc
       </div>
       {search && <div className="flex min-w-0 flex-1 justify-end sm:justify-center">{search}</div>}
       <div className="flex shrink-0 items-center gap-2">
-        <span className="hidden rounded-md border px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground sm:inline">
-          Mock data
-        </span>
+        <RoleStatus />
         {actions}
         {onToggleFilters && (
           <Button

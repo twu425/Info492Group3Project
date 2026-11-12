@@ -2,37 +2,32 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
+import { ROLE_ORDER, ROLES, type Role } from '@/lib/roles'
+import { setRole } from '@/components/roles/use-role'
 
 // All page wording and links live here. Edit this object to change the text.
+// Role names and descriptions live in lib/roles.ts.
 const copy = {
   brand: 'BidGrid',
   homeHref: '/',
   heading: 'Log in to BidGrid',
-  subhead: 'Pick up where you left off on your estimates.',
-  emailLabel: 'Email or username',
-  passwordLabel: 'Password',
-  submitLabel: 'Log in',
-  // Demo login: any values are accepted, then the user goes here.
-  afterLoginHref: '/explore',
+  subhead: 'Choose your role to continue.',
 }
-
-const inputClass =
-  'mt-1.5 h-9 w-full rounded-md border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground'
 
 export function LoginPage() {
   const router = useRouter()
 
-  // Demo only: nothing is checked, stored, or sent anywhere. The browser's `required`
-  // check makes sure both fields are filled in before this runs.
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    router.push(copy.afterLoginHref)
+  // Demo only: no accounts or passwords. The chosen role is kept in a cookie,
+  // then the user goes to that role's starting page.
+  function chooseRole(role: Role) {
+    setRole(role)
+    router.push(ROLES[role].home)
+    router.refresh()
   }
 
   return (
     <main className="flex min-h-dvh items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-md">
         <Link href={copy.homeHref} className="mx-auto flex w-fit items-center gap-3 rounded-md">
           <span aria-hidden="true" className="grid size-6 grid-cols-2 gap-0.5 rounded-md bg-surface p-1 ring-1 ring-border">
             <span className="rounded-[1px] bg-primary" />
@@ -47,30 +42,20 @@ export function LoginPage() {
           <h1 className="text-xl font-semibold tracking-tight">{copy.heading}</h1>
           <p className="mt-1 text-sm text-subtle-foreground">{copy.subhead}</p>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            <div>
-              <label htmlFor="email" className="text-sm font-medium">
-                {copy.emailLabel}
-              </label>
-              <input id="email" name="email" type="text" autoComplete="username" required className={inputClass} />
-            </div>
-            <div>
-              <label htmlFor="password" className="text-sm font-medium">
-                {copy.passwordLabel}
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className={inputClass}
-              />
-            </div>
-            <Button type="submit" size="lg" className="w-full">
-              {copy.submitLabel}
-            </Button>
-          </form>
+          <ul className="mt-6 space-y-3">
+            {ROLE_ORDER.map((role) => (
+              <li key={role}>
+                <button
+                  type="button"
+                  onClick={() => chooseRole(role)}
+                  className="w-full rounded-md border bg-background px-4 py-3 text-left transition-colors hover:border-primary/60 hover:bg-foreground/[0.03]"
+                >
+                  <span className="block text-sm font-medium">{ROLES[role].label}</span>
+                  <span className="mt-0.5 block text-sm text-subtle-foreground">{ROLES[role].description}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </main>
