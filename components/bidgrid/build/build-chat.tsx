@@ -8,6 +8,7 @@ import { OPENING_MESSAGE } from '@/lib/bidgrid/system-prompt'
 import { cn } from '@/lib/utils'
 import { ChatMarkdown } from './chat-markdown'
 import { ToolChip } from './tool-chip'
+import { CheckFindings, finishedCheck } from '@/components/roles/check-findings'
 
 const EXAMPLES = ['Sidewalk and curb ramps, half mile', 'Bridge deck widening', 'Median barrier replacement, 2,000 LF']
 
@@ -205,6 +206,8 @@ export function BuildChat({
                   }
                 })
                 flush('end')
+                const findings = finishedCheck(m)
+                if (findings) blocks.push(<CheckFindings key="findings" findings={findings} messages={messages.slice(0, mi + 1)} />)
                 return blocks
               })()}
             </div>
