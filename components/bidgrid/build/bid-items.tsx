@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronDown, ChevronRight, ChevronUp, Download, Trash2 } from 'lucide-react'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 import type { BidItem } from '@/lib/bidgrid/build-tools'
 import { quantityBand, vsTypical, type PriceEstimate } from '@/lib/bidgrid/estimate'
@@ -22,6 +22,10 @@ interface BidItemsProps {
   onDeleteItem: (id: string) => void
   onOpenContract: (ea: string) => void
   onOpenFamily: (row: PricedBidItem) => void
+  /** Optional button shown before Export CSV (used for "Request quotes"). */
+  headerAction?: ReactNode
+  /** Optional line shown under a row (used for a quote's status). Return null for none. */
+  renderQuote?: (row: PricedBidItem) => ReactNode
 }
 
 const dash = <span className="text-muted-foreground">{'—'}</span>
@@ -248,6 +252,8 @@ export function BidItems({
   onDeleteItem,
   onOpenContract,
   onOpenFamily,
+  headerAction,
+  renderQuote,
 }: BidItemsProps) {
   const [openRows, setOpenRows] = useState<Set<string>>(new Set())
   const [scrolledX, setScrolledX] = useState(false)
@@ -301,6 +307,7 @@ export function BidItems({
           )}
         </div>
         <div className="flex items-center gap-1">
+          {headerAction}
           <Button
             variant="ghost"
             size="sm"
@@ -387,6 +394,7 @@ export function BidItems({
             <tbody>
               {rows.map((r) => {
                 const isOpen = openRows.has(r.id)
+                const quoteLine = renderQuote?.(r) ?? null
                 const est = r.estimate
                 const price = effectivePrice(r)
                 const overridden = r.unitPrice != null
@@ -404,7 +412,10 @@ export function BidItems({
                           onDeleteItem(r.id)
                         }
                       }}
-                      className="group bid-row-new border-b focus-visible:bg-foreground/[0.04] focus-visible:shadow-[inset_2px_0_0_var(--primary)] focus-visible:outline-none"
+                      className={cn(
+                        'group bid-row-new focus-visible:bg-foreground/[0.04] focus-visible:shadow-[inset_2px_0_0_var(--primary)] focus-visible:outline-none',
+                        quoteLine == null && 'border-b',
+                      )}
                     >
                       <td className="sticky left-0 z-[1] bg-surface py-1 pl-2 align-middle">
                         <button
@@ -476,6 +487,14 @@ export function BidItems({
                         </button>
                       </td>
                     </tr>
+                    {quoteLine != null && (
+                      <tr className="border-b">
+                        <td />
+                        <td colSpan={8} className="px-2 pb-1.5 pt-0.5">
+                          {quoteLine}
+                        </td>
+                      </tr>
+                    )}
                     {isOpen && (
                       <tr className="border-b bg-background/60">
                         <td />

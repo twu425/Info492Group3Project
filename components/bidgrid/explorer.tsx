@@ -34,7 +34,7 @@ interface OpenDetail {
   view: DetailView
 }
 
-export function Explorer({ initialEa }: { initialEa: string | null }) {
+export function Explorer({ initialEa, initialDraftId = null }: { initialEa: string | null; initialDraftId?: string | null }) {
   const [filters, setFilters] = useState<Filters>({
     families: new Set<ItemFamily>(ITEM_FAMILIES),
     districts: new Set<District>(DISTRICTS),
@@ -168,6 +168,12 @@ export function Explorer({ initialEa }: { initialEa: string | null }) {
     if (pin && drawerRef.current) drawerRef.current.requestClose(() => loadDraft(draft))
     else loadDraft(draft)
   }
+
+  // /explore?draft=<id> (the "Open estimate" link on /quotes) reopens that saved estimate once.
+  useEffect(() => {
+    if (initialDraftId && getDraft(initialDraftId)) loadDraft(getDraft(initialDraftId)!)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const draftPins: DraftPin[] = useMemo(
     () =>

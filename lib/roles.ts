@@ -1,78 +1,98 @@
-// Roles for the demo exchange between a subcontractor, a general contractor and a designer.
+// Roles for the demo exchange: the estimator requests quotes, the subcontractor answers with prices.
 // Shared by the browser and the server, so keep this file free of server-only imports.
 
-export type Role = 'sub' | 'gc' | 'designer'
-export type RoleAction = 'ask' | 'answer' | 'forward'
+export type Role = 'estimator' | 'sub'
+export type RoleAction = 'request' | 'reply' | 'decide' | 'quote' | 'clarify'
 
 export const ROLE_COOKIE = 'bidgrid_role'
 
-export const ROLES: Record<Role, { label: string; description: string; home: string }> = {
-  sub: {
-    label: 'Subcontractor estimator',
-    description: 'Build estimates from past bids and ask the GC about scope.',
+export const ROLES: Record<Role, { label: string; short: string; description: string; home: string }> = {
+  estimator: {
+    label: 'Estimator (general contractor)',
+    short: 'Estimator',
+    description: 'Build the bid from past bids and request quotes from subcontractors.',
     home: '/explore',
   },
-  gc: {
-    label: 'General contractor',
-    description: 'Answer questions from subs, or forward them to the designer.',
-    home: '/inbox',
-  },
-  designer: {
-    label: 'Designer / owner',
-    description: 'Answer questions the GC forwards about the design.',
+  sub: {
+    label: 'Subcontractor',
+    short: 'Subcontractor',
+    description: 'Answer quote requests from the estimator with your own prices.',
     home: '/inbox',
   },
 }
 
-export const ROLE_ORDER: Role[] = ['sub', 'gc', 'designer']
+export const ROLE_ORDER: Role[] = ['estimator', 'sub']
 
 // Who may do what. The server checks this on every action.
 const PERMISSIONS: Record<Role, RoleAction[]> = {
-  sub: ['ask'],
-  gc: ['answer', 'forward'],
-  designer: ['answer'],
+  estimator: ['request', 'reply', 'decide'],
+  sub: ['quote', 'clarify'],
 }
 
+/** Old cookie values from the earlier demo ('gc', 'designer') read as no role, so people pick again. */
 export function parseRole(value: string | null | undefined): Role | null {
-  return value === 'sub' || value === 'gc' || value === 'designer' ? value : null
+  return value === 'estimator' || value === 'sub' ? value : null
 }
 
 export function can(role: Role | null, action: RoleAction): boolean {
   return role != null && PERMISSIONS[role].includes(action)
 }
 
-// ---- Questions about check findings ----
+// ---- Quote requests ----
 
-export type Topic = 'scope' | 'quantity' | 'spec' | 'other'
-export const TOPICS: Topic[] = ['scope', 'quantity', 'spec', 'other']
+/** Check findings where a real quote fills the gap: the item has few or no past bids. */
+export const QUOTABLE_KINDS = ['no_comparables', 'thin_data'] as const
 
-/** Check findings that are real scope questions for the GC. The two price kinds are the sub's own pricing. */
-export const ASKABLE_KINDS = ['quantity_mismatch', 'no_comparables', 'thin_data', 'missing_item'] as const
-export type AskableKind = (typeof ASKABLE_KINDS)[number]
-
-export const DEFAULT_TOPIC: Record<AskableKind, Topic> = {
-  quantity_mismatch: 'quantity',
-  missing_item: 'scope',
-  no_comparables: 'spec',
-  thin_data: 'other',
-}
-
-/** Past-bid summary sent with a question. Market prices only, never the sub's own prices. */
+/** Public past-bid summary for one item. Never the estimator's own price. */
 export interface Evidence {
   low: number | null
   typical: number | null
   high: number | null
   pastBids: number
-  contracts: string[]
 }
 
-/** The question form's input: one check finding plus its past-bid evidence. */
-export interface QuestionContext {
-  findingKind: AskableKind
-  findingMessage: string
-  itemCode?: string
-  itemDescription?: string
+/** One bid item as sent to the sub: what and how much, never the estimator's price. */
+export interface RequestItem {
+  itemId: string
+  itemCode: string
+  description: string
+  quantity: number
+  unit: string
   evidence: Evidence | null
+}
+
+/** What the Build drawer hands to the request form. */
+export interface RequestInput {
+  /** The Build chat id, which is also the saved draft id. */
+  estimateId: string
+  estimateName: string
+  location: string
+  /** Confirmed scope notes from the Build assistant, as "label: value" lines. */
+  scope: string[]
+  items: RequestItem[]
+}
+
+export type PriceCheck = { kind: 'within' | 'above' | 'below' | 'no_data'; pct: number | null }
+
+/** Compares a quoted unit price with the item's past-bid low and high. Plain arithmetic, no assistant. */
+export function comparePrice(price: number, evidence: Evidence | null): PriceCheck {
+  if (!evidence || evidence.low == null || evidence.high == null) return { kind: 'no_data', pct: null }
+  if (price > evidence.high) return { kind: 'above', pct: Math.round((price / evidence.high - 1) * 100) }
+  if (price < evidence.low) return { kind: 'below', pct: Math.round((1 - price / evidence.low) * 100) }
+  return { kind: 'within', pct: null }
+}
+
+export function priceCheckLabel(check: PriceCheck): string {
+  switch (check.kind) {
+    case 'within':
+      return 'within past-bid range'
+    case 'above':
+      return `${check.pct}% above past-bid high`
+    case 'below':
+      return `${check.pct}% below past-bid low`
+    default:
+      return 'no past bids to compare'
+  }
 }
 
 /** Plain words for check messages, which say "comparable(s)" in the pricing code. */
