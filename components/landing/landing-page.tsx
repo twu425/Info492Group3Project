@@ -36,8 +36,12 @@ const copy = {
         body: 'The agent finds comparable past bid items from within 50 miles of your project.',
       },
       {
+        title: 'Request quotes from subs',
+        body: 'Where past bids are thin, send items to a subcontractor. The agent drafts the request and brings their prices back, checked against past bids.',
+      },
+      {
         title: 'Make the estimate yours',
-        body: 'Edit quantities and unit prices against the P25–P75 market range, then export to CSV.',
+        body: 'Use or decline each quoted price, edit quantities and unit prices against the P25–P75 market range, then export to CSV.',
       },
     ],
   },
@@ -117,7 +121,7 @@ export function LandingPage() {
         {/* How it works */}
         <section className="border-t py-12">
           <h2 className="eyebrow">{copy.howItWorks.eyebrow}</h2>
-          <ol className="mt-6 grid gap-8 sm:grid-cols-3">
+          <ol className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {copy.howItWorks.steps.map((step, index) => (
               <li key={step.title}>
                 <p className="font-mono text-sm text-primary">{index + 1}</p>
