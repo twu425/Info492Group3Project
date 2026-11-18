@@ -13,14 +13,10 @@ export function RoleStatus() {
   return (
     <span className="hidden items-center gap-2 text-xs text-subtle-foreground lg:flex">
       <span>Signed in as {ROLES[role].label}</span>
-      {role === 'sub' && (
-        <>
-          <span aria-hidden="true">·</span>
-          <Link href="/questions" className={linkClass}>
-            My questions
-          </Link>
-        </>
-      )}
+      <span aria-hidden="true">·</span>
+      <Link href={role === 'estimator' ? '/quotes' : '/inbox'} className={linkClass}>
+        {role === 'estimator' ? 'Quotes' : 'Inbox'}
+      </Link>
       <span aria-hidden="true">·</span>
       <Link href="/login" className={linkClass}>
         Switch role

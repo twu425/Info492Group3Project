@@ -3,7 +3,7 @@ import { ROLES, type Role } from '@/lib/roles'
 
 const linkClass = 'rounded-sm text-foreground underline-offset-4 hover:underline'
 
-/** Header for the role pages (inbox, questions, log). The role comes from the server-read cookie. */
+/** Header for the role pages (quotes, inbox, log). The role comes from the server-read cookie. */
 export function RoleHeader({ role }: { role: Role | null }) {
   return (
     <header className="flex min-h-14 flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b py-3">
@@ -19,17 +19,17 @@ export function RoleHeader({ role }: { role: Role | null }) {
       <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-subtle-foreground">
         {role && <span>Signed in as {ROLES[role].label}</span>}
         {role && <span aria-hidden="true">·</span>}
-        {role === 'sub' ? (
+        {role === 'estimator' ? (
           <>
             <Link href="/explore" className={linkClass}>
               Explorer
             </Link>
             <span aria-hidden="true">·</span>
-            <Link href="/questions" className={linkClass}>
-              My questions
+            <Link href="/quotes" className={linkClass}>
+              Quotes
             </Link>
           </>
-        ) : role ? (
+        ) : role === 'sub' ? (
           <Link href="/inbox" className={linkClass}>
             Inbox
           </Link>
