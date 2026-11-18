@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { ExchangeCounts } from '@/components/roles/exchange-counts'
+import { QuoteForm } from '@/components/roles/quote-form'
 import { RequestView } from '@/components/roles/request-view'
 import { RoleHeader } from '@/components/roles/role-header'
 import { parseRole, ROLE_COOKIE, ROLES } from '@/lib/roles'
@@ -86,7 +87,9 @@ export default async function InboxPage() {
               </h2>
               <div className="mt-3 flex flex-col gap-4">
                 {s.list.map((r) => (
-                  <RequestView key={r.id} request={r} viewer="sub" />
+                  <RequestView key={r.id} request={r} viewer="sub">
+                    {r.status === 'sent' && <QuoteForm requestId={r.id} items={r.items} />}
+                  </RequestView>
                 ))}
               </div>
             </section>

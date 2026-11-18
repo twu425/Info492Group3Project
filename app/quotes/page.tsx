@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { ExchangeCounts } from '@/components/roles/exchange-counts'
+import { ReplyForm } from '@/components/roles/reply-form'
 import { RequestView } from '@/components/roles/request-view'
 import { RoleHeader } from '@/components/roles/role-header'
 import { parseRole, ROLE_COOKIE, ROLES } from '@/lib/roles'
@@ -89,9 +90,10 @@ export default async function QuotesPage() {
               <div className="mt-3 flex flex-col gap-4">
                 {s.list.map((r) => (
                   <RequestView key={r.id} request={r} viewer="estimator">
+                    {r.status === 'needs_info' && <ReplyForm requestId={r.id} />}
                     <Link
                       href={`/explore?draft=${encodeURIComponent(r.estimateId)}`}
-                      className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                      className="mt-3 inline-block text-sm font-medium text-primary underline-offset-4 hover:underline"
                     >
                       {copy.openEstimate} →
                     </Link>

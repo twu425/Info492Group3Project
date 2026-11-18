@@ -19,7 +19,7 @@ async function currentRole() {
   return parseRole((await cookies()).get(ROLE_COOKIE)?.value)
 }
 
-const money = (n: number | null) => (n == null ? 'n/a' : `$${n.toLocaleString('en-US', { maximumFractionDigits: 2 })}`)
+const money = (n: number | null) => (n == null ? 'n/a' : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`)
 const qty = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 2 })
 
 /** Who wrote the text: the assistant if the person started from its draft, with `edited` if they changed it. */
@@ -101,7 +101,8 @@ async function draft(instructions: string[], prompt: string[], maxOutputTokens =
       prompt: prompt.filter(Boolean).join('\n'),
     })
     return text.trim() ? { text: text.trim() } : { error: 'The assistant returned an empty draft. Write it yourself.' }
-  } catch {
+  } catch (e) {
+    console.error('[roles] assistant draft failed:', e instanceof Error ? e.message : e)
     return { error: 'The assistant couldn’t draft this right now. Write it yourself.' }
   }
 }
@@ -163,12 +164,12 @@ async function summarizeQuote(r: QuoteRequest, prices: Record<string, number>, n
   })
   const res = await draft(
     [
-      'You summarize a subcontractor quote for the general contractor estimator in 2 sentences.',
-      'Say which prices are outside the past-bid range, and point out any exclusions or assumptions in the notes that the estimator must cover elsewhere.',
+      'You summarize a subcontractor quote for the general contractor estimator in 2 short sentences, 60 words at most.',
+      'First sentence: which prices are outside the past-bid range. Second sentence: the most important exclusions the estimator must cover elsewhere (name at most three). Do not repeat the price figures in detail.',
       'Do not recommend whether to use the quote; the estimator decides. ' + PLAIN_WORDS,
     ],
     [`Items:\n${lines.join('\n')}`, notes ? `Sub's notes: ${notes}` : 'The sub left no notes.'],
-    300,
+    500,
   )
   return 'text' in res ? res.text : null
 }
