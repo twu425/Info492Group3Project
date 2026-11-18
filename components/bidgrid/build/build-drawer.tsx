@@ -22,6 +22,12 @@ import { formatDistrict, formatQty, formatUnitPrice, itemLabel } from '@/lib/bid
 import { useNow } from '@/lib/bidgrid/preferences'
 import { cn } from '@/lib/utils'
 import { familyDetail, type DetailView } from '../detail/detail-modal'
+import { QuoteRowStatus } from '@/components/roles/quote-row-status'
+import { useQuoteAsks } from '@/components/roles/quote-events'
+import { RequestQuoteForm } from '@/components/roles/request-quote-form'
+import { useEstimateQuotes } from '@/components/roles/use-estimate-quotes'
+import { useRole } from '@/components/roles/use-role'
+import { decideItem } from '@/lib/roles-actions'
 import { BidItems, type PricedBidItem } from './bid-items'
 import { BuildChat, type ChatEvent } from './build-chat'
 import { SimilarProjects } from './similar-projects'
@@ -416,6 +422,26 @@ export function BuildDrawer({
     writeDraft(id, name.trim() || defaultName, Date.now())
     setDraftId(id)
     setNaming(false)
+    return id
+  }
+
+  // ---- Quote requests (estimator only). Prices change only when the estimator clicks Use. ----
+  const isEstimator = useRole() === 'estimator'
+  const quotes = useEstimateQuotes(draftId, isEstimator)
+  /** Item ids to pick when the request form opens; null while it's closed. */
+  const [quoteForm, setQuoteForm] = useState<string[] | null>(null)
+  useQuoteAsks((itemCode) => {
+    if (!isEstimator) return
+    setQuoteForm(itemsRef.current.filter((i) => i.itemCode === itemCode).map((i) => i.id))
+    setTableExpanded(true)
+  })
+  const scopeLines = Object.entries(scope).map(([k, v]) => `${k.replace(/_/g, ' ')}: ${v.value}${v.unit ? ` ${v.unit}` : ''}`)
+  const decide = async (requestId: string, itemId: string, decision: 'used' | 'declined', price?: number) => {
+    const res = await decideItem({ requestId, itemId, decision })
+    if ('error' in res) return res.error
+    if (decision === 'used' && price != null) changeUnitPrice(itemId, price)
+    await quotes.refresh()
+    return null
   }
 
   const flushDraft = () => {
@@ -634,6 +660,20 @@ export function BuildDrawer({
         onOpenContract={onOpenContract}
       />
 
+      {quoteForm && isEstimator && rows.length > 0 && (
+        <RequestQuoteForm
+          key={quoteForm.join(',')}
+          rows={rows}
+          preselect={quoteForm}
+          estimateName={savedDraft?.name ?? defaultName}
+          location={`${county.name} County, ${formatDistrict(county.district)}`}
+          scope={scopeLines}
+          ensureEstimateId={() => draftId ?? createDraft(defaultName)}
+          onSent={() => quotes.refresh()}
+          onClose={() => setQuoteForm(null)}
+        />
+      )}
+
       <BidItems
         rows={rows}
         expanded={tableExpanded}
@@ -644,6 +684,24 @@ export function BuildDrawer({
         onDeleteItem={deleteItem}
         onOpenContract={onOpenContract}
         onOpenFamily={(r) => onOpenDetail(familyDetail(r.family, r.itemCode))}
+        headerAction={
+          isEstimator && (
+            <Button variant="ghost" size="sm" disabled={rows.length === 0} onClick={() => setQuoteForm([])}>
+              Request quotes
+            </Button>
+          )
+        }
+        renderQuote={(r) => {
+          const request = isEstimator ? quotes.latestFor(r.id) : null
+          return request ? (
+            <QuoteRowStatus
+              request={request}
+              itemId={r.id}
+              onUse={(price) => decide(request.id, r.id, 'used', price)}
+              onDecline={() => decide(request.id, r.id, 'declined')}
+            />
+          ) : null
+        }}
       />
 
       {pendingDelete && (
